@@ -65,7 +65,7 @@
                 </td>
             </tr>
         </table>
-        
+        <!-- 테스트 -->
         <div>
             <input type="submit" value="회원가입">
             <input type="reset" value="다시입력">
