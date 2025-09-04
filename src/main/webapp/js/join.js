@@ -27,13 +27,19 @@ function checkNm() {
 	$.ajax({
     	type: "GET",
     	url: "/checknm",
-    	data: { nickname: $("#nickname").val() },
-    	success: function(result) {
-        	if(result === "OK") {
-            	alert("사용 가능한 닉네임입니다.");
+    	data: { data: snd_data },
+    	dataType: "text",
+    	success: function(data) {
+    		console.log("Response from server:", data);
+        	if(data === "true") {
+            	$("#id-area").html("사용 가능한 닉네임입니다.");
         	} else {
-            	alert("이미 사용 중인 닉네임입니다.");
+            	$("#id-area").html("이미 사용 중인 닉네임입니다.");
         	}
-    	}
+    	},
+    	error: function (xhr, textStatus, errorThrown) {
+            console.log("Error occurred:", textStatus, errorThrown);
+            alert("에러가 발생했습니다.");
+        }
 	}); 
 }

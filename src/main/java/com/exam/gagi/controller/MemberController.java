@@ -14,42 +14,42 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	// ë¡œê·¸ì¸ í˜ì´ì§€ ìš”ì²­
+	// ·Î±×ÀÎ ÆäÀÌÁö ¿äÃ»
 	@GetMapping("/login")
 	public String loginPage() {
-		// ê²Œì‹œíŒ ë©”ë‰´ ì·¨ë“
-
+		// °Ô½ÃÆÇ ¸Ş´º Ãëµæ
+		
 		return "login";
 	}
-
-	// íšŒì›ê°€ì… í˜ì´ì§€ ìš”ì²­
+	
+	// È¸¿ø°¡ÀÔ ÆäÀÌÁö ¿äÃ»
 	@GetMapping("/join")
 	public String joinPage() {
-		// ê²Œì‹œíŒ ë©”ë‰´ ì·¨ë“
-
+		// °Ô½ÃÆÇ ¸Ş´º Ãëµæ
+		
 		return "join";
 	}
-
-	// íšŒì›ê°€ì… ìš”ì²­
+	
+	// È¸¿ø°¡ÀÔ ¿äÃ»
 	@PostMapping("/join")
 	public String joinAply() {
-		// íšŒì›ê°€ì… ì •ë³´ ì €ì¥
-		// ê²Œì‹œíŒ ë©”ë‰´ ì·¨ë“
-
+		// È¸¿ø°¡ÀÔ Á¤º¸ ÀúÀå
+		// °Ô½ÃÆÇ ¸Ş´º Ãëµæ
+		
 		return "index";
 	}
-
-	// ì¤‘ë³µì•„ì´ë”” ì²´í¬
+	
+	// Áßº¹¾ÆÀÌµğ Ã¼Å©
 	@ResponseBody
 	@GetMapping("/checkid")
-	public String checkId(@RequestParam(value = "data") String userid) {
+	public String checkId(@RequestParam(value="data") String userid) {
 		return String.valueOf(memberService.checkId(userid));
 	}
-
-	// ì¤‘ë³µë‹‰ë„¤ì„ ì²´í¬
+	
+	// Áßº¹´Ğ³×ÀÓ Ã¼Å©
 	@ResponseBody
 	@GetMapping("/checknm")
-	public String checkNm(@RequestParam(value = "data") String nickname) {
+	public String checkNm(@RequestParam(value="data") String nickname) {
 		return String.valueOf(memberService.checkNm(nickname));
 	}
 }

@@ -1,8 +1,8 @@
 package com.exam.gagi.model;
 
 public class Member {
-	private int id;          
-    private String userid;   
+	private int id;          // 회원번호 (PK)
+    private String email;   // 아이디 = 이메일 (로그인용)
     private String username;
     private String userpw;
     private String nickname;
@@ -14,11 +14,11 @@ public class Member {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserid() {
-		return userid;
+	public String getEmail() {
+		return email;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getUsername() {
 		return username;

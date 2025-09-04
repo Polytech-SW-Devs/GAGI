@@ -2,15 +2,14 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
-public abstract class BaseBoardService<T> {
-
-	// ê³µí†µ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(í˜ì´ì§• + ê²€ìƒ‰)
-	public abstract List<T> getList(String search, int page, int size);
-
-	// ê³µí†µ ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ
-	public abstract T getPost(int id);
-
-	// ê³µí†µ ê¸€ ê°œìˆ˜ ì¡°íšŒ(í˜ì´ì§• ê³„ì‚°ìš©)
-	public abstract int getCount(String search);
-
+public interface BaseBoardService<T> {
+	
+	// °øÅë ¸®½ºÆ® Á¶È¸(°Ë»ö + ÆäÀÌÂ¡)
+	List<T> getList(String search, int page, int size);
+	
+	// ÃÑ °Ô½Ã±Û ¼ö
+	int getCount(String search);
+	
+	// °Ô½Ã±Û »ó¼¼ Á¶È¸
+	T getPost(int id); 
 }

@@ -10,33 +10,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.exam.gagi.model.Review;
-import com.exam.gagi.service.ReviewService;
+import com.exam.gagi.model.Inquiry;
+import com.exam.gagi.service.InquiryService;
 
 @Controller
-@RequestMapping("/review")
-public class ReviewController {
-	
+@RequestMapping("/customer/inquiry")
+public class InquiryController {
+
 	@Autowired
-	private ReviewService reviewService;
+	private InquiryService inquiryService;
 	
 	@GetMapping
 	public String list(@RequestParam(defaultValue = "") String search,
-					   @RequestParam(defaultValue = "1") int page,
-					   Model model) {
+			   @RequestParam(defaultValue = "1") int page,
+			   Model model) {
 		int size = 10;
-		List<Review> list = reviewService.getList(search, page, size);
-		model.addAttribute("list", list);
-		model.addAttribute("totalCount", reviewService.getCount(search));
+		List<Inquiry> boardList = inquiryService.getList(search, page, size);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("totalCount", inquiryService.getCount(search));
 		model.addAttribute("currentPage", page);
-		return "board/reviewList";
-		
+		return "customer/inquiryList";
 	}
 	
 	@GetMapping("/{id}")
-	public String review(@PathVariable int id, Model model) {
-		model.addAttribute("review", reviewService.getPost(id));
-		return "board/review";
+	public String inquiry(@PathVariable int id, Model model) {
+		model.addAttribute("inquiry", inquiryService.getInquiry(id));
+		return "customer/inquiry";
 	}
 	
 }
