@@ -35,4 +35,20 @@ public abstract class BaseBoardDaoImpl<T> implements BaseBoardDao<T> {
     public T selectPost(int id) {
     	return sqlSession.selectOne(namespace + ".selectPost", id);
     }
+    
+    @Override
+    public void insert(T post) {
+        sqlSession.insert(namespace + ".insert", post);
+    }
+
+    @Override
+    public void update(T post) {
+        sqlSession.update(namespace + ".update", post);
+    }
+    /*
+    @Override
+    public void delete(int id) {
+        sqlSession.delete(namespace + ".delete", id);
+    }
+    */
 }

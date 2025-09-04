@@ -8,35 +8,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exam.gagi.model.Review;
 import com.exam.gagi.service.ReviewService;
 
 @Controller
 @RequestMapping("/review")
-public class ReviewController {
+public class ReviewController extends BaseBoardController<Review> {
+	
+	private final ReviewService reviewService;
 	
 	@Autowired
-	private ReviewService reviewService;
-	
-	@GetMapping
-	public String list(@RequestParam(defaultValue = "") String search,
-					   @RequestParam(defaultValue = "1") int page,
-					   Model model) {
-		int size = 10;
-		List<Review> list = reviewService.getList(search, page, size);
-		model.addAttribute("list", list);
-		model.addAttribute("totalCount", reviewService.getCount(search));
-		model.addAttribute("currentPage", page);
-		return "board/reviewList";
-		
+	public ReviewController(ReviewService reviewService) {
+		super(reviewService, "review");
+		this.reviewService = reviewService;
+	}
+
+	@Override
+	protected int getIdFromPost(Review post) {
+		return post.getId();
 	}
 	
-	@GetMapping("/{id}")
-	public String review(@PathVariable int id, Model model) {
-		model.addAttribute("review", reviewService.getPost(id));
-		return "board/review";
+	@GetMapping("/average/{productId}")
+	@ResponseBody
+	public double averageRating(@PathVariable int productId) {
+		return reviewService.getAverageRating(productId);
 	}
+	
 	
 }

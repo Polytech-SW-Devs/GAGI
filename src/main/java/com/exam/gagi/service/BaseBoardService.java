@@ -4,12 +4,16 @@ import java.util.List;
 
 public interface BaseBoardService<T> {
 	
-	// °øÅë ¸®½ºÆ® Á¶È¸(°Ë»ö + ÆäÀÌÂ¡)
-	List<T> getList(String search, int page, int size);
-	
-	// ÃÑ °Ô½Ã±Û ¼ö
-	int getCount(String search);
-	
-	// °Ô½Ã±Û »ó¼¼ Á¶È¸
-	T getPost(int id); 
+	// ê³µí†µ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(ê²€ìƒ‰ + í˜ì´ì§•)
+	List<T> getList(String search, int page, int size);	
+	// ì´ ê²Œì‹œê¸€ ìˆ˜
+	int getCount(String search);	
+	// ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ
+	T getPost(int id);
+
+	void create(T post);
+
+	void update(T post);
+
+//	void delete(int id); 
 }

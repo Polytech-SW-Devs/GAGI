@@ -6,38 +6,48 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.exam.gagi.dao.BaseBoardDao;
 import com.exam.gagi.service.BaseBoardService;
 
-public abstract class BaseBoardServiceImpl<T> implements BaseBoardService<T> {
-	protected final SqlSession sqlSession;
-	// °¢ Mapper namespace ÁöÁ¤
-    protected final String namespace;
+public class BaseBoardServiceImpl<T> implements BaseBoardService<T> {
+	protected final BaseBoardDao<T> dao;
     
-    protected BaseBoardServiceImpl(SqlSession sqlSession, String namespace) {
-		this.sqlSession = sqlSession;
-		this.namespace = namespace;
+    public BaseBoardServiceImpl(BaseBoardDao<T> dao) {
+		this.dao = dao;
 	}
-    
-    // °øÅë ¸®½ºÆ® Á¶È¸(°Ë»ö + ÆäÀÌÂ¡)
+
+	// ê³µí†µ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(ê²€ìƒ‰ + í˜ì´ì§•)
     @Override
     public List<T> getList(String search, int page, int size) {
     	int offset = (page - 1) * size;
-        Map<String, Object> param = new HashMap<>();
-        param.put("search", search);
-        param.put("offset", offset);
-        param.put("size", size);
-        return sqlSession.selectList(namespace + ".selectList", param);
+        return dao.selectList(search, page, size);
     }
     
-    // ÃÑ °Ô½Ã±Û ¼ö
+    // ì´ ê²Œì‹œê¸€ ìˆ˜
     @Override
     public int getCount(String search) {
-    	return sqlSession.selectOne(namespace + ".selectCount", search);
+    	return dao.selectCount(search);
     }
 	
-    // °Ô½Ã±Û »ó¼¼ Á¶È¸
+    // ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ
     @Override
     public T getPost(int id) {
-    	return sqlSession.selectOne(namespace + ".selectPost", id);
+    	return dao.selectPost(id);
     }
+    
+    @Override
+    public void create(T post) {
+        dao.insert(post); // ì‹¤ì œ DB ì²˜ë¦¬
+    }
+
+    @Override
+    public void update(T post) {
+        dao.update(post);
+    }
+    /*
+    @Override
+    public void delete(int id) {
+        dao.delete(id);
+    }
+    */
 }
