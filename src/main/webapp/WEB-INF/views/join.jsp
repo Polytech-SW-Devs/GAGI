@@ -61,11 +61,12 @@
                 	<label for="phone">전화번호</label>
                 </td>
                 <td>
+                
                 	<input type="text" name="phone" id="phone" required>
                 </td>
             </tr>
         </table>
-        <!-- 테스트 -->
+        <!-- 추가 테스트 -->
         <div>
             <input type="submit" value="회원가입">
             <input type="reset" value="다시입력">
