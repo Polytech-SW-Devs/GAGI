@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>내가 2번째 수정중이다</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="js/join.js"></script>
 </head>
