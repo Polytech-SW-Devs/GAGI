@@ -3,13 +3,13 @@ package com.exam.gagi.dao;
 import java.util.List;
 
 public interface BaseBoardDao<T> {
-	// °øÅë ¸®½ºÆ® Á¶È¸(°Ë»ö + ÆäÀÌÂ¡)
+	// ê³µí†µ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(ê²€ìƒ‰ + í˜ì´ì§•)
 	List<T> selectList(String search, int page, int size);
-		
-	// ÃÑ °Ô½Ã±Û ¼ö
+
+	// ì´ ê²Œì‹œê¸€ ìˆ˜
 	int selectCount(String search);
-		
-	// °Ô½Ã±Û »ó¼¼ Á¶È¸
-	T selectPost(int id); 
-	
+
+	// ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ
+	T selectPost(int id);
+
 }

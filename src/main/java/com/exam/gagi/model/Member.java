@@ -1,48 +1,59 @@
 package com.exam.gagi.model;
 
 public class Member {
-	private int id;          // È¸¿ø¹øÈ£ (PK)
-    private String email;   // ¾ÆÀÌµğ = ÀÌ¸ŞÀÏ (·Î±×ÀÎ¿ë)
-    private String username;
-    private String userpw;
-    private String nickname;
-    private String phone;
-    
+	private int id; // íšŒì›ë²ˆí˜¸ (PK)
+	private String email; // ì•„ì´ë”” = ì´ë©”ì¼ (ë¡œê·¸ì¸ìš©)
+	private String username;
+	private String userpw;
+	private String nickname;
+	private String phone;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getUserpw() {
 		return userpw;
 	}
+
 	public void setUserpw(String userpw) {
 		this.userpw = userpw;
 	}
+
 	public String getNickname() {
 		return nickname;
 	}
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-    
+
 }
