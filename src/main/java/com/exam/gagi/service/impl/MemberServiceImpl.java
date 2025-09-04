@@ -9,20 +9,20 @@ import com.exam.gagi.service.MemberService;
 @Service
 public class MemberServiceImpl implements MemberService {
 	private final MemberDao memberDao;
-	
+
 	@Autowired
-	public MemberServiceImpl(MemberDao memberDao){
+	public MemberServiceImpl(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}
-	
+
 	@Override
-	public boolean checkId(String userid) {	
-		return memberDao.checkId(userid) == 0; // 0ÀÌ¸é »ç¿ë °¡´É
+	public boolean checkId(String userid) {
+		return memberDao.checkId(userid) == 0; // 0ì´ë©´ ì‚¬ìš© ê°€ëŠ¥
 	}
 
 	@Override
 	public boolean checkNm(String nickname) {
-		return memberDao.checkNm(nickname) == 0; // 0ÀÌ¸é »ç¿ë °¡´É
+		return memberDao.checkNm(nickname) == 0; // 0ì´ë©´ ì‚¬ìš© ê°€ëŠ¥
 	}
 
 }
