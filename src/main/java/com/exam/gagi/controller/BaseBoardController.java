@@ -5,16 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.exam.gagi.service.BaseBoardService;
 
 public abstract class BaseBoardController<T> {
-	
+
 	private final BaseBoardService<T> service;
 	private final String viewPath;
-	
+
 	public BaseBoardController(BaseBoardService<T> service, String viewPath) {
 		this.service = service;
 		this.viewPath = viewPath;
 	}
-
-
 
 	// 홈 화면에서 고객센터 클릭 → 게시판 선택 페이지
 	@GetMapping
