@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/customer")
 public class BoardController {
-	
-	// È¨ È­¸é¿¡¼­ °í°´¼¾ÅÍ Å¬¸¯ ¡æ °Ô½ÃÆÇ ¼±ÅÃ ÆäÀÌÁö
+
+	// í™ˆ í™”ë©´ì—ì„œ ê³ ê°ì„¼í„° í´ë¦­ â†’ ê²Œì‹œíŒ ì„ íƒ í˜ì´ì§€
 	@GetMapping
 	public String customerCenter() {
-		// JSP¿¡¼­ Q&A, FAQ, °øÁö»çÇ× ¸µÅ©¸¸ º¸¿©ÁÜ
+		// JSPì—ì„œ Q&A, FAQ, ê³µì§€ì‚¬í•­ ë§í¬ë§Œ ë³´ì—¬ì¤Œ
 		return "customer/customerCenter";
 	}
 }
