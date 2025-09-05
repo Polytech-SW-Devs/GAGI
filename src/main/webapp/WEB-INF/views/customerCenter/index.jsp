@@ -12,9 +12,9 @@
 <p>아래 메뉴를 클릭하면 각 게시판으로 이동합니다.</p>
 
 <ul>
-    <li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
-    <li><a href="${pageContext.request.contextPath}/inquiry/list">Q&A</a></li>
     <li><a href="${pageContext.request.contextPath}/review/list">리뷰</a></li>
+    <li><a href="${pageContext.request.contextPath}/inquiry/list">문의</a></li>
+    <li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 </ul>
 
 </body>

@@ -19,8 +19,11 @@ public class BaseBoardServiceImpl<T> implements BaseBoardService<T> {
 	// 공통 리스트 조회(검색 + 페이징)
     @Override
     public List<T> getList(String search, int page, int size) {
-    	int offset = (page - 1) * size;
-        return dao.selectList(search, page, size);
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("search", search);
+        params.put("offset", (page - 1) * size);
+        params.put("size", size);
+        return dao.selectList(params);
     }
     
     // 총 게시글 수

@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 작성</title>
+<title>후기 작성</title>
 </head>
 <body>
-	<h1>리뷰 작성</h1>
+	<h1>후기 작성</h1>
     
     <form method="post" action="${pageContext.request.contextPath}/review/write">
     	<p>

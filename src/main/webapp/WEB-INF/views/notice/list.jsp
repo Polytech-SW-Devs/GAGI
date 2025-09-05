@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 목록</title>rc="js/join.js"></script>
+<title>공지사항 목록</title>
 </head>
 <body>
-	<h1>리뷰 목록</h1>
+	<h1>공지사항 목록</h1>
     
     <!-- 검색 -->
 	<form method="get" action="">
@@ -29,10 +29,10 @@
         	<tr>
             	<td>${item.id}</td>
             	<td>
-                	<a href="${pageContext.request.contextPath}/review/${item.id}">${item.subject}</a>
+                	<a href="${pageContext.request.contextPath}/notice/list">공지사항</a>
             	</td>
-            	<td>${item.reviewer_id}</td>
-            	<td>${item.created_at}</td>
+            	<td>${item.admin_id}</td>
+            	<td>${item.posted_at}</td>
         	</tr>
     	</c:forEach>
 	</table>
@@ -53,7 +53,7 @@
 	</div>
 	
 	<!-- 등록 버튼 -->
-	<a href="${pageContext.request.contextPath}/review/write">글쓰기</a>
+	<a href="${pageContext.request.contextPath}/notice/write">글쓰기</a>
 </body>
 </html>
 </body>

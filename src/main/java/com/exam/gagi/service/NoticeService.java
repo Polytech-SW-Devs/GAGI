@@ -1,5 +1,7 @@
 package com.exam.gagi.service;
 
-public interface NoticeService {
+import com.exam.gagi.model.Notice;
+
+public interface NoticeService extends BaseBoardService<Notice> {
 
 }

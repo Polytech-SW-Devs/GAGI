@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 수정</title>
+<title>후기 수정</title>
 </head>
 <body>
-	<h1>리뷰 수정</h1>
+	<h1>후기 수정</h1>
     
 	<form method="post" action="${pageContext.request.contextPath}/review/edit">
     	<input type="hidden" name="id" value="${post.id}">

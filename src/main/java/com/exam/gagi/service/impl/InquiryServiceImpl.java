@@ -9,26 +9,14 @@ import com.exam.gagi.model.Inquiry;
 import com.exam.gagi.service.InquiryService;
 
 @Service
-public class InquiryServiceImpl implements InquiryService {
+public class InquiryServiceImpl extends BaseBoardServiceImpl<Inquiry> implements InquiryService {
 	
+	private final InquiryDao inquiryDao;
+
 	@Autowired
-	private InquiryDao inquiryDao;
-
-	@Override
-	public List<Inquiry> getList(String search, int page, int size) {
-		int offset = (page - 1) * size;
-		return inquiryDao.selectList(search, offset, size);
+	public InquiryServiceImpl(InquiryDao inquiryDao) {
+		super(inquiryDao);
+		this.inquiryDao = inquiryDao;
 	}
-
-	@Override
-	public int getCount(String search) {
-		return inquiryDao.selectCount(search);
-	}
-
-	@Override
-	public Inquiry getInquiry(int id) {
-		return inquiryDao.selectInquiry(id);
-	}
-
 
 }

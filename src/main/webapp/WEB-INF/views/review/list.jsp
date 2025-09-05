@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 목록</title>
+<title>후기 목록</title>
 </head>
 <body>
-	<h1>리뷰 목록</h1>
+	<h1>후기 목록</h1>
     
     <!-- 검색 -->
 	<form method="get" action="">
@@ -29,7 +29,7 @@
         	<tr>
             	<td>${item.id}</td>
             	<td>
-                	<a href="${pageContext.request.contextPath}/review/${item.id}">${item.subject}</a>
+                	<a href="${pageContext.request.contextPath}/review/list">리뷰</a>
             	</td>
             	<td>${item.reviewer_id}</td>
             	<td>${item.created_at}</td>

@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 상세</title>
+<title>후기 상세</title>
 </head>
 <body>
-	<h1>리뷰 상세보기</h1>
+	<h1>후기 상세보기</h1>
     
     <p><b>번호:</b> ${post.id}</p>
 	<p><b>제목:</b> ${post.subject}</p>

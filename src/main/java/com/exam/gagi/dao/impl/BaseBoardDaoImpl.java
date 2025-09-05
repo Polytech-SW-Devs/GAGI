@@ -18,12 +18,8 @@ public abstract class BaseBoardDaoImpl<T> implements BaseBoardDao<T> {
 	}
     
     @Override
-    public List<T> selectList(String search, int offset, int size) {
-    	Map<String, Object> param = new HashMap<>();
-        param.put("search", search);
-        param.put("offset", offset);
-        param.put("size", size);
-        return sqlSession.selectList(namespace + ".selectList", param);
+    public List<T> selectList(Map<String, Object> params) {
+        return sqlSession.selectList(namespace + ".selectList", params);
     }
     
     @Override

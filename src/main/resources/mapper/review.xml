@@ -6,38 +6,37 @@
   <mapper namespace="review">
   	
   	<!-- 목록 조회 + 검색 + 페이징 -->
-  	<select id="selectList" parameterType="map" resultType="com.exam.gagi.Review">
+  	<select id="selectList" parameterType="map" resultType="com.exam.gagi.model.Review">
   		SELECT *
-        FROM REVIEWS
-        WHERE COMMENT LIKE CONCAT('%', #{search}, '%')
-        ORDER BY ID DESC
-        LIMIT #{offset}, #{size}
+  		FROM REVIEWS
+  		WHERE COMMENT_TEXT LIKE '%' || #{search} || '%'
+  		ORDER BY ID DESC
   	</select>
   	
   	<!-- 총 게시글 수 조회 -->
   	<select id="selectCount" parameterType="string" resultType="int">
   		SELECT COUNT(*)
         FROM REVIEWS
-        WHERE COMMENT LIKE CONCAT('%', #{search}, '%')
+        WHERE COMMENT_TEXT LIKE '%' || #{search} || '%'
   	</select>
   	
   	<!-- 단일 조회 -->
-  	<select id="selectPost"  parameterType="int" resultType="com.exam.gagi.Review">
+  	<select id="selectPost"  parameterType="int" resultType="com.exam.gagi.model.Review">
   		SELECT *
         FROM REVIEWS
         WHERE ID = #{id}
   	</select>
   	
   	<!-- 공통 CRUD -->
-  	<insert id="insert" parameterType="com.exam.gagi.Review">
-  		INSERT INTO REVIEWS (order_item_id, reviewer_id, target_id, rating, comment, created_at)
-        VALUES (#{orderItemId}, #{reviewerId}, #{targetId}, #{rating}, #{comment}, NOW())	
+  	<insert id="insert" parameterType="com.exam.gagi.model.Review">
+  		INSERT INTO REVIEWS (order_item_id, reviewer_id, target_id, rating_number, comment_text, created_at)
+        VALUES (#{orderItemId}, #{reviewerId}, #{targetId}, #{ratingNumber}, #{commentText}, NOW())	
   	</insert>
   	
-	<update id="update" parameterType="com.exam.gagi.Review">
+	<update id="update" parameterType="com.exam.gagi.model.Review">
 		UPDATE REVIEWS
-        SET rating = #{rating},
-            comment = #{comment}
+        SET rating_number = #{ratingNumber},
+            comment_text = #{commentText}
         WHERE id = #{id}
 	</update>
 	

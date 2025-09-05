@@ -24,7 +24,7 @@ public abstract class BaseBoardController<T> {
 		this.viewPath = viewPath;
 	}
 
-	@GetMapping
+	@GetMapping ("/list")
 	public String list(@RequestParam(defaultValue = "") String search,
 					   @RequestParam(defaultValue = "1") int page,
 					   Model model) {
