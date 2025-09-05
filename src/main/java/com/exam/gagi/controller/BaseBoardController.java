@@ -19,6 +19,7 @@ public abstract class BaseBoardController<T> {
 	protected final String viewPath;
 	
 	// 생성자에서 service 주입
+
 	public BaseBoardController(BaseBoardService<T> service, String viewPath) {
 		this.service = service;
 		this.viewPath = viewPath;
@@ -46,6 +47,12 @@ public abstract class BaseBoardController<T> {
 	@GetMapping("/write")
 	public String writeForm() {
 		return viewPath + "/write";
+
+	// 홈 화면에서 고객센터 클릭 → 게시판 선택 페이지
+	@GetMapping
+	public String customerCenter() {
+		// JSP에서 Q&A, FAQ, 공지사항 링크만 보여줌
+		return "customer/customerCenter";
 	}
 	
 	@PostMapping("/write")
