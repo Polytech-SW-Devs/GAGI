@@ -11,31 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.gagi.model.Inquiry;
+import com.exam.gagi.service.BaseBoardService;
 import com.exam.gagi.service.InquiryService;
 
 @Controller
-@RequestMapping("/customer/inquiry")
-public class InquiryController {
+@RequestMapping("/inquiry")
+public class InquiryController extends BaseBoardController<Inquiry> {
 
-	@Autowired
-	private InquiryService inquiryService;
+	private final InquiryService inquiryService;
 	
-	@GetMapping
-	public String list(@RequestParam(defaultValue = "") String search,
-			   @RequestParam(defaultValue = "1") int page,
-			   Model model) {
-		int size = 10;
-		List<Inquiry> boardList = inquiryService.getList(search, page, size);
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("totalCount", inquiryService.getCount(search));
-		model.addAttribute("currentPage", page);
-		return "customer/inquiryList";
+	@Autowired
+	public InquiryController(InquiryService inquiryService) {
+		super(inquiryService, "inquiry");
+		this.inquiryService = inquiryService;
 	}
 	
-	@GetMapping("/{id}")
-	public String inquiry(@PathVariable int id, Model model) {
-		model.addAttribute("inquiry", inquiryService.getInquiry(id));
-		return "customer/inquiry";
+	@Override
+	protected int getIdFromPost(Inquiry post) {
+		return post.getId();
 	}
 	
 }

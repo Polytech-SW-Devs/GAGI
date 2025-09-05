@@ -9,11 +9,17 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.exam.gagi.model.Member" alias="Member"/>	
+		<typeAlias type="com.exam.gagi.model.Member" alias="Member"/>
+		<typeAlias type="com.exam.gagi.model.Review" alias="Review"/>	
+		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>	
+		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Notice"/>	
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member.xml"/>
+		<mapper resource="mapper/review.xml"/>
+		<mapper resource="mapper/inquiry.xml"/>
+		<mapper resource="mapper/notice.xml"/>
 	</mappers>
 		
 </configuration>
