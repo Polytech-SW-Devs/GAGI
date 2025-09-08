@@ -4,13 +4,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="review">
+  
+  	<resultMap id="ReviewResultMap" type="com.exam.gagi.model.Review">
+  		<id property="id" column="id"/>
+        <result property="order_item_id" column="order_item_id"/>
+        <result property="reviewer_id" column="reviewer_id"/>
+        <result property="target_id" column="target_id"/>
+        <result property="rating_number" column="rating_number"/>
+        <result property="comment_text" column="comment_text"/>
+        <result property="created_at" column="created_at"/>
+        <result property="updated_at" column="updated_at"/>
+  	</resultMap>
   	
   	<!-- 목록 조회 + 검색 + 페이징 -->
-  	<select id="selectList" parameterType="map" resultType="com.exam.gagi.model.Review">
+  	<select id="selectList" parameterType="map" resultMap="ReviewResultMap">
   		SELECT *
-  		FROM REVIEWS
-  		WHERE COMMENT_TEXT LIKE '%' || #{search} || '%'
-  		ORDER BY ID DESC
+    	FROM (
+        	SELECT ROWNUM rnum, t.*
+        	FROM (
+            	SELECT *
+            	FROM REVIEWS
+            	WHERE COMMENT_TEXT LIKE '%' || #{search} || '%'
+            	ORDER BY ID DESC
+        	) t
+        	WHERE ROWNUM &lt;= #{endRow}
+    	)
+    	WHERE rnum &gt;= #{startRow}
   	</select>
   	
   	<!-- 총 게시글 수 조회 -->
@@ -21,7 +40,7 @@
   	</select>
   	
   	<!-- 단일 조회 -->
-  	<select id="selectPost"  parameterType="int" resultType="com.exam.gagi.model.Review">
+  	<select id="selectPost"  parameterType="int" resultMap="ReviewResultMap">
   		SELECT *
         FROM REVIEWS
         WHERE ID = #{id}
@@ -43,5 +62,12 @@
 	<delete id="delete" parameterType="int">
 		DELETE FROM REVIEWS WHERE id = #{id}
 	</delete>
+	
+	<!-- 개별 기능 -->
+	<select id="getAverageRating" parameterType="int" resultType="double">
+		SELECT NVL(AVG(rating_number), 0)
+		FROM REVIEWS
+		WHERE target_id = #{targetId} 
+	</select>
   </mapper>
   

@@ -16,4 +16,14 @@ public class NoticeDaoImpl extends BaseBoardDaoImpl<Notice> implements NoticeDao
 		super(sqlSession, "notice");
 		this.sqlSession = sqlSession;
 	}
+
+	@Override
+	public void incrementViewCount(int id) {
+		sqlSession.update(namespace + ".incrementViewCount", id);
+	}
+
+	@Override
+	public Notice selectNotice(int id) {
+		return sqlSession.selectOne(namespace + ".selectNotice", id);
+	}
 }

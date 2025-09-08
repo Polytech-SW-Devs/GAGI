@@ -52,9 +52,14 @@
                 </td>
                 <td>
                 	<div>
-                		<input type="text" name="usernick" id="usernick" required>
+                		<input type="text" name="nickname" id="nickname" required>
                 		<input type="button" onclick="checkNm()" value="중복확인">
                 	</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="id-area-nickname"></div> <!-- AJAX 결과 표시 -->
                 </td>
             </tr>
             <tr>

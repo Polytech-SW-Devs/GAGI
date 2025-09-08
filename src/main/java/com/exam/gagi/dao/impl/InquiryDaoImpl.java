@@ -1,8 +1,6 @@
 package com.exam.gagi.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,21 @@ public class InquiryDaoImpl extends BaseBoardDaoImpl<Inquiry> implements Inquiry
 	public InquiryDaoImpl(SqlSession sqlSession) {
 		super(sqlSession, "inquiry");
 		this.sqlSession = sqlSession;
+	}
+
+	@Override
+	public Inquiry getById(int id) {
+		return sqlSession.selectOne(namespace + ".getById", id);
+	}
+
+	@Override
+	public int getUnansweredCount() {
+		return sqlSession.selectOne(namespace + ".getUnansweredCount");
+	}
+
+	@Override
+	public List<Inquiry> getByUserId(int userId) {
+		return sqlSession.selectList(namespace + ".getByUserId", userId);
 	}
 
 

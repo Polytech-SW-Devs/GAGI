@@ -17,12 +17,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public boolean checkId(String userid) {	
-		return memberDao.checkId(userid) == 0; // 0ÀÌ¸é »ç¿ë °¡´É
+		return memberDao.checkId(userid) == 0; // 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
 	@Override
 	public boolean checkNm(String nickname) {
-		return memberDao.checkNm(nickname) == 0; // 0ÀÌ¸é »ç¿ë °¡´É
+		return memberDao.checkNm(nickname) == 0; // 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
 }

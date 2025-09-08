@@ -12,6 +12,8 @@ public class Notice {
 	private int admin_id;
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
+	// 조회 시 계산용 필드
+	private boolean active; // true = 활성, false = 만료
 	
 	public int getId() {
 		return id;
@@ -66,6 +68,12 @@ public class Notice {
 	}
 	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

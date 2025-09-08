@@ -32,9 +32,9 @@ function checkNm() {
     	success: function(data) {
     		console.log("Response from server:", data);
         	if(data === "true") {
-            	$("#id-area").html("사용 가능한 닉네임입니다.");
+            	$("#id-area-nickname").html("사용 가능한 닉네임입니다.");
         	} else {
-            	$("#id-area").html("이미 사용 중인 닉네임입니다.");
+            	$("#id-area-nickname").html("이미 사용 중인 닉네임입니다.");
         	}
     	},
     	error: function (xhr, textStatus, errorThrown) {

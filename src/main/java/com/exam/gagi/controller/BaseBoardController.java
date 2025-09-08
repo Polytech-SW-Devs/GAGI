@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.exam.gagi.model.Review;
 import com.exam.gagi.service.BaseBoardService;
 
 public abstract class BaseBoardController<T> {
@@ -47,6 +46,7 @@ public abstract class BaseBoardController<T> {
 	@GetMapping("/write")
 	public String writeForm() {
 		return viewPath + "/write";
+	}
 
 	// 홈 화면에서 고객센터 클릭 → 게시판 선택 페이지
 	@GetMapping
