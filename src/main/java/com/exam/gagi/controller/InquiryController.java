@@ -34,7 +34,7 @@ public class InquiryController extends BaseBoardController<Inquiry> {
 	@ResponseBody
 	public boolean isAnswered(@PathVariable int id) {
 		Inquiry inquiry = inquiryService.getById(id);
-		return inquiry != null && inquiry.getResponded_at() != null;
+		return inquiry != null && inquiry.getRespondedAt() != null;
 	}
 	
 	// 전체 미답변 문의 수

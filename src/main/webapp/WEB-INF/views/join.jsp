@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,7 @@
 <body>
 	<h1>회원가입</h1>
 
-    <form name="JoinForm" id="joinForm" action="/join" method="post">
+    <form name="JoinForm" id="joinForm" action="${pageContext.request.contextPath}/join" method="post">
         <div id="msg"></div>
         <table>
             <tr>
@@ -20,7 +21,7 @@
                 </td>
                 <td>
                     <div>
-                        <input type="email" name="userid" id="userid" placeholder="example@domain.com" required>
+                        <input type="email" name="email" id="userid" placeholder="example@domain.com" required>
                         <input type="button" onclick="checkId()" value="중복확인">
                     </div>
                 </td>
@@ -30,20 +31,20 @@
                     <div id="id-area"></div> <!-- AJAX 결과 표시 -->
                 </td>
             </tr>
-            <tr>
-                <td>
-                	<label for="userpw">패스워드</label>
-                </td>
-                <td>
-                	<input type="password" name="userpw" id="userpw" placeholder="4~20자로 입력" required>
-                </td>
-            </tr>
-            <tr>
+ 			<tr>
                 <td>
                 	<label for="username">이름</label>
                 </td>
                 <td>
                 	<input type="text" name="username" id="username" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                	<label for="password">패스워드</label>
+                </td>
+                <td>
+                	<input type="password" name="password" id="password" placeholder="4~20자로 입력" required>
                 </td>
             </tr>
             <tr>
@@ -70,6 +71,42 @@
                 	<input type="text" name="phone" id="phone" required>
                 </td>
             </tr>
+            <tr>
+    			<td>
+        			<label for="zipCode">우편번호</label>
+    			</td>
+    			<td>
+        			<input type="text" name="zipCode" id="zipCode" required>
+    			</td>
+			</tr>
+			<tr>
+    			<td>
+        			<label for="address">주소</label>
+    			</td>
+    			<td>
+        			<input type="text" name="address" id="address" required>
+    			</td>
+			</tr>
+			<tr>
+    			<td>
+        			<label for="addressDetail">상세주소</label>
+    			</td>
+    			<td>
+        			<input type="text" name="addressDetail" id="addressDetail">
+    			</td>
+			</tr>
+			<tr>
+    			<td>
+        			<label for="isDefault">기본배송지</label>
+    			</td>
+    			<td>
+        			<select name="isDefault" id="isDefault">
+            			<option value="Y">예</option>
+            			<option value="N" selected>아니오</option>
+        			</select>
+    			</td>
+			</tr>
+
         </table>
         
         <div>

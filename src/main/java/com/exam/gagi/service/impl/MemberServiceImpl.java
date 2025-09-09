@@ -1,18 +1,42 @@
 package com.exam.gagi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.exam.gagi.dao.AddressDao;
 import com.exam.gagi.dao.MemberDao;
+import com.exam.gagi.model.Address;
+import com.exam.gagi.model.Member;
 import com.exam.gagi.service.MemberService;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	private final MemberDao memberDao;
 	
 	@Autowired
-	public MemberServiceImpl(MemberDao memberDao){
-		this.memberDao = memberDao;
+	private MemberDao memberDao;
+	@Autowired
+	private AddressDao addressDao;
+	
+	@Override
+	public Member login(String email, String password) {
+		Member member = memberDao.findByEmail(email);
+//		if(member != null && BCrypt.checkpw(password, member.getPassword())) {
+			return member;			
+//		}
+//		return null;
+	}
+	
+	@Override
+	public void signup(Member member, Address address) {
+//		String hashedPassword = BCrypt.hashpw(member.getPassword(), BCrypt.gensalt());
+//		member.setPassword(hashedPassword);
+		// 1. 회원 저장
+		memberDao.insertMember(member);
+		// 2. 기본 배송지 저장
+		address.setUserId(member.getId());
+		address.setIsDefault("Y");
+		addressDao.insertAddress(address);
 	}
 	
 	@Override
@@ -24,5 +48,7 @@ public class MemberServiceImpl implements MemberService {
 	public boolean checkNm(String nickname) {
 		return memberDao.checkNm(nickname) == 0; // 0�̸� ��� ����
 	}
+
+
 
 }

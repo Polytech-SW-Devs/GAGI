@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="address">
+  
+  	<resultMap id="AddressResultMap" type="com.exam.gagi.model.Address">
+    	<id property="addressId" column="ADDRESS_ID"/>
+    	<result property="userId" column="USER_ID"/>
+        <result property="zipCode" column="ZIP_CODE"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="addressDetail" column="ADDRESS_DETAIL"/>
+        <result property="isDefault" column="IS_DEFAULT"/>
+  	</resultMap>
+  
+  	<select id="selectAll" resultMap="AddressResultMap">
+  		SELECT ADDRESS_ID, ZIP_CODE, ADDRESS, ADDRESS_DETAIL
+    	FROM ADDRESS
+    	ORDER BY ADDRESS_ID
+  	</select>
+  	
+  	<select id="selectByPk" parameterType="int" resultMap="AddressResultMap">
+    	SELECT ADDRESS_ID, ZIP_CODE, ADDRESS, ADDRESS_DETAIL
+    	FROM ADDRESS
+    	WHERE ADDRESS_ID = #{addressId}
+  	</select>
+  	
+  	<!-- 주소 등록 -->
+    <insert id="insertAddress" parameterType="com.exam.gagi.model.Address">
+        INSERT INTO ADDRESS (address_id, user_id, zip_code, address, address_detail, is_default)
+        VALUES (ADDRESS_SEQ.NEXTVAL, #{userId}, #{zipCode}, #{address}, #{addressDetail}, #{isDefault})
+    </insert>
+  	
+  
+  </mapper>
+  

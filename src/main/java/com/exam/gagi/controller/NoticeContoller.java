@@ -37,7 +37,7 @@ public class NoticeContoller extends BaseBoardController<Notice> {
 		Notice notice = noticeService.getById(id);
 		
 		// 유효기간 확인(만료 여부)
-		boolean active = (notice.getExpires_at() == null || notice.getExpires_at().isAfter(LocalDateTime.now()));
+		boolean active = (notice.getExpiresAt() == null || notice.getExpiresAt().isAfter(LocalDateTime.now()));
 		notice.setActive(active);
 		return notice;
 	}
