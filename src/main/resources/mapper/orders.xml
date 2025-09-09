@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="orders">
+  	<insert id="add">
+  		INSERT INTO ORDERS (
+            ID, USER_ID, TRANSACTION_TYPE, ORDER_STATUS, TOTAL_PRICE, PAYMENT_METHOD,
+            RECIPIENT_NAME, RECIPIENT_PHONE, DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN,
+            DELIVERY_ADDRESS_DETAIL, DELIVERY_MEMO, MEETING_LOCATION, MEETING_DATETIME,
+            CONTACT_INFO, CREATED_AT, UPDATED_AT
+        ) VALUES (
+            ORDERS_SEQ.NEXTVAL, #{userId}, #{transactionType}, #{orderStatus}, #{totalPrice}, #{paymentMethod},
+            #{recipientName}, #{recipientPhone}, #{deliveryZipcode}, #{deliveryAddressMain},
+            #{deliveryAddressDetail}, #{deliveryMemo}, #{meetingLocation}, #{meetingDateTime},
+            #{contactInfo}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+  	</insert>
+  	
+  	<select id="salelist" resultType="Orders">
+  		SELECT * FROM orders
+  	</select>
+  	
+  	
+  	<select id="orderlist" resultType="OrderHistoryDTO">
+      SELECT
+          o.ID AS orderId,
+          oi.ID AS orderItemId,
+          i.TITLE AS itemTitle,
+          (
+              SELECT IMAGE_URL
+              FROM item_images ii
+              WHERE ii.item_id = i.id AND ROWNUM = 1
+          ) AS imageUrl,
+          oi.QUANTITY AS quantity,
+          oi.PRICE AS price,
+          (oi.QUANTITY * oi.PRICE) AS totalPrice,
+          o.CREATED_AT AS orderDate,
+          o.ORDER_STATUS AS orderStatus
+      FROM
+          ORDERS o
+      INNER JOIN
+          ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
+      INNER JOIN
+          ITEMS i ON oi.ITEM_ID = i.ID
+      WHERE
+          o.USER_ID = #{id}
+      ORDER BY
+          o.CREATED_AT DESC
+  </select>
+  </mapper>
+

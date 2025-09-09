@@ -1,18 +1,18 @@
 package com.exam.gagi.model;
 
 public class Member {
-	private int id; // 회원번호 (PK)
+	private Long id; // 회원번호 (PK)
 	private String email; // 아이디 = 이메일 (로그인용)
 	private String username;
 	private String userpw;
 	private String nickname;
 	private String phone;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
