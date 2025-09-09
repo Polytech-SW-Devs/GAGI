@@ -11,6 +11,27 @@
   	<select id="checkNm" parameterType="String" resultType="int">
   		SELECT COUNT(*) FROM USERS WHERE NICKNAME = #{nickname}
   	</select>
+  	
+  	<!-- 아이디 찾기 -->
+    <select id="findIdByUsernameAndPhone" parameterType="map" resultType="string">
+        SELECT email
+        FROM USERS
+        WHERE username = #{username}
+          AND phone = #{phone}
+    </select>
+    
+    <select id="findPassword" parameterType="map" resultType="string">
+    SELECT PASSWORD
+    FROM USERS
+    WHERE email = #{email}
+      AND phone = #{phone}
+	</select>
+	
+	<update id="updatePassword">
+	    UPDATE USERS
+	    SET password = #{newPassword}
+	    WHERE email = #{email}
+	</update>
+	
 
   </mapper>
-  
