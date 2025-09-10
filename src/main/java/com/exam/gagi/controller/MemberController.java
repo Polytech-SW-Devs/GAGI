@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.exam.gagi.model.Member;
 import com.exam.gagi.service.MemberService;
-import com.exam.gagi.model.Member;
 
 @Controller
 public class MemberController {
@@ -23,7 +22,7 @@ public class MemberController {
 	// 회원가입 페이지 요청
 	@GetMapping("/join")
 	public String joinPage() {
-	// 게시판 메뉴 취득
+		// 게시판 메뉴 취득
 
 		return "join";
 	}
@@ -32,25 +31,25 @@ public class MemberController {
 	@PostMapping("/join")
 	public String joinAply(Member member) {
 		memberService.insertMember(member);
-	    return "redirect:/login";
+		return "redirect:/login";
 		// 게시판 메뉴 취득
-	    
+
 //		return "index";
 	}
-	
+
 	// 로그인 페이지 요청
 	@GetMapping("/login")
 	public String loginPage() {
 		// 게시판 메뉴 취득
-		
+
 		return "login";
 	}
-	
+
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(Member member, HttpSession session, Model model) {
 		Member loginUser = memberService.findByEmail(member.getEmail());
-		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
+		if (loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
 			session.setAttribute("loginUser", loginUser);
 			return "redirect:/";
 		} else {
@@ -72,77 +71,70 @@ public class MemberController {
 	public String checkNm(@RequestParam(value = "data") String nickname) {
 		return String.valueOf(memberService.checkNm(nickname));
 	}
-	
 
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
 
 	// 아이디 찾기 페이지 요청
 	@GetMapping("/findId")
 	public String findIdPage() {
-	    return "findId"; // findId.jsp
+		return "findId"; // findId.jsp
 	}
 
 	// 아이디 찾기 처리
 	@PostMapping("/findId")
-	public String findId(@RequestParam("username") String username,
-	                     @RequestParam("phone") String phone,
-	                     Model model) {
+	public String findId(@RequestParam("username") String username, @RequestParam("phone") String phone, Model model) {
 
 		String email = memberService.findId(username, phone);
-		if(email != null) {
-	        model.addAttribute("email", email);
-	        return "findIdSuccess";
-	    } else {
-	        model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
-	        return "findId";
-	    }
+		if (email != null) {
+			model.addAttribute("email", email);
+			return "findIdSuccess";
+		} else {
+			model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
+			return "findId";
+		}
 	}
-	
+
 	// 비밀번호 찾기 페이지 요청
 	@GetMapping("/findPw")
 	public String findPwPage() {
-	    return "findPw"; // findPw.jsp
+		return "findPw"; // findPw.jsp
 	}
 
 	// 비밀번호 찾기 처리
 	@PostMapping("/findPw")
-	public String findPw(@RequestParam("email") String email,
-	                     @RequestParam("phone") String phone,
-	                     Model model) {
-	    String userpw = memberService.findPassword(email, phone);
-	    if(userpw != null) {
-	    	model.addAttribute("email", email);
-	        return "findPwSuccess";
-	    } else {
-	        model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
-	        return "findPw";
-	    }
+	public String findPw(@RequestParam("email") String email, @RequestParam("phone") String phone, Model model) {
+		String userpw = memberService.findPassword(email, phone);
+		if (userpw != null) {
+			model.addAttribute("email", email);
+			return "findPwSuccess";
+		} else {
+			model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
+			return "findPw";
+		}
 	}
-	
+
 	@PostMapping("/updatePw")
-	public String updatePassword(
-	        @RequestParam("email") String email,
-	        @RequestParam("newPassword") String newPassword,
-	        @RequestParam("confirmPassword") String confirmPassword,
-	        RedirectAttributes redirectAttributes ,
-	        Model model) {
-	    
-	    if (!newPassword.equals(confirmPassword)) {
-	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-	        return "updatePw"; // 다시 입력 페이지로
-	    }
+	public String updatePassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword,
+			@RequestParam("confirmPassword") String confirmPassword, RedirectAttributes redirectAttributes,
+			Model model) {
 
-	    memberService.passwordUpdate(email, newPassword); // DB 업데이트
-	    
-	 // 성공 메시지 전달
-	    redirectAttributes.addFlashAttribute("success", "비밀번호가 성공적으로 변경되었습니다. 로그인해주세요.");
+		if (!newPassword.equals(confirmPassword)) {
+			model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+			return "updatePw"; // 다시 입력 페이지로
+		}
 
-	    // 로그인 페이지로 리다이렉트
-	    return "redirect:/login";
+		memberService.passwordUpdate(email, newPassword); // DB 업데이트
+
+		// 성공 메시지 전달
+		redirectAttributes.addFlashAttribute("success", "비밀번호가 성공적으로 변경되었습니다. 로그인해주세요.");
+
+		// 로그인 페이지로 리다이렉트
+		return "redirect:/login";
 
 	}
 }
