@@ -47,6 +47,7 @@ public abstract class BaseBoardController<T> {
 	@GetMapping("/write")
 	public String writeForm() {
 		return viewPath + "/write";
+	}
 
 	// 홈 화면에서 고객센터 클릭 → 게시판 선택 페이지
 	@GetMapping

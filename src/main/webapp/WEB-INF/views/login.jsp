@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,9 +38,16 @@
         </table>    
         
         <div>
-            <a href="javascript:void(0)" onclick="findId()">아이디 찾기</a>
-            <a href="javascript:void(0)" onclick="findPw()">패스워드 찾기</a>
+            <a href="/gagi/findId">아이디 찾기</a>
+            <a href="/gagi/findPw">패스워드 찾기</a>
         </div>
     </form>
+    
+    <c:if test="${not empty success}">
+	    <script>
+	        alert("${success}");
+	    </script>
+	</c:if>
+
 </body>
 </html>
