@@ -21,8 +21,12 @@ public class BaseBoardServiceImpl<T> implements BaseBoardService<T> {
     public List<T> getList(String search, int page, int size) {
     	Map<String, Object> params = new HashMap<>();
     	params.put("search", search);
-        params.put("offset", (page - 1) * size);
-        params.put("size", size);
+    	
+        int startRow = (page - 1) * size + 1; // 시작 행
+        int endRow = page * size; 			// 끝 행
+
+        params.put("startRow", startRow);
+        params.put("endRow", endRow);
         return dao.selectList(params);
     }
     

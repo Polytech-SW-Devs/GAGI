@@ -5,21 +5,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>후기 상세</title>
+<title>공지사항 상세보기</title>
 </head>
 <body>
-	<h1>후기 상세보기</h1>
+	<h1>공지사항 상세보기</h1>
     
-    <p><b>번호:</b> ${post.id}</p>
-	<p><b>제목:</b> ${post.subject}</p>
-	<p><b>작성자:</b> ${post.reviewer_id}</p>
-	<p><b>평점:</b> ${post.rating} / 5</p>
-	<p><b>내용:</b> ${post.comment}</p>
-	<p><b>등록일:</b> ${post.created_at}</p>
+    <p><strong>아이디:</strong> ${post.id}</p>
+	<p><strong>제목:</strong> ${post.title}</p>
+	<p><strong>내용:</strong><br>${post.content}</p>
+	<p><strong>공개여부:</strong> ${post.visible}</p>
+	<p><strong>게시 시작일:</strong> ${post.posted_at}</p>
+	<p><strong>만료일:</strong> ${post.expires_at}</p>
+	<p><strong>작성일:</strong> ${post.created_at}</p>
+	<p><strong>수정일:</strong> ${post.updated_at}</p>
+	<p><strong>상태:</strong>
+		<c:choose>
+			<c:when test="${post.active}">유효</c:when>
+			<c:otherwise>만료</c:otherwise>
+		</c:choose> 
+	</p>
 	
-	<a href="${pageContext.request.contextPath}/review/edit/${post.id}">수정</a>
-	<a href="${pageContext.request.contextPath}/review/list">목록으로</a>
-</body>
-</html>
+	<a href="${pageContext.request.contextPath}/notice/edit/${post.id}">수정</a>
+	<a href="${pageContext.request.contextPath}/notice/delete/${post.id}">삭제</a>
+	<a href="${pageContext.request.contextPath}/notice/list">목록으로</a>
 </body>
 </html>

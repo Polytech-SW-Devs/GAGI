@@ -3,15 +3,26 @@ package com.exam.gagi.model;
 import java.time.LocalDateTime;
 
 public class Notice {
+	// 공지 id
 	private int id;
+	// 제목
 	private String title;
+	// 내용
 	private String content;
+	// 노출 여부
 	private String visible;
-	private LocalDateTime posted_at;
-	private LocalDateTime expires_at;
-	private int admin_id;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
+	// 게시일
+	private LocalDateTime postedAt;
+	// 만료일
+	private LocalDateTime expiresAt;
+	// 작성자
+	private int adminId;
+	// 생성일
+	private LocalDateTime createdAt;
+	// 수정일
+	private LocalDateTime updatedAt;
+	// 조회 시 계산용 필드
+	private boolean active; // true = 활성, false = 만료
 	
 	public int getId() {
 		return id;
@@ -37,35 +48,41 @@ public class Notice {
 	public void setVisible(String visible) {
 		this.visible = visible;
 	}
-	public LocalDateTime getPosted_at() {
-		return posted_at;
+	public LocalDateTime getPostedAt() {
+		return postedAt;
 	}
-	public void setPosted_at(LocalDateTime posted_at) {
-		this.posted_at = posted_at;
+	public void setPostedAt(LocalDateTime postedAt) {
+		this.postedAt = postedAt;
 	}
-	public LocalDateTime getExpires_at() {
-		return expires_at;
+	public LocalDateTime getExpiresAt() {
+		return expiresAt;
 	}
-	public void setExpires_at(LocalDateTime expires_at) {
-		this.expires_at = expires_at;
+	public void setExpiresAt(LocalDateTime expiresAt) {
+		this.expiresAt = expiresAt;
 	}
-	public int getAdmin_id() {
-		return admin_id;
+	public int getAdminId() {
+		return adminId;
 	}
-	public void setAdmin_id(int admin_id) {
-		this.admin_id = admin_id;
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

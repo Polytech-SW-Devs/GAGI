@@ -23,6 +23,6 @@ public class ReviewDaoImpl extends BaseBoardDaoImpl<Review> implements ReviewDao
 
 	@Override
 	public double getAverageRating(int targetId) {
-		return sqlSession.selectOne("review.getAverageRating", targetId);
+		return sqlSession.selectOne(namespace + ".getAverageRating", targetId);
 	}
 }
