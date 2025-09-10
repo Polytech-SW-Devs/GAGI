@@ -11,49 +11,47 @@
 	<h1>공지사항 목록</h1>
     
     <!-- 검색 -->
-	<form method="get" action="">
-    	<input type="text" name="search" value="${param.search}" placeholder="검색어 입력">
+	<form method="get" action="${pageContext.request.contextPath}/notice/list">
+    	<input type="text" name="search" value="${search}" placeholder="검색어 입력">
     	<button type="submit">검색</button>
 	</form>
 	
 	<!-- 리스트 -->
-	<table border="1" width="100%">
+	<table border="1" cellpadding="5">
     	<tr>
         	<th>번호</th>
         	<th>제목</th>
-        	<th>작성자</th>
-        	<th>등록일</th>
+        	<th>작성일</th>
+        	<th>유효</th>
     	</tr>
 
-    	<c:forEach var="item" items="${list}">
+    	<c:forEach var="post" items="${list}">
         	<tr>
-            	<td>${item.id}</td>
+            	<td>${post.id}</td>
             	<td>
-                	<a href="${pageContext.request.contextPath}/notice/list">공지사항</a>
+                	<a href="${pageContext.request.contextPath}/notice/view/${post.id}">${post.title}</a>
             	</td>
-            	<td>${item.admin_id}</td>
-            	<td>${item.posted_at}</td>
+            	<td>${post.posted_at}</td>
+            	<td>${post.active ? "활성" : "만료"}</td>
         	</tr>
     	</c:forEach>
 	</table>
 	
 	<!-- 페이징 -->
 	<div>
-		<c:set var="totalPages" value="${total / 10 + (total % 10 == 0 ? 0 : 1)}"/>
-    	<c:forEach begin="1" end="${totalPages}" var="i">
-        	<c:choose>
-            	<c:when test="${i == param.page}">
-                	<b>[${i}]</b>
-            	</c:when>
-            	<c:otherwise>
-                	<a href="?page=${i}&search=${param.search}">[${i}]</a>
-            	</c:otherwise>
-        	</c:choose>
-    	</c:forEach>
+    	<c:if test="${page > 1}">
+        	<a href="?page=${page-1}&search=${search}">이전</a>
+    	</c:if>
+
+    페이지 ${page} / ${totalPages}
+
+    	<c:if test="${page < totalPages}">
+        	<a href="?page=${page+1}&search=${search}">다음</a>
+    	</c:if>
 	</div>
 	
 	<!-- 등록 버튼 -->
-	<a href="${pageContext.request.contextPath}/notice/write">글쓰기</a>
+	<a href="${pageContext.request.contextPath}/notice/write">공지 작성</a>
 </body>
 </html>
 </body>

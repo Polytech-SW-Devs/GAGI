@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.exam.gagi.model.Review;
 import com.exam.gagi.service.BaseBoardService;
 
 public abstract class BaseBoardController<T> {

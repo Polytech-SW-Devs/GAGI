@@ -3,14 +3,22 @@ package com.exam.gagi.model;
 import java.time.LocalDateTime;
 
 public class Review {
+	// 리뷰 id
 	private int id;
-	private int order_item_id;
-	private int reviewer_id;
-	private int target_id;
-	private int rating_number;
-	private String comment_text;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
+	// 주문 상세 id
+	private int orderItemId;
+	// 작성자
+	private int reviewerId;
+	// 대상
+	private int targetId;
+	// 평점
+	private int ratingNumber;
+	// 리뷰 내용
+	private String commentText;
+	// 생성일
+	private LocalDateTime createdAt;
+	// 수정일
+	private LocalDateTime updatedAt;
 	
 	public int getId() {
 		return id;
@@ -18,47 +26,48 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getOrder_item_id() {
-		return order_item_id;
+	public int getOrderItemId() {
+		return orderItemId;
 	}
-	public void setOrder_item_id(int order_item_id) {
-		this.order_item_id = order_item_id;
+	public void setOrderItemId(int orderItemId) {
+		this.orderItemId = orderItemId;
 	}
-	public int getReviewer_id() {
-		return reviewer_id;
+	public int getReviewerId() {
+		return reviewerId;
 	}
-	public void setReviewer_id(int reviewer_id) {
-		this.reviewer_id = reviewer_id;
+	public void setReviewerId(int reviewerId) {
+		this.reviewerId = reviewerId;
 	}
-	public int getTarget_id() {
-		return target_id;
+	public int getTargetId() {
+		return targetId;
 	}
-	public void setTarget_id(int target_id) {
-		this.target_id = target_id;
+	public void setTargetId(int targetId) {
+		this.targetId = targetId;
 	}
-	public int getRating_number() {
-		return rating_number;
+	public int getRatingNumber() {
+		return ratingNumber;
 	}
-	public void setRating_number(int rating_number) {
-		this.rating_number = rating_number;
+	public void setRatingNumber(int ratingNumber) {
+		this.ratingNumber = ratingNumber;
 	}
-	public String getComment_text() {
-		return comment_text;
+	public String getCommentText() {
+		return commentText;
 	}
-	public void setComment_text(String comment_text) {
-		this.comment_text = comment_text;
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
+	
 	
 }

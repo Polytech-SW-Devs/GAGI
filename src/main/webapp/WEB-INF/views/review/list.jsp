@@ -11,49 +11,47 @@
 	<h1>후기 목록</h1>
     
     <!-- 검색 -->
-	<form method="get" action="">
-    	<input type="text" name="search" value="${param.search}" placeholder="검색어 입력">
+	<form method="get" action="${pageContext.request.contextPath}/review/list">
+    	<input type="text" name="search" value="${search}" placeholder="검색어 입력">
     	<button type="submit">검색</button>
 	</form>
 	
 	<!-- 리스트 -->
-	<table border="1" width="100%">
+	<table border="1" cellpadding="5">
     	<tr>
         	<th>번호</th>
-        	<th>제목</th>
-        	<th>작성자</th>
-        	<th>등록일</th>
+        	<th>주문 아이템 ID</th>
+        	<th>대상 ID</th>
+        	<th>평점</th>
+        	<th>작성일</th>
     	</tr>
 
-    	<c:forEach var="item" items="${list}">
+    	<c:forEach var="post" items="${list}">
         	<tr>
-            	<td>${item.id}</td>
-            	<td>
-                	<a href="${pageContext.request.contextPath}/review/list">리뷰</a>
-            	</td>
-            	<td>${item.reviewer_id}</td>
-            	<td>${item.created_at}</td>
+            	<td>${post.id}</td>
+            	<td>${post.order_item_id}</td>
+            	<td>${post.target_id}</td>
+            	<td>${post.rating_number}</td>
+            	<td>${post.created_at}</td>
         	</tr>
     	</c:forEach>
 	</table>
 	
 	<!-- 페이징 -->
 	<div>
-		<c:set var="totalPages" value="${total / 10 + (total % 10 == 0 ? 0 : 1)}"/>
-    	<c:forEach begin="1" end="${totalPages}" var="i">
-        	<c:choose>
-            	<c:when test="${i == param.page}">
-                	<b>[${i}]</b>
-            	</c:when>
-            	<c:otherwise>
-                	<a href="?page=${i}&search=${param.search}">[${i}]</a>
-            	</c:otherwise>
-        	</c:choose>
-    	</c:forEach>
+    	<c:if test="${page > 1}">
+        	<a href="?page=${page-1}&search=${search}">이전</a>
+    	</c:if>
+
+    페이지 ${page} / ${totalPages}
+
+    	<c:if test="${page < totalPages}">
+        	<a href="?page=${page+1}&search=${search}">다음</a>
+    	</c:if>
 	</div>
 	
 	<!-- 등록 버튼 -->
-	<a href="${pageContext.request.contextPath}/review/write">글쓰기</a>
+	<a href="${pageContext.request.contextPath}/review/write">후기 작성</a>
 </body>
 </html>
 </body>

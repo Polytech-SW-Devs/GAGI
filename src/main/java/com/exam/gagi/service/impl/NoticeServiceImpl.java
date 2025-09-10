@@ -17,6 +17,16 @@ public class NoticeServiceImpl extends BaseBoardServiceImpl<Notice> implements N
 		super(noticeDao);
 		this.noticeDao = noticeDao;
 	}
+
+	@Override
+	public void incrementViewCount(int id) {
+		noticeDao.incrementViewCount(id);
+	}
+
+	@Override
+	public Notice getById(int id) {
+		return noticeDao.selectNotice(id);
+	}
 	
 	
 	

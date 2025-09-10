@@ -18,7 +18,7 @@
                 </td>
                 <td>
                     <div>
-                        <input type="email" name="userid" id="userid" placeholder="example@domain.com" required>
+                        <input type="email" name="email" id="userid" placeholder="example@domain.com" required>
                     </div>
                 </td>
             </tr>    
@@ -29,17 +29,22 @@
             </tr>
             <tr>
                 <td>
-                	<label for="userpw">패스워드</label>
+                	<label for="password">패스워드</label>
                 </td>
                 <td>
-                	<input type="password" name="userpw" id="userpw" placeholder="4~20자로 입력" required>
+                	<input type="password" name="password" id="password" placeholder="4~20자로 입력" required>
                 </td>
             </tr>
         </table>    
         
         <div>
+
+        	 <input type="submit" value="로그인">
+            <a href="javascript:void(0)" onclick="findId()">아이디 찾기</a>
+            <a href="javascript:void(0)" onclick="findPw()">패스워드 찾기</a>
             <a href="/gagi/findId">아이디 찾기</a>
             <a href="/gagi/findPw">패스워드 찾기</a>
+
         </div>
     </form>
     

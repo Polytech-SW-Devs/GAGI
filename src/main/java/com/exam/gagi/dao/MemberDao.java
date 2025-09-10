@@ -1,9 +1,17 @@
 package com.exam.gagi.dao;
 
+
+import com.exam.gagi.model.Member;
+
 import org.apache.ibatis.annotations.Param;
+
 
 public interface MemberDao {
 
+	void insertMember(Member member);
+	
+	Member findByEmail(String email);
+	
 	int checkId(String userid);
 
 	int checkNm(String nickname);
@@ -16,5 +24,9 @@ public interface MemberDao {
 	String findIdByUsernameAndPhone(@Param("username") String username,
             @Param("phone") String phone);
 
+
+
+
 	void updatePassword(@Param("email") String email, @Param("newPassword") String newPassword);
+
 }

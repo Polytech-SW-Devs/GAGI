@@ -1,5 +1,7 @@
 package com.exam.gagi.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.exam.gagi.model.Member;
 import com.exam.gagi.service.MemberService;
 import com.exam.gagi.model.Member;
 
@@ -17,27 +20,43 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	// 로그인 페이지 요청
-	@GetMapping("/login")
-	public String loginPage() {
-		// 게시판 메뉴 취득
-		return "login";
-	}
-
 	// 회원가입 페이지 요청
 	@GetMapping("/join")
 	public String joinPage() {
-		// 게시판 메뉴 취득
+	// 게시판 메뉴 취득
 
 		return "join";
 	}
 
 	// 회원가입 요청
 	@PostMapping("/join")
-	public String joinAply() {
-		// 회원가입 정보 저장
+	public String joinAply(Member member) {
+		memberService.insertMember(member);
+	    return "redirect:/login";
 		// 게시판 메뉴 취득
-		return "index";
+	    
+//		return "index";
+	}
+	
+	// 로그인 페이지 요청
+	@GetMapping("/login")
+	public String loginPage() {
+		// 게시판 메뉴 취득
+		
+		return "login";
+	}
+	
+	// 로그인 처리
+	@PostMapping("/login")
+	public String login(Member member, HttpSession session, Model model) {
+		Member loginUser = memberService.findByEmail(member.getEmail());
+		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:/";
+		} else {
+			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
+			return "login";
+		}
 	}
 
 	// 중복아이디 체크
@@ -54,6 +73,13 @@ public class MemberController {
 		return String.valueOf(memberService.checkNm(nickname));
 	}
 	
+
+	// 로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+
 	// 아이디 찾기 페이지 요청
 	@GetMapping("/findId")
 	public String findIdPage() {
@@ -117,5 +143,6 @@ public class MemberController {
 
 	    // 로그인 페이지로 리다이렉트
 	    return "redirect:/login";
+
 	}
 }

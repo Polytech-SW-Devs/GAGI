@@ -3,16 +3,26 @@ package com.exam.gagi.model;
 import java.time.LocalDateTime;
 
 public class Inquiry {
+	// 문의 id
 	private int id;
-	private int user_id;
-	private int reponder_id;
+	// 문의자
+	private int userId;
+	// 응답자(관리자)
+	private int reponderId;
+	// 문의 카테고리
 	private String category;
+	// 제목
 	private String subject;
+	// 내용
 	private String message;
+	// 상태(open, closed)
 	private String status;
-	private LocalDateTime created_at;
-	private LocalDateTime responded_at;
-	private LocalDateTime updated_at;
+	// 생성일
+	private LocalDateTime createdAt;
+	// 응답일
+	private LocalDateTime respondedAt;
+	// 수정일
+	private LocalDateTime updatedAt;
 	
 	public int getId() {
 		return id;
@@ -20,17 +30,17 @@ public class Inquiry {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public int getReponder_id() {
-		return reponder_id;
+	public int getReponderId() {
+		return reponderId;
 	}
-	public void setReponder_id(int reponder_id) {
-		this.reponder_id = reponder_id;
+	public void setReponderId(int reponderId) {
+		this.reponderId = reponderId;
 	}
 	public String getCategory() {
 		return category;
@@ -56,24 +66,26 @@ public class Inquiry {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
-	public LocalDateTime getResponded_at() {
-		return responded_at;
+	public LocalDateTime getRespondedAt() {
+		return respondedAt;
 	}
-	public void setResponded_at(LocalDateTime responded_at) {
-		this.responded_at = responded_at;
+	public void setRespondedAt(LocalDateTime respondedAt) {
+		this.respondedAt = respondedAt;
 	}
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
+	
+	
 	
 	
 }
