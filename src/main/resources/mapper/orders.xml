@@ -21,32 +21,41 @@
   		SELECT * FROM orders
   	</select>
   	
-  	
-  	<select id="orderlist" resultType="OrderHistoryDTO">
-      SELECT
-          o.ID AS orderId,
-          oi.ID AS orderItemId,
-          i.TITLE AS itemTitle,
-          (
-              SELECT IMAGE_URL
-              FROM item_images ii
-              WHERE ii.item_id = i.id AND ROWNUM = 1
-          ) AS imageUrl,
-          oi.QUANTITY AS quantity,
-          oi.PRICE AS price,
-          (oi.QUANTITY * oi.PRICE) AS totalPrice,
-          o.CREATED_AT AS orderDate,
-          o.ORDER_STATUS AS orderStatus
-      FROM
-          ORDERS o
-      INNER JOIN
-          ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
-      INNER JOIN
-          ITEMS i ON oi.ITEM_ID = i.ID
-      WHERE
-          o.USER_ID = #{id}
-      ORDER BY
-          o.CREATED_AT DESC
-  </select>
+
+
+	<resultMap id="orderHistoryMap" type="com.exam.gagi.model.OrderDetailDto">
+        <id property="orderId" column="order_id"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="shippingStatus" column="order_status"/>
+        <collection property="orderItems" ofType="com.exam.gagi.model.OrderItemDto">
+        	<result property="itemId" column="item_id"/>
+            <result property="thumbnailUrl" column="image_url"/>
+            <result property="itemName" column="item_title"/>
+            <result property="quantity" column="quantity"/>
+            <result property="totalPrice" column="total_price"/>
+        </collection>
+    </resultMap>
+
+    <select id="getDetailedOrderHistory" resultMap="orderHistoryMap" parameterType="string">
+        SELECT
+            o.ID AS order_id,
+            o.CREATED_AT AS order_date,
+            o.ORDER_STATUS AS order_status,
+            i.ID AS item_id,
+            i.TITLE AS item_title,
+            (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS image_url,
+            oi.QUANTITY AS quantity,
+            (oi.QUANTITY * oi.PRICE) AS total_price
+        FROM
+            ORDERS o
+        INNER JOIN
+            ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
+        INNER JOIN
+            ITEMS i ON oi.ITEM_ID = i.ID
+        WHERE
+            o.USER_ID = #{userId}
+        ORDER BY
+            o.ID DESC
+    </select>
   </mapper>
 

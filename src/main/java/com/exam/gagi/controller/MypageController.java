@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.exam.gagi.model.Member;
-import com.exam.gagi.model.OrderHistoryDTO;
+import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
-import com.exam.gagi.service.OrderService;
+import com.exam.gagi.service.OrdersService;
 
 @Controller
 @RequestMapping("/mypage")
 public class MypageController {
-	private final OrderService service; // 서비스 계층 주입
+	private final OrdersService ordersService; // 서비스 계층 주입
 	private final String PATH = "mypage/";
 
 	// 생성자 주입
-	public MypageController(OrderService service) {
-		this.service = service;
+	public MypageController(OrdersService service) {
+		this.ordersService = service;
 	}
 
 	@GetMapping("")
@@ -58,17 +58,17 @@ public class MypageController {
 			return "redirect:/login";
 		}
 
-		Long id = member.getId();
+		String memberId = String.valueOf(member.getId());
 
-		// 주문 내역 조회
-		List<OrderHistoryDTO> orderHistory = service.getOrderList(id);
-		model.addAttribute("orderlist", orderHistory);
+		// 주문 내역 조회 (계층 구조로 변경)
+		List<OrderDetailDto> orderHistory = ordersService.getDetailedOrderHistory(memberId);
+		model.addAttribute("orderHistory", orderHistory);
 		return PATH + "myorder";
 	}
 
 	@GetMapping("/mysale")
 	String mySales(Model model) {
-		List<Orders> list = service.saleList();
+		List<Orders> list = ordersService.salelist();
 		System.out.println("list: " + list);
 		model.addAttribute("list", list);
 		return PATH + "mysale";
