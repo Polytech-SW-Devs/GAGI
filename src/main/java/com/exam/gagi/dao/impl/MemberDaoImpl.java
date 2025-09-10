@@ -15,13 +15,13 @@ public class MemberDaoImpl implements MemberDao {
     }
 	
 	@Override
-	public Member findByEmail(String email) {
-		return sqlSession.selectOne("member.findByEmail", email);
+	public void insertMember(Member member) {
+		sqlSession.insert("member.insertMember", member);
 	}
 	
 	@Override
-	public void insertMember(Member member) {
-		sqlSession.insert("member.insertMember", member);
+	public Member findByEmail(String email) {
+		return sqlSession.selectOne("member.findByEmail", email);
 	}
 	
 	@Override

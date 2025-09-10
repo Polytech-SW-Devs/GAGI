@@ -29,7 +29,9 @@ public class Member {
 	private LocalDateTime updatedAt;
 	// 닉네임
 	private String nickname;
-	
+	// 배송지
+	private Integer addressId;
+		
 	public int getId() {
 		return id;
 	}
@@ -107,6 +109,12 @@ public class Member {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public Integer getAddressId() {
+		return addressId;
+	}
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
 	}
 	
 	

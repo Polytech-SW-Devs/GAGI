@@ -4,9 +4,9 @@ import com.exam.gagi.model.Member;
 
 public interface MemberDao {
 
-	Member findByEmail(String email);
-	
 	void insertMember(Member member);
+	
+	Member findByEmail(String email);
 	
 	int checkId(String userid);
 
