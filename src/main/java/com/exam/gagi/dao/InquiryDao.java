@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.exam.gagi.model.Inquiry;
 
-public interface InquiryDao {
+public interface InquiryDao extends BaseBoardDao<Inquiry> {
 
-	List<Inquiry> selectList(String search, int offset, int size);
-
-	int selectCount(String search);
-
-	Inquiry selectInquiry(int id);
 
 }

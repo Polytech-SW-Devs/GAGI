@@ -7,8 +7,8 @@ public class Review {
 	private int order_item_id;
 	private int reviewer_id;
 	private int target_id;
-	private int rating;
-	private String comment;
+	private int rating_number;
+	private String comment_text;
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
 	
@@ -36,17 +36,17 @@ public class Review {
 	public void setTarget_id(int target_id) {
 		this.target_id = target_id;
 	}
-	public int getRating() {
-		return rating;
+	public int getRating_number() {
+		return rating_number;
 	}
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setRating_number(int rating_number) {
+		this.rating_number = rating_number;
 	}
-	public String getComment() {
-		return comment;
+	public String getComment_text() {
+		return comment_text;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setComment_text(String comment_text) {
+		this.comment_text = comment_text;
 	}
 	public LocalDateTime getCreated_at() {
 		return created_at;

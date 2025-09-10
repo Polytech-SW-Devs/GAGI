@@ -4,14 +4,13 @@ import java.time.LocalDateTime;
 
 public class Notice {
 	private int id;
-	private int user_id;
-	private int reponder_id;
-	private String category;
-	private String subject;
-	private String message;
-	private String status;
+	private String title;
+	private String content;
+	private String visible;
+	private LocalDateTime posted_at;
+	private LocalDateTime expires_at;
+	private int admin_id;
 	private LocalDateTime created_at;
-	private LocalDateTime responded_at;
 	private LocalDateTime updated_at;
 	
 	public int getId() {
@@ -20,41 +19,41 @@ public class Notice {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
-		return user_id;
+	public String getTitle() {
+		return title;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public int getReponder_id() {
-		return reponder_id;
+	public String getContent() {
+		return content;
 	}
-	public void setReponder_id(int reponder_id) {
-		this.reponder_id = reponder_id;
+	public void setContent(String content) {
+		this.content = content;
 	}
-	public String getCategory() {
-		return category;
+	public String getVisible() {
+		return visible;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setVisible(String visible) {
+		this.visible = visible;
 	}
-	public String getSubject() {
-		return subject;
+	public LocalDateTime getPosted_at() {
+		return posted_at;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setPosted_at(LocalDateTime posted_at) {
+		this.posted_at = posted_at;
 	}
-	public String getMessage() {
-		return message;
+	public LocalDateTime getExpires_at() {
+		return expires_at;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setExpires_at(LocalDateTime expires_at) {
+		this.expires_at = expires_at;
 	}
-	public String getStatus() {
-		return status;
+	public int getAdmin_id() {
+		return admin_id;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setAdmin_id(int admin_id) {
+		this.admin_id = admin_id;
 	}
 	public LocalDateTime getCreated_at() {
 		return created_at;
@@ -62,18 +61,13 @@ public class Notice {
 	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
-	public LocalDateTime getResponded_at() {
-		return responded_at;
-	}
-	public void setResponded_at(LocalDateTime responded_at) {
-		this.responded_at = responded_at;
-	}
 	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
 	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
+	
 	
 	
 }

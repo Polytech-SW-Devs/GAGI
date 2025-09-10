@@ -1,15 +1,21 @@
 package com.exam.gagi.dao;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BaseBoardDao<T> {
-	// °øÅë ¸®½ºÆ® Á¶È¸(°Ë»ö + ÆäÀÌÂ¡)
-	List<T> selectList(String search, int page, int size);
-		
-	// ÃÑ °Ô½Ã±Û ¼ö
+	// ê³µí†µ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ(ê²€ìƒ‰ + í˜ì´ì§•)
+	List<T> selectList(Map<String, Object> params);
+
+	// ì´ ê²Œì‹œê¸€ ìˆ˜ ì¡°íšŒ(í˜ì´ì§•ìš©)
 	int selectCount(String search);
-		
-	// °Ô½Ã±Û »ó¼¼ Á¶È¸
-	T selectPost(int id); 
-	
+
+	// ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ
+	T selectPost(int id);
+
+	// ê³µí†µ crud
+	void insert(T post);
+	void update(T post);
+//	void delete(int id);
+
 }

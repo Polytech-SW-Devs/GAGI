@@ -3,15 +3,11 @@ package com.exam.gagi.service;
 import java.util.List;
 
 import com.exam.gagi.model.Inquiry;
+import com.exam.gagi.model.Review;
 
 
-public interface InquiryService {
+public interface InquiryService extends BaseBoardService<Inquiry> {
 
-	List<Inquiry> getList(String search, int page, int size);
-
-	int getCount(String search);
-
-	Inquiry getInquiry(int id);
 
 
 

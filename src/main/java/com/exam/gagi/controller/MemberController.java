@@ -2,54 +2,120 @@ package com.exam.gagi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.exam.gagi.service.MemberService;
+import com.exam.gagi.model.Member;
 
 @Controller
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	// �α��� ������ ��û
+	// 로그인 페이지 요청
 	@GetMapping("/login")
 	public String loginPage() {
-		// �Խ��� �޴� ���
-		
+		// 게시판 메뉴 취득
 		return "login";
 	}
-	
-	// ȸ������ ������ ��û
+
+	// 회원가입 페이지 요청
 	@GetMapping("/join")
 	public String joinPage() {
-		// �Խ��� �޴� ���
-		
+		// 게시판 메뉴 취득
+
 		return "join";
 	}
-	
-	// ȸ������ ��û
+
+	// 회원가입 요청
 	@PostMapping("/join")
 	public String joinAply() {
-		// ȸ������ ���� ����
-		// �Խ��� �޴� ���
-		
+		// 회원가입 정보 저장
+		// 게시판 메뉴 취득
 		return "index";
 	}
-	
-	// �ߺ����̵� üũ
+
+	// 중복아이디 체크
 	@ResponseBody
 	@GetMapping("/checkid")
-	public String checkId(@RequestParam(value="data") String userid) {
+	public String checkId(@RequestParam(value = "data") String userid) {
 		return String.valueOf(memberService.checkId(userid));
 	}
-	
-	// �ߺ��г��� üũ
+
+	// 중복닉네임 체크
 	@ResponseBody
 	@GetMapping("/checknm")
-	public String checkNm(@RequestParam(value="data") String nickname) {
+	public String checkNm(@RequestParam(value = "data") String nickname) {
 		return String.valueOf(memberService.checkNm(nickname));
+	}
+	
+	// 아이디 찾기 페이지 요청
+	@GetMapping("/findId")
+	public String findIdPage() {
+	    return "findId"; // findId.jsp
+	}
+
+	// 아이디 찾기 처리
+	@PostMapping("/findId")
+	public String findId(@RequestParam("username") String username,
+	                     @RequestParam("phone") String phone,
+	                     Model model) {
+
+		String email = memberService.findId(username, phone);
+		if(email != null) {
+	        model.addAttribute("email", email);
+	        return "findIdSuccess";
+	    } else {
+	        model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
+	        return "findId";
+	    }
+	}
+	
+	// 비밀번호 찾기 페이지 요청
+	@GetMapping("/findPw")
+	public String findPwPage() {
+	    return "findPw"; // findPw.jsp
+	}
+
+	// 비밀번호 찾기 처리
+	@PostMapping("/findPw")
+	public String findPw(@RequestParam("email") String email,
+	                     @RequestParam("phone") String phone,
+	                     Model model) {
+	    String userpw = memberService.findPassword(email, phone);
+	    if(userpw != null) {
+	    	model.addAttribute("email", email);
+	        return "findPwSuccess";
+	    } else {
+	        model.addAttribute("error", "일치하는 회원 정보가 없습니다.");
+	        return "findPw";
+	    }
+	}
+	
+	@PostMapping("/updatePw")
+	public String updatePassword(
+	        @RequestParam("email") String email,
+	        @RequestParam("newPassword") String newPassword,
+	        @RequestParam("confirmPassword") String confirmPassword,
+	        RedirectAttributes redirectAttributes ,
+	        Model model) {
+	    
+	    if (!newPassword.equals(confirmPassword)) {
+	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+	        return "updatePw"; // 다시 입력 페이지로
+	    }
+
+	    memberService.passwordUpdate(email, newPassword); // DB 업데이트
+	    
+	 // 성공 메시지 전달
+	    redirectAttributes.addFlashAttribute("success", "비밀번호가 성공적으로 변경되었습니다. 로그인해주세요.");
+
+	    // 로그인 페이지로 리다이렉트
+	    return "redirect:/login";
 	}
 }

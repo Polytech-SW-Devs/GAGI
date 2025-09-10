@@ -1,5 +1,7 @@
 package com.exam.gagi.dao;
 
-public interface NoticeDao {
+import com.exam.gagi.model.Notice;
+
+public interface NoticeDao extends BaseBoardDao<Notice> {
 
 }
