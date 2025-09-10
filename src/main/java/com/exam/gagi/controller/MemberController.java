@@ -79,7 +79,7 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
-
+	}
 	// 아이디 찾기 페이지 요청
 	@GetMapping("/findId")
 	public String findIdPage() {
