@@ -43,6 +43,23 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member findByEmail(String email) {
 		return memberDao.findByEmail(email);
+
+	}
+
+	@Override
+	public String findId(String username, String phone) {
+		 return memberDao.findIdByUsernameAndPhone(username, phone);
+	}
+
+	@Override
+	public String findPassword(String email, String phone) {
+		 return memberDao.findPassword(email, phone);
+	}
+
+	@Override
+	public void passwordUpdate(String email, String newPassword) {
+		memberDao.updatePassword(email, newPassword);
+		
 	}
 
 }
