@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
-    <form name="LoginForm" id="LoginForm" action="/login" method="post">
+    <form name="LoginForm" id="LoginForm" action="${pageContext.request.contextPath}/login" method="post">
         <div id="msg"></div>
         <table>
             <tr>
@@ -39,11 +39,10 @@
         
         <div>
 
-        	 <input type="submit" value="로그인">
-            <a href="javascript:void(0)" onclick="findId()">아이디 찾기</a>
-            <a href="javascript:void(0)" onclick="findPw()">패스워드 찾기</a>
-            <a href="/gagi/findId">아이디 찾기</a>
-            <a href="/gagi/findPw">패스워드 찾기</a>
+        	<input type="submit" value="로그인">
+        	<a href="${pageContext.request.contextPath}/">취소</a>
+            <a href="${pageContext.request.contextPath}/findId">아이디 찾기</a>
+            <a href="${pageContext.request.contextPath}/findPw">패스워드 찾기</a>
 
         </div>
     </form>
