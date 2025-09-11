@@ -31,7 +31,9 @@ public class Member {
 	private String nickname;
 	// 배송지
 	private Integer addressId;
-		
+	//비밀번호 확인용
+	private String confirmPassword;
+	
 	public int getId() {
 		return id;
 	}
@@ -116,6 +118,14 @@ public class Member {
 	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;
 	}
+	//비밀번호 확인용
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	
 	
 	
 }

@@ -44,7 +44,7 @@
   	</select>
   	
   	<!-- 아이디 찾기 -->
-    <select id="findIdByUsernameAndPhone" parameterType="map" resultType="string">
+    <select id="findId" parameterType="map" resultType="string">
         SELECT email
         FROM USERS
         WHERE username = #{username}

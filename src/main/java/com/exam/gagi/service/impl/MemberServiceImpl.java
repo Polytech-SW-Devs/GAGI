@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public String findId(String username, String phone) {
-		 return memberDao.findIdByUsernameAndPhone(username, phone);
+		 return memberDao.findId(username, phone);
 	}
 
 	@Override
