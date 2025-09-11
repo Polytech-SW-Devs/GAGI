@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="member">
+  
+  	<resultMap id="MemberResultMap" type="com.exam.gagi.model.Member">
+        <id property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="phone" column="PHONE"/>
+        <result property="userType" column="USER_TYPE"/>
+        <result property="loginType" column="LOGIN_TYPE"/>
+        <result property="providerId" column="PROVIDER_ID"/>
+        <result property="profileImage" column="PROFILE_IMAGE"/>
+        <result property="status" column="STATUS"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="addressId" column="ADDRESS_ID"/>
+    </resultMap>
+  
+  	<select id="findByEmail" parameterType="String" resultType="com.exam.gagi.model.Member">
+  		SELECT id, username, email, password, phone, created_at, updated_at, nickname, address_id
+    	FROM USERS
+    	WHERE EMAIL = #{email}
+  	</select>
+  	
+  	<insert id="insertMember" parameterType="com.exam.gagi.model.Member">
+  		INSERT INTO USERS (id, username, email, password, phone,
+    					   created_at, updated_at, nickname, address_id)
+  		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, #{createdAt, jdbcType=TIMESTAMP}, 
+    			#{updatedAt, jdbcType=TIMESTAMP}, #{nickname}, #{addressId, jdbcType=NUMERIC})
+	</insert>
+  	
+  	<select id="checkId" parameterType="String" resultType="int">
+  		SELECT COUNT(*) FROM USERS WHERE EMAIL = #{email}
+  	</select>
+  	
+  	<select id="checkNm" parameterType="String" resultType="int">
+  		SELECT COUNT(*) FROM USERS WHERE NICKNAME = #{nickname}
+  	</select>
+
+  </mapper>
+  

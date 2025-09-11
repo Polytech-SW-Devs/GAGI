@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="inquiry">
+  
+  	<resultMap id="InquiryResultMap" type="com.exam.gagi.model.Inquiry">
+  		<id property="id" column="ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="reponderId" column="RESPONDER_ID"/>
+        <result property="category" column="CATEGORY"/>
+        <result property="subject" column="SUBJECT"/>
+        <result property="message" column="MESSAGE"/>
+        <result property="status" column="STATUS"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="respondedAt" column="RESPONDED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
+  	</resultMap>
+  	
+    <!-- 목록 조회 + 검색 + 페이징 -->
+  	<select id="selectList" parameterType="map" resultMap="InquiryResultMap">
+  		SELECT *
+    	FROM (
+        	SELECT ROWNUM rnum, t.*
+        	FROM (
+            	SELECT *
+            	FROM INQUIRIES
+            	WHERE SUBJECT LIKE '%' || #{search} || '%'
+               		OR MESSAGE LIKE '%' || #{search} || '%'
+            	ORDER BY CREATED_AT DESC
+        	) t
+        	WHERE ROWNUM &lt;= #{endRow}
+    	)
+    	WHERE rnum &gt;= #{startRow}
+  	</select>
+  	
+  	<!-- 총 게시글 수 조회 -->
+  	<select id="selectCount" parameterType="string" resultType="int">
+  		SELECT COUNT(*)
+        FROM INQUIRIES
+        WHERE SUBJECT LIKE '%' || #{search} || '%'
+           OR MESSAGE LIKE '%' || #{search} || '%'
+  	</select>
+  	
+  	<!-- 단일 조회 -->
+  	<select id="selectInquiry"  parameterType="int" resultMap="InquiryResultMap">
+  		SELECT *
+        FROM INQUIRIES
+        WHERE ID = #{id}
+  	</select>
+  	
+	<!-- 공통 CRUD -->
+	<insert id="insert" parameterType="com.exam.gagi.model.Inquiry">
+  		INSERT INTO INQUIRIES (user_id, responder_id, category, subject, message, status, created_at)
+        VALUES (#{userId}, #{responderId}, #{category}, #{subject}, #{message}, #{status}, NOW())	
+  	</insert>
+  	
+	<update id="update" parameterType="com.exam.gagi.model.Inquiry">
+		UPDATE INQUIRIES
+        SET responder_id = #{responderId},
+            category = #{category},
+            subject = #{subject},
+            message = #{message},
+            status = #{status},
+            created_at = NOW()
+        WHERE id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM INQUIRIES WHERE id = #{id}
+	</delete>
+	
+	<!-- 개별 기능 -->
+	<select id="getById" parameterType="int" resultMap="InquiryResultMap">
+		SELECT * FROM INQUIRIES ORDER BY CREATED_AT DESC
+	</select>
+	
+	<select id="getUnansweredCount" parameterType="int">
+		SELECT COUNT(*) FROM INQUIRIES WHERE RESPONDED_AT IS NULL
+	</select>
+	
+	<select id="getByUserId" parameterType="int" resultMap="InquiryResultMap">
+		SELECT COUNT(*) FROM INQUIRIES WHERE user_id = #{userId} ORDER BY CREATED_AT DESC
+	</select>
+	
+  </mapper>
+  
