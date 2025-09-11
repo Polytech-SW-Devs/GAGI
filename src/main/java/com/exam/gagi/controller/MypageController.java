@@ -42,7 +42,7 @@ public class MypageController {
 		// 세션에 "member"가 없으면, 테스트용 Member 객체를 생성하여 세션에 저장
 		if (session.getAttribute("member") == null) {
 			Member testMember = new Member();
-			testMember.setId(2L); // DB에 주문 내역이 있는 사용자 ID
+			testMember.setId(2); // DB에 주문 내역이 있는 사용자 ID
 			testMember.setEmail("test@example.com");
 			testMember.setNickname("테스트유저");
 			session.setAttribute("member", testMember);

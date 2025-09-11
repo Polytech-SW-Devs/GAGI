@@ -1,4 +1,5 @@
 package com.exam.gagi.service.impl;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,21 @@ public class InquiryServiceImpl extends BaseBoardServiceImpl<Inquiry> implements
 	public InquiryServiceImpl(InquiryDao inquiryDao) {
 		super(inquiryDao);
 		this.inquiryDao = inquiryDao;
+	}
+
+	@Override
+	public Inquiry getById(int id) {
+		return inquiryDao.getById(id);
+	}
+
+	@Override
+	public int getUnansweredCount() {
+		return inquiryDao.getUnansweredCount();
+	}
+
+	@Override
+	public List<Inquiry> getByUserId(int userId) {
+		return inquiryDao.getByUserId(userId);
 	}
 
 }

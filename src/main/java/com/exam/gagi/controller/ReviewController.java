@@ -30,10 +30,10 @@ public class ReviewController extends BaseBoardController<Review> {
 		return post.getId();
 	}
 	
-	@GetMapping("/average/{productId}")
+	@GetMapping("/average/{targetId}")
 	@ResponseBody
-	public double averageRating(@PathVariable int productId) {
-		return reviewService.getAverageRating(productId);
+	public double averageRating(@PathVariable int targetId) {
+		return reviewService.getAverageRating(targetId);
 	}
 	
 	
