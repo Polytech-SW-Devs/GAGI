@@ -38,9 +38,8 @@
         </table>    
         
         <div>
-
         	<input type="submit" value="로그인">
-        	<a href="${pageContext.request.contextPath}/">취소</a>
+        	<input type="button" value="취소" onclick="location.href='${pageContext.request.contextPath}/'">
             <a href="${pageContext.request.contextPath}/findId">아이디 찾기</a>
             <a href="${pageContext.request.contextPath}/findPw">패스워드 찾기</a>
 

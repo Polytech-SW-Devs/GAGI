@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
 <jsp:include page="../views/templete/header.jsp"></jsp:include>
-</head>
-<body>
+<div>
 	<div class="container">
 	<div>
 		<div><h3><a href=".">GAGI</a></h3></div>
@@ -30,8 +24,6 @@
 		<div>
 			<form class="row">
 				<div class=col></div>
-					<a href="${pageContext.request.contextPath}/login/" class="btn btn-primary btn-sm ">login</a>
-					<a href="${pageContext.request.contextPath}/join/" class="btn btn-primary btn-sm ">join</a>
 					<input type="text" name="keyword" class="fomr-control form-control-smd d-grid">
 					<button class="btn btn-primary btn-sm ">검색</button>	
 				</div>
