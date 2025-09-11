@@ -21,7 +21,7 @@ public interface MemberDao {
 	String findPassword(@Param("email") String email,
             @Param("phone") String phone);
 
-	String findIdByUsernameAndPhone(@Param("username") String username,
+	String findId(@Param("username") String username,
             @Param("phone") String phone);
 
 

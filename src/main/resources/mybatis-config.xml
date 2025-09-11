@@ -15,6 +15,7 @@
 		<typeAlias type="com.exam.gagi.model.Review" alias="Review"/>	
 		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>		
 		<typeAlias type="com.exam.gagi.model.Notice" alias="Notice"/>	
+
 	</typeAliases>
 	
 	<mappers>
