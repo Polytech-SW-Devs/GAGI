@@ -4,58 +4,198 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="orders">
-  	<insert id="add">
+
+    <!--ORDERS 테이블 전체 -->
+    <sql id="orderColumns">
+        o.ID AS order_id,
+        o.USER_ID AS user_id,
+        o.TRANSACTION_TYPE AS transaction_type,
+        o.TOTAL_PRICE AS order_total_price,
+        o.PAYMENT_METHOD AS payment_method,
+        o.RECIPIENT_NAME AS recipient_name,
+        o.RECIPIENT_PHONE AS recipient_phone,
+        o.DELIVERY_ZIPCODE AS delivery_zipcode,
+        o.DELIVERY_ADDRESS_MAIN AS delivery_address_main,
+        o.DELIVERY_ADDRESS_DETAIL AS delivery_address_detail,
+        o.DELIVERY_MEMO AS delivery_memo,
+        o.MEETING_LOCATION AS meeting_location,
+        o.MEETING_DATETIME AS meeting_datetime,
+        o.CONTACT_INFO AS contact_info,
+        o.CREATED_AT AS created_at,
+        o.UPDATED_AT AS updated_at
+    </sql>
+	
+	 <!--ORDER_ITEMS 테이블 전체 -->
+    <sql id="orderItemColumns">
+        oi.ID AS order_item_id,
+        oi.ORDER_ID AS order_item_order_id,
+        oi.ITEM_ID AS item_id,
+        oi.QUANTITY AS quantity,
+        oi.PRICE AS price,
+        oi.ORDER_STATUS AS order_item_status,
+        oi.CREATED_AT AS order_item_created_at
+    </sql>
+	
+	<!--ITEMS 테이블 전체 -->
+    <sql id="itemColumns">
+        i.ID AS item_id_from_item_table,
+        i.USER_ID AS item_user_id,
+        i.CATEGORY_ID AS category_id,
+        i.TITLE AS item_title,
+        i.DESCRIPTION AS description,
+        i.DELIVERY AS delivery,
+        i.IS_DIRECT_DEAL_AVAILABLE AS is_direct_deal_available,
+        i.PRICE AS item_price,
+        i.AMOUNT AS amount,
+        i.BANK_ACCOUNT_NUMBER AS bank_account_number,
+        i.SALES_STATUS AS sales_status,
+        i.VIEWS AS views,
+        i.DELETED_AT AS deleted_at
+    </sql>
+	
+	<!--첫번째 이미지 선택 -->
+    <sql id="itemImageThumbnail">
+        (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS image_url
+    </sql>
+	
+	<!--ORDER_ITMES와 ORDERS 조인 -->
+    <sql id="orderItemJoin">
+        INNER JOIN ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
+    </sql>
+	
+    <sql id="itemJoin">
+        INNER JOIN ITEMS i ON oi.ITEM_ID = i.ID
+    </sql>
+
+    <!-- Insert Statements -->
+  	<insert id="add" parameterType="Orders">
+  		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+  			SELECT ORDERS_SEQ.NEXTVAL FROM DUAL
+  		</selectKey>
   		INSERT INTO ORDERS (
-            ID, USER_ID, TRANSACTION_TYPE, ORDER_STATUS, TOTAL_PRICE, PAYMENT_METHOD,
+            ID, USER_ID, TRANSACTION_TYPE, TOTAL_PRICE, PAYMENT_METHOD,
             RECIPIENT_NAME, RECIPIENT_PHONE, DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN,
             DELIVERY_ADDRESS_DETAIL, DELIVERY_MEMO, MEETING_LOCATION, MEETING_DATETIME,
             CONTACT_INFO, CREATED_AT, UPDATED_AT
         ) VALUES (
-            ORDERS_SEQ.NEXTVAL, #{userId}, #{transactionType}, #{orderStatus}, #{totalPrice}, #{paymentMethod},
-            #{recipientName}, #{recipientPhone}, #{deliveryZipcode}, #{deliveryAddressMain},
-            #{deliveryAddressDetail}, #{deliveryMemo}, #{meetingLocation}, #{meetingDateTime},
-            #{contactInfo}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+            #{id}, 
+            #{userId}, 
+            #{transactionType, jdbcType=VARCHAR}, 
+            #{totalPrice}, 
+            #{paymentMethod, jdbcType=VARCHAR},
+            #{recipientName, jdbcType=VARCHAR}, 
+            #{recipientPhone, jdbcType=VARCHAR}, 
+            #{deliveryZipcode, jdbcType=VARCHAR}, 
+            #{deliveryAddressMain, jdbcType=VARCHAR},
+            #{deliveryAddressDetail, jdbcType=VARCHAR}, 
+            #{deliveryMemo, jdbcType=VARCHAR}, 
+            #{meetingLocation, jdbcType=VARCHAR}, 
+            #{meetingDateTime, jdbcType=TIMESTAMP},
+            #{contactInfo, jdbcType=VARCHAR}, 
+            CURRENT_TIMESTAMP, 
+            CURRENT_TIMESTAMP
+        )
   	</insert>
   	
-  	<select id="salelist" resultType="Orders">
-  		SELECT * FROM orders
+  	<insert id="addOrderItem" parameterType="OrderItem">
+  		INSERT INTO ORDER_ITEMS (ID, ORDER_ID, ITEM_ID, QUANTITY, PRICE, ORDER_STATUS, CREATED_AT)
+  		VALUES (ORDER_ITEMS_SEQ.NEXTVAL, #{orderId}, #{itemId}, #{quantity}, #{price}, #{orderStatus, jdbcType=VARCHAR}, CURRENT_TIMESTAMP)
+  	</insert>
+  	
+  	<select id="findRandomItems" resultType="Item" parameterType="int">
+	    SELECT * FROM (
+	        SELECT * FROM ITEMS ORDER BY DBMS_RANDOM.VALUE
+	    ) WHERE ROWNUM &lt;= #{limit}
   	</select>
   	
+    <!-- ResultMaps -->
+    <resultMap id="saleOrderMap" type="Orders">
+        <id property="id" column="order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="transactionType" column="transaction_type"/>
+        <result property="totalPrice" column="order_total_price"/>
+        <result property="paymentMethod" column="payment_method"/>
+        <result property="recipientName" column="recipient_name"/>
+        <result property="recipientPhone" column="recipient_phone"/>
+        <result property="deliveryZipcode" column="delivery_zipcode"/>
+        <result property="deliveryAddressMain" column="delivery_address_main"/>
+        <result property="deliveryAddressDetail" column="delivery_address_detail"/>
+        <result property="deliveryMemo" column="delivery_memo"/>
+        <result property="meetingLocation" column="meeting_location"/>
+        <result property="meetingDateTime" column="meeting_datetime"/>
+        <result property="contactInfo" column="contact_info"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
 
+        <collection property="orderItems" ofType="OrderItem">
+            <id property="id" column="order_item_id"/>
+            <result property="orderId" column="order_item_order_id"/>
+            <result property="itemId" column="item_id"/>
+            <result property="quantity" column="quantity"/>
+            <result property="price" column="price"/>
+            <result property="orderStatus" column="order_item_status"/>
+            <result property="createdAt" column="order_item_created_at"/>
+            
+            <association property="item" javaType="Item">
+                <id property="id" column="item_id"/>
+                <result property="userId" column="item_user_id"/>
+                <result property="categoryId" column="category_id"/>
+                <result property="title" column="item_title"/>
+                <result property="description" column="description"/>
+                <result property="delivery" column="delivery"/>
+                <result property="isDirectDealAvailable" column="is_direct_deal_available"/>
+                <result property="price" column="item_price"/>
+                <result property="amount" column="amount"/>
+                <result property="bankAccountNumber" column="bank_account_number"/>
+                <result property="salesStatus" column="sales_status"/>
+                <result property="views" column="views"/>
+                <result property="deletedAt" column="deleted_at"/>
+            </association>
+        </collection>
+    </resultMap>
 
-	<resultMap id="orderHistoryMap" type="com.exam.gagi.model.OrderDetailDto">
+	<resultMap id="orderListMap" type="OrderDetailDto">
         <id property="orderId" column="order_id"/>
         <result property="orderDate" column="order_date"/>
-        <result property="shippingStatus" column="order_status"/>
-        <collection property="orderItems" ofType="com.exam.gagi.model.OrderItemDto">
+        <collection property="orderItems" ofType="OrderItemDto">
         	<result property="itemId" column="item_id"/>
             <result property="thumbnailUrl" column="image_url"/>
             <result property="itemName" column="item_title"/>
             <result property="quantity" column="quantity"/>
             <result property="totalPrice" column="total_price"/>
+            <result property="orderStatus" column="order_status"/>
         </collection>
     </resultMap>
 
-    <select id="getDetailedOrderHistory" resultMap="orderHistoryMap" parameterType="string">
+    <!-- Select Statements -->
+    <select id="salelist" resultMap="saleOrderMap" parameterType="string">
+        SELECT
+            <include refid="orderColumns" />,
+            <include refid="orderItemColumns" />,
+            <include refid="itemColumns" />
+        FROM ORDERS o
+        <include refid="orderItemJoin" />
+        <include refid="itemJoin" />
+        WHERE i.USER_ID = #{sellerId}
+        ORDER BY o.CREATED_AT DESC, oi.ID ASC
+    </select>
+  	
+    <select id="orderList" resultMap="orderListMap" parameterType="string">
         SELECT
             o.ID AS order_id,
             o.CREATED_AT AS order_date,
-            o.ORDER_STATUS AS order_status,
-            i.ID AS item_id,
+            <include refid="itemImageThumbnail" />,
             i.TITLE AS item_title,
-            (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS image_url,
             oi.QUANTITY AS quantity,
-            (oi.QUANTITY * oi.PRICE) AS total_price
+            (oi.QUANTITY * oi.PRICE) AS total_price,
+            oi.ORDER_STATUS AS order_status
         FROM
             ORDERS o
-        INNER JOIN
-            ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
-        INNER JOIN
-            ITEMS i ON oi.ITEM_ID = i.ID
+        <include refid="orderItemJoin" />
+        <include refid="itemJoin" />
         WHERE
-            o.USER_ID = #{userId}
+            o.USER_ID = #{userId, jdbcType=NUMERIC}
         ORDER BY
             o.ID DESC
     </select>
   </mapper>
-

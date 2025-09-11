@@ -1,6 +1,7 @@
 package com.exam.gagi.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 //판매자 내역 페이지 Entity
 public class Orders extends BaseEntity {
@@ -10,10 +11,8 @@ public class Orders extends BaseEntity {
 	private Long userId;
 	// 거래 유형
 	private String transactionType;
-	// 주문 상태
-	private String orderStatus;
 	// 총 주문 금액
-	private double totalPrice;
+	private Long totalPrice;
 	// 결제 수단
 	private String paymentMethod;
 	// 수령인 이름
@@ -34,6 +33,7 @@ public class Orders extends BaseEntity {
 	private Timestamp meetingDateTime;
 	// 거래 연락처
 	private String contactInfo;
+	private List<OrderItem> orderItems;
 
 	public Long getId() {
 		return id;
@@ -59,19 +59,11 @@ public class Orders extends BaseEntity {
 		this.transactionType = transactionType;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public double getTotalPrice() {
+	public Long getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(Long totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
@@ -153,6 +145,14 @@ public class Orders extends BaseEntity {
 
 	public void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 }

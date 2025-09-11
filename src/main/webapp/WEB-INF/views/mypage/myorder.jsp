@@ -1,78 +1,108 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>구매 내역</title>
-    <style>
-		.order-row td {
-			vertical-align: middle;
-		}
-	</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지 - 구매내역</title>
 </head>
 <body>
-<div class="container">
 	<div>
-		<div><h3>구매 내역</h3></div>
-	</div>
-	
-	<div>
-		<table border="1" class="table table-sm text-center">
-			<thead>
-				<tr>
-					<th>주문일자</th>
-					<th>상품명</th>
-					<th>수량</th>
-					<th>가격</th>
-					<th>진행상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${empty orderHistory}">
-					<tr>
-						<td colspan="5">주문 내역이 없습니다</td>
-					</tr>
-				</c:if>
-				
-				<!-- 1. 주문 목록을 순회하는 바깥쪽 루프 -->
-				<c:forEach var="order" items="${orderHistory}">
-					<!-- 2. 해당 주문에 속한 상품 목록을 순회하는 안쪽 루프 (varStatus로 루프 상태 확인) -->
-					<c:forEach var="item" items="${order.orderItems}" varStatus="loop">
-						<tr class="order-row">
-							
-							<!-- 그룹의 첫번째 아이템일 때만 주문일자 칸을 그림 -->
-							<c:if test="${loop.first}">
-								<td rowspan="${order.orderItems.size()}">
-									<fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" />
-								</td>
-							</c:if>
-							
-							<!-- 상품 정보 (매번 그림) -->
-							<td class="text-start">
-								<a href="/items/${item.itemId}">
-									<img src="${item.thumbnailUrl}" alt="${item.itemName}" style="width:50px; height:50px; margin-right: 10px;">
-									<span>${item.itemName}</span>
-								</a>
-							</td>
-							<td>${item.quantity} 개</td>
-							<td><fmt:formatNumber value="${item.totalPrice}" pattern="###,###,###" /> 원</td>
-							
-							<!-- 그룹의 첫번째 아이템일 때만 진행상태 칸을 그림 -->
-							<c:if test="${loop.first}">
-								<td rowspan="${order.orderItems.size()}">
-									${order.shippingStatus}
-								</td>
-							</c:if>
-							
+		<div style="float: left; width: 20%;">
+			<!-- 사이드바 -->
+			<div>
+				<h3>마이페이지</h3>
+				<nav>
+					<p>
+						<a href="<c:url value='/mypage/myorder'/>">구매내역</a>
+					</p>
+					<p>
+						<a href="<c:url value='/mypage/mysale'/>">판매내역</a>
+					</p>
+					<p>
+						<a href="<c:url value='/mypage/mypage'/>">개인정보 수정</a>
+					</p>
+					<p>
+						<a href="<c:url value='/mypage/myarticle'/>">내 게시글 보기</a>
+					</p>
+					<p>
+						<a href="#">회원탈퇴</a>
+					</p>
+				</nav>
+			</div>
+		</div>
+
+		<div style="float: left; width: 75%; margin-left: 20px;">
+			<!-- 메인 컨텐츠 -->
+			<h2>구매내역 id=1번기준</h2>
+
+			<div>
+				<table border="1">
+					<thead>
+						<tr>
+							<th>주문일자</th>
+							<th>상품정보</th>
+							<th>수량</th>
+							<th>가격</th>
+							<th>주문상태</th>
 						</tr>
-					</c:forEach>
-				</c:forEach>
-			</tbody>
-		</table>
+					</thead>
+					<tbody>
+						<c:if test="${empty orderHistory}">
+							<tr>
+								<td colspan="5">주문 내역이 없습니다.</td>
+							</tr>
+						</c:if>
+
+						<c:forEach var="order" items="${orderHistory}">
+							<c:forEach var="item" items="${order.orderItems}"
+								varStatus="loop">
+								<tr>
+									<c:if test="${loop.first}">
+										<td rowspan="${order.orderItems.size()}"><fmt:formatDate
+												value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
+									</c:if>
+
+									<td><a href="<c:url value='/items/${item.itemId}'/>">
+											<img src="<c:url value='${item.thumbnailUrl}'/>"
+											alt="${item.itemName}"
+											style="width: 80px; height: 80px; vertical-align: middle;">
+											<span>${item.itemName}</span>
+									</a></td>
+									<td>${item.quantity}개</td>
+									<td><fmt:formatNumber value="${item.totalPrice}"
+											pattern="#,##0" />원</td>
+
+									<td>${item.orderStatus}</td>
+								</tr>
+							</c:forEach>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
+			<div style="margin-top: 20px;">
+				<form action="<c:url value='/mypage/add-dummy-order'/>"
+					method="post">
+					<button type="submit">임의 구매내역 추가</button>
+				</form>
+			</div>
+
+			<!-- 페이지네이션 -->
+			<nav>
+				<ul style="list-style: none; display: flex;">
+					<li style="margin-right: 10px;"><a href="#">&laquo;</a></li>
+					<li style="margin-right: 10px;"><a href="#">1</a></li>
+					<li style="margin-right: 10px;"><a href="#">2</a></li>
+					<li style="margin-right: 10px;"><a href="#">3</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</nav>
+		</div>
 	</div>
-</div>
 </body>
 </html>

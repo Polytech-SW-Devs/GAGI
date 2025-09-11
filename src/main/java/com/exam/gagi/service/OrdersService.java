@@ -9,8 +9,11 @@ public interface OrdersService {
 
 	void add(Orders item);
 
-	List<Orders> salelist();
+	List<Orders> salelist(String sellerId);
 
-	List<OrderDetailDto> getDetailedOrderHistory(String userId);
+	List<OrderDetailDto> orderList(String userId);
+
+	// 더미 order만들기
+	void createDummyOrder(long userId);
 
 }

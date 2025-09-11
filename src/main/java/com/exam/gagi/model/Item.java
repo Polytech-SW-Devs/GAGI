@@ -11,7 +11,7 @@ public class Item extends BaseEntity {
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
 	private String isDirectDealAvailable; // 직거래 가능 여부 (Y/N)
-	private BigDecimal price; // 판매 가격
+	private Long price; // 판매 가격
 	private int amount; // 수량
 	private String bankAccountNumber; // 판매자 계좌번호
 	private String salesStatus; // 판매 상태
@@ -74,11 +74,11 @@ public class Item extends BaseEntity {
 		this.isDirectDealAvailable = isDirectDealAvailable;
 	}
 
-	public BigDecimal getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
