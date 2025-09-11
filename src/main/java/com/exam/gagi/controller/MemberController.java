@@ -21,44 +21,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	// 회원가입 페이지 요청
-	@GetMapping("/join")
-	public String joinPage() {
-	// 게시판 메뉴 취득
-
-		return "join";
-	}
-
-	// 회원가입 요청
-	@PostMapping("/join")
-	public String joinAply(Member member) {
-		memberService.insertMember(member);
-	    return "redirect:/login";
-		// 게시판 메뉴 취득
-	    
-//		return "index";
-	}
-	
-	// 로그인 페이지 요청
-	@GetMapping("/login")
-	public String loginPage() {
-		// 게시판 메뉴 취득
-		
-		return "login";
-	}
-	
-	// 로그인 처리
-	@PostMapping("/login")
-	public String login(Member member, HttpSession session, Model model) {
-		Member loginUser = memberService.findByEmail(member.getEmail());
-		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
-			session.setAttribute("loginUser", loginUser);
-			return "redirect:/";
-		} else {
-			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
-			return "login";
-		}
-	}
 
 	// 중복아이디 체크
 	@ResponseBody
@@ -75,12 +37,6 @@ public class MemberController {
 	}
 	
 
-	// 로그아웃
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
 	// 아이디 찾기 페이지 요청
 	@GetMapping("/findId")
 	public String findIdPage() {
@@ -123,7 +79,8 @@ public class MemberController {
 	                             RedirectAttributes redirectAttributes,
 	                             Model model) {
 
-	    if (!member.getPassword().equals(member.getConfirmPassword())) {
+
+	    if (!member.getPassword().equals(member.getPassword())) {
 	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
 	        return "updatePw";
 	    }
