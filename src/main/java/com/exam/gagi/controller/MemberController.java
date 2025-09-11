@@ -123,7 +123,7 @@ public class MemberController {
 	                             RedirectAttributes redirectAttributes,
 	                             Model model) {
 
-	    if (!member.getPassword().equals(member.getConfirmPassword())) {
+	    if (!member.getPassword().equals(member.getPassword())) {
 	        model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
 	        return "updatePw";
 	    }
