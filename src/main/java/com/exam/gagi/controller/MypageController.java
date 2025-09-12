@@ -43,17 +43,8 @@ public class MypageController {
 	// 구매 내역
 	@GetMapping("/myorder")
 	String myOrders(Model model, HttpSession session) {
-		// 로그인 임시 코드 (무조건 덮어쓰기)
-		Member testMember = new Member();
-		testMember.setId(4); // DB에 주문 내역이 있는 사용자 ID
-		testMember.setEmail("buy@example.com");
-		testMember.setNickname("buy유저");
-		session.setAttribute("member", testMember);
-		System.out.println("임시 세션이 생성되었습니다. 사용자 ID: 4");
-		// 임시 코드 끝
-
 		// 세션에서 member 정보 가져오기
-		Member member = (Member) session.getAttribute("member");
+		Member member = (Member) session.getAttribute("loginUser");
 
 		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
 		if (member == null) {
@@ -71,17 +62,9 @@ public class MypageController {
 	// 판매내역
 	@GetMapping("/mysale")
 	String mySales(Model model, HttpSession session) {
-		// 로그인 임시 코드 (무조건 덮어쓰기)
-		Member testMember = new Member();
-		testMember.setId(1); // DB에 주문 내역이 있는 사용자 ID
-		testMember.setEmail("sale@example.com");
-		testMember.setNickname("sale유저");
-		session.setAttribute("member", testMember);
-		System.out.println("임시 세션이 생성되었습니다. 사용자 ID: 1");
-		// 임시 코드 끝
 
 		// 세션에서 member 정보 가져오기
-		Member member = (Member) session.getAttribute("member");
+		Member member = (Member) session.getAttribute("loginUser");
 
 		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
 		if (member == null) {
@@ -99,7 +82,7 @@ public class MypageController {
 	// 구매내역 데이터 추가
 	@PostMapping("/add-dummy-order")
 	public String addDummyOrder(HttpSession session) {
-		Member member = (Member) session.getAttribute("member");
+		Member member = (Member) session.getAttribute("loginUser");
 
 		if (member != null) {
 			ordersService.createDummyOrder(1L); // Changed to 1L

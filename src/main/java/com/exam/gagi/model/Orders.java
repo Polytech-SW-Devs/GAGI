@@ -1,6 +1,6 @@
 package com.exam.gagi.model;
 
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.List;
 
 //판매자 내역 페이지 Entity
@@ -12,7 +12,7 @@ public class Orders extends BaseEntity {
 	// 거래 유형
 	private String transactionType;
 	// 총 주문 금액
-	private Long totalPrice;
+	private BigDecimal totalPrice;
 	// 결제 수단
 	private String paymentMethod;
 	// 수령인 이름
@@ -53,11 +53,11 @@ public class Orders extends BaseEntity {
 		this.transactionType = transactionType;
 	}
 
-	public Long getTotalPrice() {
+	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(Long totalPrice) {
+	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 

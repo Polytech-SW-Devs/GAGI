@@ -38,7 +38,7 @@
 
 		<div style="float: left; width: 75%; margin-left: 20px;">
 			<!-- 메인 컨텐츠 -->
-			<h2>구매내역 id=1번기준</h2>
+			<h2>구매내역</h2>
 
 			<div>
 				<table border="1">
