@@ -39,11 +39,11 @@ public class MemberDaoImpl implements MemberDao {
 
 
 	@Override
-    public String findIdByUsernameAndPhone(String username, String phone) {
+    public String findId(String username, String phone) {
         Map<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("phone", phone);
-        return sqlSession.selectOne("member.findIdByUsernameAndPhone", params);
+        return sqlSession.selectOne("member.findId", params);
     }
 
 	@Override
