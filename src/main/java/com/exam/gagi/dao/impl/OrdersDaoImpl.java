@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.OrdersDao;
 import com.exam.gagi.model.Item;
+import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.OrderItem;
 import com.exam.gagi.model.Orders;
@@ -41,6 +42,11 @@ public class OrdersDaoImpl implements OrdersDao {
 	@Override
 	public List<Item> findRandomItems(int limit) {
 		return sql.selectList("orders.findRandomItems", limit);
+	}
+
+	@Override
+	public List<MyBoard> list() {
+		return sql.selectList("orders.list");
 	}
 
 }

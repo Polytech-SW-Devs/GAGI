@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.gagi.model.Member;
+import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
@@ -30,13 +31,16 @@ public class MypageController {
 	// mypage 진입
 	@GetMapping("")
 	String mypage(Model model) {
-
 		return PATH + "mypage";
 	}
 
 	// 내 게시글 보기
 	@GetMapping("/myarticle")
-	String myArticles() {
+	String myArticles(Model model) {
+		// 내 게시글 페이지
+		List<MyBoard> list = ordersService.list();
+		
+		model.addAttribute("list", list);
 		return PATH + "myarticle";
 	}
 

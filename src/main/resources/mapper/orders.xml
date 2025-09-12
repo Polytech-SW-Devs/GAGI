@@ -187,4 +187,11 @@
         ORDER BY
             o.ID DESC
     </select>
+    
+    <!-- 내 게시글 페이지 -->
+    <select id="list" resultType="Myboard">
+		SELECT M.*, C.NAME CATEGORY_NAME
+		FROM MYBOARD M
+		JOIN CATEGORIES C ON M.CATEGORY_ID = C.CATEGORY_ID
+	</select>
   </mapper>

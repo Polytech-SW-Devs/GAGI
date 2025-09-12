@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.gagi.dao.OrdersDao;
 import com.exam.gagi.model.Item;
+import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.OrderItem;
 import com.exam.gagi.model.Orders;
@@ -94,6 +95,12 @@ public class OrdersServiceImpl implements OrdersService {
 			
 			dao.addOrderItem(orderItem);
 		}
+	}
+
+	//내 게시글 페이지
+	@Override
+	public List<MyBoard> list() {
+		return dao.list();
 	}
 
 }
