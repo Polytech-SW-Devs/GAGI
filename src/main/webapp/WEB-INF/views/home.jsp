@@ -9,7 +9,7 @@
 			<c:choose>
 	    		<c:when test="${not empty loginUser}">
 	        		<p>
-	        		${sessionScope.member.nickname}
+	        		${sessionScope.loginUser.nickname}
 	        		${loginUser.nickname}
 	        		님, 환영합니다!
 	        		</p>

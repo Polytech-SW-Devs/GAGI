@@ -24,11 +24,8 @@ public class HomeController {
 	String home(HttpSession session, Model model) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		model.addAttribute("loginUser", loginUser);
-		return "home";
-		
+		return "home";	
 	}
-	
-	
 	
 	// 회원가입 페이지 요청
 	@GetMapping("/join")
@@ -41,10 +38,7 @@ public class HomeController {
 	@PostMapping("/join")
 	public String joinAply(Member member) {
 		memberService.insertMember(member);
-	    return "redirect:/login";
-		// 게시판 메뉴 취득
-//	    return "home";
-		
+	    return "redirect:/login";	
 	}
 	
 	// 로그인 페이지 요청
@@ -60,6 +54,9 @@ public class HomeController {
 		Member loginUser = memberService.findByEmail(member.getEmail());
 		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
 			session.setAttribute("loginUser", loginUser);
+			System.out.println(loginUser);
+			
+			
 			return "redirect:/";
 		} else {
 			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
