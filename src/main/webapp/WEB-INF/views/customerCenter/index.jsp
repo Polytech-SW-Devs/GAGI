@@ -15,6 +15,7 @@
     <li><a href="${pageContext.request.contextPath}/review/list">리뷰</a></li>
     <li><a href="${pageContext.request.contextPath}/inquiry/list">문의</a></li>
     <li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
+    <li><a href="${pageContext.request.contextPath}/report/list">신고</a></li>
 </ul>
 
 </body>

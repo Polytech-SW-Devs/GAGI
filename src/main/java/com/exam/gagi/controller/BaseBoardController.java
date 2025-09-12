@@ -51,7 +51,7 @@ public abstract class BaseBoardController<T> {
 	// 홈 화면에서 고객센터 클릭 → 게시판 선택 페이지
 	@GetMapping
 	public String customerCenter() {
-		// JSP에서 Q&A, FAQ, 공지사항 링크만 보여줌
+		// JSP에서 공지사항, 문의, 상품후기, 신고  링크만 보여줌
 		return "customer/customerCenter";
 	}
 	

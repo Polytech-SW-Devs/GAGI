@@ -54,5 +54,3 @@
 	<a href="${pageContext.request.contextPath}/notice/write">공지 작성</a>
 </body>
 </html>
-</body>
-</html>
