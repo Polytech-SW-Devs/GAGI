@@ -105,7 +105,7 @@
         <div>
             <input type="submit" value="회원가입">
             <input type="reset" value="다시입력">
-            <input type="button" value="홈으로" onclick="location.href='/'">
+            <input type="button" value="취소" onclick="location.href='${pageContext.request.contextPath}/'">
         </div>
     </form>
     <script src="${pageContext.request.contextPath}/js/join.js"></script>

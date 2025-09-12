@@ -10,29 +10,26 @@
 	
 	<typeAliases>
 		<typeAlias type="com.exam.gagi.model.Member" alias="Member"/>
+
 		<typeAlias type="com.exam.gagi.model.Item" alias="Item"/>
 		
-
 		<typeAlias type="com.exam.gagi.model.MyBoard" alias="MyBoard"/>	
 		<typeAlias type="com.exam.gagi.model.Category" alias="Categories"/>
-
 		<typeAlias type="com.exam.gagi.model.Review" alias="Review"/>	
-		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>	
+		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>		
 		<typeAlias type="com.exam.gagi.model.Notice" alias="Notice"/>	
+
 
 		<typeAlias type="com.exam.gagi.model.Orders" alias="Orders"/>	
 		<typeAlias type="com.exam.gagi.model.OrderItem" alias="OrderItem"/>
 		<typeAlias type="com.exam.gagi.model.ItemImage" alias="ItemImage"/>
 		<typeAlias type="com.exam.gagi.model.OrderDetailDto" alias="OrderDetailDto"/>
 		<typeAlias type="com.exam.gagi.model.OrderItemDto" alias="OrderItemDto"/>
-
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member.xml"/>
-
 		<mapper resource="mapper/myboard.xml"/>
-
 		<mapper resource="mapper/review.xml"/>
 		<mapper resource="mapper/inquiry.xml"/>
 		<mapper resource="mapper/notice.xml"/>
