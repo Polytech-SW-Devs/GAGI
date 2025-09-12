@@ -54,10 +54,10 @@ public class OrdersServiceImpl implements OrdersService {
 		order.setUserId(userId);
 		
 		// 2-1. 총 가격 계산
-		Long totalPrice = 0L;
+		BigDecimal totalPrice = BigDecimal.ZERO;
 		for (Item item : randomItems) {
 			// 각 상품의 가격을 더함 (수량은 1로 가정)
-			totalPrice += item.getPrice();
+			totalPrice = totalPrice.add(item.getPrice());
 		}
 		order.setTotalPrice(totalPrice);
 
@@ -75,6 +75,9 @@ public class OrdersServiceImpl implements OrdersService {
 		order.setDeliveryAddressMain("더미 주소");
 		order.setDeliveryAddressDetail("상세주소");
 		order.setDeliveryMemo("문 앞에 놓아주세요.");
+		// order.setMeetingLocation(null); // 제거됨
+		// order.setMeetingDateTime(null); // 제거됨
+		// order.setContactInfo(null); // 제거됨
 
 		// 3. 주문(Orders)을 DB에 추가. 이 때 order 객체에 생성된 ID가 담긴다.
 		dao.add(order);

@@ -7,7 +7,7 @@ public class OrderItemDto {
     private String thumbnailUrl;
     private String itemName;
     private int quantity;
-    private Long totalPrice;
+    private BigDecimal totalPrice;
     private String orderStatus;
 
     public Long getItemId() {
@@ -42,11 +42,11 @@ public class OrderItemDto {
         this.quantity = quantity;
     }
 
-    public Long getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Long totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

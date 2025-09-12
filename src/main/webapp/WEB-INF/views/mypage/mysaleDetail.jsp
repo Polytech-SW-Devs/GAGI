@@ -35,7 +35,7 @@
             <p><strong>결제 수단:</strong> ${order.paymentMethod}</p>
             <p><strong>수령인:</strong> ${order.recipientName} (${order.recipientPhone})</p>
             <p><strong>배송지:</strong> (${order.deliveryZipcode}) ${order.deliveryAddressMain} ${order.deliveryAddressDetail}</p>
-            <p><strong>요청 사항:</strong> ${order.deliveryMemo}</p>
+                        <p><strong>요청 사항:</strong> ${order.deliveryMemo}</p>
             <p><strong>생성일:</strong> <fmt:formatDate value="${order.createdAt}" pattern="yyyy-MM-dd HH:mm" /></p>
         </div>
 

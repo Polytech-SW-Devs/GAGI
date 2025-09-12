@@ -8,7 +8,7 @@ public class OrderItem {
     private Long orderId; // 주문 ID (FK)
     private Long itemId; // 상품 ID (FK)
     private int quantity; // 수량
-    private Long price; // 주문 당시 가격
+    private BigDecimal price; // 주문 당시 가격
     private String orderStatus; // 주문 상품 상태
     private Item item; // 상품 정보
     private Timestamp createdAt; // 생성일
@@ -45,11 +45,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

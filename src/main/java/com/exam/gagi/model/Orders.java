@@ -27,12 +27,6 @@ public class Orders extends BaseEntity {
 	private String deliveryAddressDetail;
 	// 배송 요청사항
 	private String deliveryMemo;
-	// 직거래 장소
-	private String meetingLocation;
-	// 직거래 일시
-	private Timestamp meetingDateTime;
-	// 거래 연락처
-	private String contactInfo;
 	private List<OrderItem> orderItems;
 
 	public Long getId() {
@@ -121,30 +115,6 @@ public class Orders extends BaseEntity {
 
 	public void setDeliveryMemo(String deliveryMemo) {
 		this.deliveryMemo = deliveryMemo;
-	}
-
-	public String getMeetingLocation() {
-		return meetingLocation;
-	}
-
-	public void setMeetingLocation(String meetingLocation) {
-		this.meetingLocation = meetingLocation;
-	}
-
-	public Timestamp getMeetingDateTime() {
-		return meetingDateTime;
-	}
-
-	public void setMeetingDateTime(Timestamp meetingDateTime) {
-		this.meetingDateTime = meetingDateTime;
-	}
-
-	public String getContactInfo() {
-		return contactInfo;
-	}
-
-	public void setContactInfo(String contactInfo) {
-		this.contactInfo = contactInfo;
 	}
 
 	public List<OrderItem> getOrderItems() {
