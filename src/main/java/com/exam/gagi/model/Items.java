@@ -1,22 +1,22 @@
 package com.exam.gagi.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-public class Item extends BaseEntity {
+public class Items extends BaseEntity {
 	private Long id; // 상품 번호
 	private Long userId; // 등록한 회원 번호 (FK)
 	private Long categoryId; // 카테고리 번호 (FK)
 	private String title; // 상품 제목
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
-	private String isDirectDealAvailable; // 직거래 가능 여부 (Y/N)
+	private String isDirectDeal; // 직거래 가능 여부 (Y/N)
 	private BigDecimal price; // 판매 가격
 	private int amount; // 수량
 	private String bankAccountNumber; // 판매자 계좌번호
 	private String salesStatus; // 판매 상태
 	private int views; // 조회수
-	private Timestamp deletedAt; // 삭제일 (soft delete)
+	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 
 	public Long getId() {
 		return id;
@@ -66,12 +66,12 @@ public class Item extends BaseEntity {
 		this.delivery = delivery;
 	}
 
-	public String getIsDirectDealAvailable() {
-		return isDirectDealAvailable;
+	public String getIsDirectDeal() {
+		return isDirectDeal;
 	}
 
-	public void setIsDirectDealAvailable(String isDirectDealAvailable) {
-		this.isDirectDealAvailable = isDirectDealAvailable;
+	public void setIsDirectDeal(String isDirectDeal) {
+		this.isDirectDeal = isDirectDeal;
 	}
 
 	public BigDecimal getPrice() {
@@ -114,11 +114,12 @@ public class Item extends BaseEntity {
 		this.views = views;
 	}
 
-	public Timestamp getDeletedAt() {
+	public LocalDateTime getDeletedAt() {
 		return deletedAt;
 	}
 
-	public void setDeletedAt(Timestamp deletedAt) {
+	public void setDeletedAt(LocalDateTime deletedAt) {
 		this.deletedAt = deletedAt;
 	}
+
 }
