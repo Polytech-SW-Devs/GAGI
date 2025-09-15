@@ -74,4 +74,10 @@ public class HomeController {
 	}
 	
 	
+	@GetMapping("/cart")
+	public String cartPage() {
+		// 장바구니
+		return "cart";
+	}
+	
 }
