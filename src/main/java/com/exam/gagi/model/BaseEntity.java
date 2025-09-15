@@ -1,25 +1,35 @@
 package com.exam.gagi.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public abstract class BaseEntity {
-	private Timestamp createdAt; // 생성일
-	private Timestamp updatedAt; // 수정일
 
-	public Timestamp getCreatedAt() {
+	private LocalDateTime createdAt; // 생성일
+	private LocalDateTime updatedAt; // 수정일
+
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
+	public Date getCreatedAtDate() {
+		return createdAt == null ? null : Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public Date getUpdatedAtDate() {
+		return updatedAt == null ? null : Date.from(updatedAt.atZone(ZoneId.systemDefault()).toInstant());
+	}
 }
