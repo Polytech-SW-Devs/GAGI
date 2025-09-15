@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="report">
+  
+  	<resultMap id="ReportResultMap" type="com.exam.gagi.model.Report">
+        <id property="defectId" column="DEFECT_ID"/>
+        <result property="orderItemId" column="ORDER_ITEM_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="productId" column="PRODUCT_ID"/>
+        <result property="defectType" column="DEFECT_TYPE"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="status" column="STATUS"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
+    </resultMap>
+  	
+  	<!-- 목록 조회 + 검색 + 페이징 -->
+  	<select id="selectList" parameterType="map" resultMap="ReportResultMap">
+  		SELECT *
+    	FROM (
+        	SELECT ROWNUM rnum, t.*
+        	FROM (
+            	SELECT *
+            	FROM REPORTS
+            	WHERE DESCRIPTION LIKE '%' || #{search} || '%'
+            	ORDER BY DEFECT_ID DESC
+        	) t
+        	WHERE ROWNUM &lt;= #{endRow}
+    	)
+    	WHERE rnum &gt;= #{startRow}
+  	</select>
+  	
+  	<!-- 총 게시글 수 조회 -->
+  	<select id="selectCount" parameterType="string" resultType="int">
+  		SELECT COUNT(*)
+        FROM REPORTS
+        WHERE DESCRIPTION LIKE '%' || #{search} || '%'
+  	</select>
+  	
+  	<!-- 단일 조회 -->
+  	<select id="selectPost"  parameterType="int" resultMap="ReportResultMap">
+  		SELECT *
+        FROM REPORTS
+        WHERE DEFECT_ID = #{defectId}
+  	</select>
+  	
+  	<!-- 공통 CRUD -->
+  	<insert id="insert" parameterType="com.exam.gagi.model.Report">
+  		INSERT INTO REPORTS (defect_id, order_item_id, user_id, product_id, defect_type, 
+  							 description, image_url, status, created_at, updated_at)
+        VALUES (#{defectId}, #{orderItemId}, #{userId}, #{productId}, #{defectType}, 
+        		#{description}, #{imageUrl}, #{status}, NOW(), NOW())	
+  	</insert>
+  	
+	<update id="update" parameterType="com.exam.gagi.model.Report">
+		UPDATE REPORTS
+        SET defect_type = #{defectType},
+            description = #{description},
+            image_url = #{imageUrl},
+            status = #{status},
+            updated_at = NOW()
+        WHERE defect_id = #{defectId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM REPORTS WHERE defect_id = #{defectId}
+	</delete>
+	
+	<!-- 개별 기능 -->
+	<select id="selectByUserId" resultMap="ReportResultMap" parameterType="int">
+		SELECT * FROM
+		FROM REPORTS
+		WHERE user_id = #{userId}
+		ORDER BY UPDATED_AT DESC 
+	</select>
+	
+	<select id="selectAll" resultMap="ReportResultMap">
+		SELECT * FROM
+		FROM REPORTS
+		ORDER BY UPDATED_AT DESC 
+	</select>
+	
+	<update id="updateStatus" parameterType="map">
+		UPDATE REPORTS
+		SET STATUS = #{status}, UPDATE_AT = NOW()
+		WHERE defect_id = #{defectId}
+	</update>
+  </mapper>
+  
