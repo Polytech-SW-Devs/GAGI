@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 <title>마이페이지 - 판매내역</title>
 <style>
     body {
@@ -126,6 +129,33 @@
                     </c:forEach>
                 </c:forEach>
             </tbody>
+            <tfoot>
+				<tr>
+					<td colspan="8">
+						<div class="pagination pagination-sm justify-content-center">
+							<div class="page-item">
+								<a href="?page=1${pager.query}" class="page-link">처음</a>
+							</div>
+							<div class="page-item">
+								<a href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
+							</div>
+
+							<c:forEach var="page" items="${pager.list}">
+								<div class="page-item ${pager.page == page ? 'active' : ''}">
+									<a href="?page=${page}${pager.query}" class="page-link">${page}</a>
+								</div>
+							</c:forEach>
+
+							<div class="page-item">
+								<a href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
+							</div>
+							<div class="page-item">
+								<a href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
         </table>
     </div>
 </div>

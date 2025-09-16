@@ -23,8 +23,8 @@
 		<typeAlias type="com.exam.gagi.model.Orders" alias="Orders"/>	
 		<typeAlias type="com.exam.gagi.model.OrderItem" alias="OrderItem"/>
 		<typeAlias type="com.exam.gagi.model.ItemImage" alias="ItemImage"/>
-		<typeAlias type="com.exam.gagi.model.OrderDetailDto" alias="OrderDetailDto"/>
-		<typeAlias type="com.exam.gagi.model.OrderItemDto" alias="OrderItemDto"/>
+		<typeAlias type="com.exam.gagi.dto.OrderDetailDto" alias="OrderDetailDto"/>
+		<typeAlias type="com.exam.gagi.dto.OrderItemDto" alias="OrderItemDto"/>
 	</typeAliases>
 	
 	<mappers>

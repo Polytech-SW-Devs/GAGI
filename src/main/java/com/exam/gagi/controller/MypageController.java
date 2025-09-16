@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.exam.gagi.dto.OrderDetailDto;
+import com.exam.gagi.dto.OrderSearchDto;
+import com.exam.gagi.dto.SaleDetailDto;
+import com.exam.gagi.dto.SaleSearchDto;
 import com.exam.gagi.model.Member;
-import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 import com.exam.gagi.service.OrdersService;
 
 @Controller
@@ -41,7 +45,7 @@ public class MypageController {
 
 	// 구매 내역 조회
 	@GetMapping("/myorder")
-	String myOrders(Model model, HttpSession session) {
+	String myOrders(Model model, HttpSession session, Pager pager) {
 		// 세션에서 member 정보 가져오기
 		Member member = (Member) session.getAttribute("loginUser");
 
@@ -52,15 +56,24 @@ public class MypageController {
 
 		String memberId = String.valueOf(member.getId());
 
-		// 주문 내역 조회 (계층 구조로 변경)
-		List<OrderDetailDto> orderHistory = ordersService.orderList(memberId);
+		// 총 주문 수량으로 Pager 설정
+		pager.setTotal(ordersService.getTotal(memberId));
+
+		// OrderSearchDto 생성 및 설정
+		OrderSearchDto searchDto = new OrderSearchDto(memberId, pager);
+
+		// 주문 내역 조회 (페이징 적용)
+		List<OrderDetailDto> orderHistory = ordersService.orderList(searchDto);
+
 		model.addAttribute("orderHistory", orderHistory);
+		model.addAttribute("pager", pager);
+
 		return PATH + "myorder";
 	}
 
 	// 판매내역
 	@GetMapping("/mysale")
-	String mySales(Model model, HttpSession session) {
+	String mySales(Model model, HttpSession session, Pager pager) {
 
 		// 세션에서 member 정보 가져오기
 		Member member = (Member) session.getAttribute("loginUser");
@@ -71,18 +84,31 @@ public class MypageController {
 		}
 
 		String sellerId = String.valueOf(member.getId());
-		List<Orders> list = ordersService.salelist(sellerId);
 
-		System.out.println("list: " + list);
+		// 총 판매내역 수량으로 Pager 설정
+		pager.setTotal(ordersService.getSaleTotal(sellerId));
+
+		// SaleSearchDto 생성 및 설정
+		SaleSearchDto searchDto = new SaleSearchDto(sellerId, pager);
+
+		List<Orders> list = ordersService.salelist(searchDto);
+
 		model.addAttribute("list", list);
+		model.addAttribute("pager", pager);
+
 		return PATH + "mysale";
 	}
 
-	@GetMapping("/mysaleDetail/{orderId}")
-	public String mysaleDetail(@PathVariable("orderId") Long orderId, Model model) {
-		// TODO: ordersService.getOrderByIdWithItems(orderId) 구현 필요
-		// 현재는 임시로 null 반환
-		Orders order = null; // ordersService.getOrderByIdWithItems(orderId);
+		@GetMapping("/mysaleDetail/{orderId}")
+	public String mysaleDetail(@PathVariable("orderId") Long orderId, Model model, HttpSession session) {
+		Member member = (Member) session.getAttribute("loginUser");
+		if (member == null) {
+			return "redirect:/login";
+		}
+		String sellerId = String.valueOf(member.getId());
+
+		SaleDetailDto order = ordersService.getSaleDetail(orderId, sellerId);
+
 		model.addAttribute("order", order);
 		return PATH + "mysaleDetail";
 	}

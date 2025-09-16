@@ -1,6 +1,7 @@
 package com.exam.gagi.model;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 //판매자 내역 페이지 Entity
@@ -123,6 +124,25 @@ public class Orders extends BaseEntity {
 
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
+	}
+
+	public String getCreatedAtFormatted() {
+		if (getCreatedAt() == null) {
+			return "";
+		}
+		return getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	}
+
+	public BigDecimal getSaleSubTotal() {
+	    if (orderItems == null || orderItems.isEmpty()) {
+	        return BigDecimal.ZERO;
+	    }
+	    BigDecimal subTotal = BigDecimal.ZERO;
+	    for (OrderItem item : orderItems) {
+	        BigDecimal itemTotal = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
+	        subTotal = subTotal.add(itemTotal);
+	    }
+	    return subTotal;
 	}
 
 }

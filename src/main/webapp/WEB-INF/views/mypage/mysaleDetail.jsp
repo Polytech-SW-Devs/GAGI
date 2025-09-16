@@ -7,53 +7,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>판매 상세 내역</title>
+    <title>판매 상세 정보</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h2 { color: #333; }
-        .order-info, .item-info { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px; }
-        .order-info p, .item-info p { margin: 5px 0; }
-        .item-list { margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px; }
-        .item-list h3 { margin-top: 0; color: #555; }
-        .item-detail { border-bottom: 1px dashed #ddd; padding-bottom: 10px; margin-bottom: 10px; }
-        .item-detail:last-child { border-bottom: none; }
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .checkmark {
+            color: #27ae60;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .delivery-method {
+            display: flex;
+            gap: 20px;
+        }
+        .method-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .method-item input[type="radio"] {
+            transform: scale(1.2);
+        }
+        .method-item label {
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .section {
+            border-bottom: 2px solid #ecf0f1;
+            padding: 0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section-header {
+            background-color: #34495e;
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .section-content {
+            padding: 20px;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            min-height: 30px;
+        }
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            width: 140px;
+            font-weight: bold;
+            color: #34495e;
+            flex-shrink: 0;
+        }
+        .info-value {
+            flex: 1;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .items-table th, .items-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .items-table th {
+            background-color: #f2f2f2;
+        }
+        .price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #c0392b;
+            padding: 20px;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <h2>주문 상세 내역</h2>
-
-    <c:if test="${empty order}">
-        <p>주문 정보를 찾을 수 없습니다.</p>
-    </c:if>
-    <c:if test="${not empty order}">
-        <div class="order-info">
-            <h3>주문 정보</h3>
-            <p><strong>주문 번호:</strong> ${order.id}</p>
-            <p><strong>주문자 ID:</strong> ${order.userId}</p>
-            <p><strong>거래 유형:</strong> ${order.transactionType}</p>
-            <p><strong>총 주문 금액:</strong> <fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</p>
-            <p><strong>결제 수단:</strong> ${order.paymentMethod}</p>
-            <p><strong>수령인:</strong> ${order.recipientName} (${order.recipientPhone})</p>
-            <p><strong>배송지:</strong> (${order.deliveryZipcode}) ${order.deliveryAddressMain} ${order.deliveryAddressDetail}</p>
-                        <p><strong>요청 사항:</strong> ${order.deliveryMemo}</p>
-            <p><strong>생성일:</strong> <fmt:formatDate value="${order.createdAt}" pattern="yyyy-MM-dd HH:mm" /></p>
+    <div class="container">
+        <div class="header">
+            <h1>판매 상세 내역</h1>
         </div>
 
-        <div class="item-list">
-            <h3>주문 상품 목록</h3>
-            <c:if test="${empty order.orderItems}">
-                <p>주문된 상품이 없습니다.</p>
-            </c:if>
-            <c:forEach var="orderItem" items="${order.orderItems}">
-                <div class="item-detail">
-                    <p><strong>상품명:</strong> ${orderItem.item.title}</p>
-                    <p><strong>수량:</strong> ${orderItem.quantity}개</p>
-                    <p><strong>단가:</strong> <fmt:formatNumber value="${orderItem.price}" pattern="#,##0" />원</p>
-                    <p><strong>상품별 총 가격:</strong> <fmt:formatNumber value="${orderItem.quantity * orderItem.price}" pattern="#,##0" />원</p>
-                    <p><strong>주문 상품 상태:</strong> ${orderItem.orderStatus}</p>
+        <c:if test="${not empty order}">
+            <!-- 주문 기본 정보 -->
+            <div class="section">
+                <div class="section-content">
+                    <div class="info-row">
+                        <div class="info-label">거래 방식:</div>
+                        <div class="info-value">
+                            <div class="delivery-method">
+                                <div class="method-item">
+                                    <input type="radio" name="delivery_method" value="delivery" <c:if test="${order.transactionType == '배송'}">checked</c:if> disabled>
+                                    <label>배송</label>
+                                    <c:if test="${order.transactionType == '배송'}"><span class="checkmark">✓</span></c:if>
+                                </div>
+                                <div class="method-item">
+                                    <input type="radio" name="delivery_method" value="direct" <c:if test="${order.transactionType == '직거래'}">checked</c:if> disabled>
+                                    <label>직거래</label>
+                                    <c:if test="${order.transactionType == '직거래'}"><span class="checkmark">✓</span></c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주문번호:</div>
+                        <div class="info-value">${order.orderId}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주문일자:</div>
+                        <div class="info-value">${order.createdAtFormatted}</div>
+                    </div>
                 </div>
-            </c:forEach>
-        </div>
-    </c:if>
+            </div>
+
+            <!-- 판매 상품 정보 -->
+            <div class="section">
+                <h2 class="section-header">판매 상품 정보</h2>
+                <div class="section-content">
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>상품명</th>
+                                <th>수량</th>
+                                <th>가격</th>
+                                <th>주문상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="item" items="${order.orderItems}">
+                                <tr>
+                                    <td>${item.item.title}</td>
+                                    <td>${item.quantity}개</td>
+                                    <td><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</td>
+                                    <td>${item.orderStatus}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 구매자 정보 섹션 -->
+            <div class="section">
+                <h2 class="section-header">구매자 정보</h2>
+                <div class="section-content">
+                    <div class="info-row">
+                        <div class="info-label">구매자 이름</div>
+                        <div class="info-value">${order.buyerName}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">구매자 연락처</div>
+                        <div class="info-value">${order.buyerPhone}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">구매자 이메일</div>
+                        <div class="info-value">${order.buyerEmail}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">결제 수단</div>
+                        <div class="info-value">${order.paymentMethod}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 배송지 정보 섹션 -->
+            <div class="section">
+                <h2 class="section-header">배송지 정보</h2>
+                <div class="section-content">
+                    <div class="info-row">
+                        <div class="info-label">수령인</div>
+                        <div class="info-value">${order.recipientName}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">연락처</div>
+                        <div class="info-value">${order.recipientPhone}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">배송지</div>
+                        <div class="info-value">(${order.deliveryZipcode}) ${order.deliveryAddressMain} ${order.deliveryAddressDetail}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">배송메모</div>
+                        <div class="info-value">${order.deliveryMemo}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 총 가격 -->
+            <div class="price">
+                <span>판매자 정산 금액</span>
+                <span><fmt:formatNumber value="${order.saleSubTotal}" pattern="#,##0" />원</span>
+            </div>
+
+        </c:if>
+
+        <c:if test="${empty order}">
+            <div class="section-content">
+                <p>주문 정보를 찾을 수 없거나 조회할 권한이 없습니다.</p>
+            </div>
+        </c:if>
+    </div>
 </body>
 </html>

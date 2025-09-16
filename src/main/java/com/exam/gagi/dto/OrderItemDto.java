@@ -1,4 +1,4 @@
-package com.exam.gagi.model;
+package com.exam.gagi.dto;
 
 import java.math.BigDecimal;
 

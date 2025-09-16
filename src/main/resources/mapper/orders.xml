@@ -129,10 +129,10 @@
         </collection>
     </resultMap>
 
-	<resultMap id="orderListMap" type="OrderDetailDto">
+	<resultMap id="orderListMap" type="com.exam.gagi.dto.OrderDetailDto">
         <id property="orderId" column="order_id"/>
         <result property="orderDate" column="order_date"/>
-        <collection property="orderItems" ofType="OrderItemDto">
+        <collection property="orderItems" ofType="com.exam.gagi.dto.OrderItemDto">
         	<result property="itemId" column="item_id"/>
             <result property="thumbnailUrl" column="image_url"/>
             <result property="itemName" column="item_title"/>
@@ -142,8 +142,34 @@
         </collection>
     </resultMap>
 
+    <resultMap id="saleDetailDtoMap" type="com.exam.gagi.dto.SaleDetailDto">
+        <id property="orderId" column="order_id"/>
+        <result property="transactionType" column="transaction_type"/>
+        <result property="paymentMethod" column="payment_method"/>
+        <result property="recipientName" column="recipient_name"/>
+        <result property="recipientPhone" column="recipient_phone"/>
+        <result property="deliveryZipcode" column="delivery_zipcode"/>
+        <result property="deliveryAddressMain" column="delivery_address_main"/>
+        <result property="deliveryAddressDetail" column="delivery_address_detail"/>
+        <result property="deliveryMemo" column="delivery_memo"/>
+        <result property="createdAtFormatted" column="created_at_formatted"/>
+        <result property="buyerName" column="buyer_name"/>
+        <result property="buyerPhone" column="buyer_phone"/>
+        <result property="buyerEmail" column="buyer_email"/>
+        <result property="saleSubTotal" column="sale_sub_total"/>
+        <collection property="orderItems" ofType="com.exam.gagi.model.OrderItem">
+            <id property="id" column="order_item_id"/>
+            <result property="quantity" column="quantity"/>
+            <result property="price" column="price"/>
+            <result property="orderStatus" column="order_item_status"/>
+            <association property="item" javaType="com.exam.gagi.model.Items">
+                <result property="title" column="item_title"/>
+            </association>
+        </collection>
+    </resultMap>
+
     <!-- Select Statements -->
-    <select id="salelist" resultMap="saleOrderMap" parameterType="string">
+    <select id="salelist" resultMap="saleOrderMap" parameterType="com.exam.gagi.dto.SaleSearchDto">
         SELECT
             <include refid="orderColumns" />,
             <include refid="orderItemColumns" />,
@@ -151,11 +177,22 @@
         FROM ORDERS o
         <include refid="orderItemJoin" />
         <include refid="itemJoin" />
-        WHERE i.USER_ID = #{sellerId}
+        WHERE i.USER_ID = #{sellerId} AND o.ID IN (
+            SELECT ID FROM (
+                SELECT o_inner.ID, ROWNUM AS rnum FROM (
+                    SELECT DISTINCT o_inner2.ID
+                    FROM ORDERS o_inner2
+                    INNER JOIN ORDER_ITEMS oi_inner2 ON o_inner2.ID = oi_inner2.ORDER_ID
+                    INNER JOIN ITEMS i_inner2 ON oi_inner2.ITEM_ID = i_inner2.ID
+                    WHERE i_inner2.USER_ID = #{sellerId}
+                    ORDER BY o_inner2.ID DESC
+                ) o_inner WHERE ROWNUM &lt;= #{pager.page} * #{pager.perPage}
+            ) WHERE rnum &gt;= (#{pager.page} - 1) * #{pager.perPage} + 1
+        )
         ORDER BY o.CREATED_AT DESC, oi.ID ASC
     </select>
   	
-    <select id="orderList" resultMap="orderListMap" parameterType="string">
+    <select id="orderList" resultMap="orderListMap" parameterType="com.exam.gagi.dto.OrderSearchDto">
         SELECT
             o.ID AS order_id,
             o.CREATED_AT AS order_date,
@@ -169,9 +206,61 @@
             ORDERS o
         <include refid="orderItemJoin" />
         <include refid="itemJoin" />
-        WHERE
-            o.USER_ID = #{userId, jdbcType=NUMERIC}
+        WHERE o.ID IN (
+	        SELECT ID FROM (
+	            SELECT o_inner.ID, ROWNUM AS rnum FROM (
+	                SELECT ID FROM ORDERS WHERE USER_ID = #{userId, jdbcType=NUMERIC} ORDER BY ID DESC
+	            ) o_inner WHERE ROWNUM &lt;= #{pager.page} * #{pager.perPage}
+	        ) WHERE rnum &gt;= (#{pager.page} - 1) * #{pager.perPage} + 1
+        )
         ORDER BY
             o.ID DESC
+    </select>
+    
+    <select id="getTotal" resultType="int" parameterType="string">
+    	SELECT COUNT(*) FROM ORDERS WHERE USER_ID = #{userId, jdbcType=NUMERIC}
+    </select>
+    
+    <select id="getSaleTotal" resultType="int" parameterType="string">
+    	SELECT COUNT(DISTINCT o.ID) 
+    	FROM ORDERS o
+        INNER JOIN ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
+        INNER JOIN ITEMS i ON oi.ITEM_ID = i.ID
+    	WHERE i.USER_ID = #{sellerId, jdbcType=NUMERIC}
+    </select>
+    
+    <select id="getSaleDetail" resultMap="saleDetailDtoMap" parameterType="map">
+        SELECT
+            o.ID AS order_id,
+            o.TRANSACTION_TYPE AS transaction_type,
+            o.PAYMENT_METHOD AS payment_method,
+            o.RECIPIENT_NAME AS recipient_name,
+            o.RECIPIENT_PHONE AS recipient_phone,
+            o.DELIVERY_ZIPCODE AS delivery_zipcode,
+            o.DELIVERY_ADDRESS_MAIN AS delivery_address_main,
+            o.DELIVERY_ADDRESS_DETAIL AS delivery_address_detail,
+            o.DELIVERY_MEMO AS delivery_memo,
+            TO_CHAR(o.CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS created_at_formatted,
+
+            m.USERNAME AS buyer_name,
+            m.PHONE AS buyer_phone,
+            m.EMAIL AS buyer_email,
+
+            (SELECT SUM(oi_inner.QUANTITY * i_inner.PRICE)
+             FROM ORDER_ITEMS oi_inner
+             JOIN ITEMS i_inner ON oi_inner.ITEM_ID = i_inner.ID
+             WHERE oi_inner.ORDER_ID = o.ID AND i_inner.USER_ID = #{sellerId}) AS sale_sub_total,
+
+            oi.ID AS order_item_id,
+            oi.QUANTITY AS quantity,
+            oi.PRICE AS price,
+            oi.ORDER_STATUS AS order_item_status,
+
+            i.TITLE AS item_title
+        FROM ORDERS o
+        INNER JOIN ORDER_ITEMS oi ON o.ID = oi.ORDER_ID
+        INNER JOIN ITEMS i ON oi.ITEM_ID = i.ID
+        INNER JOIN USERS m ON o.USER_ID = m.ID
+        WHERE o.ID = #{orderId} AND i.USER_ID = #{sellerId}
     </select>
   </mapper>
