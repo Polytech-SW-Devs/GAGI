@@ -20,6 +20,6 @@ public interface OrdersService {
 
 	int getSaleTotal(String sellerId);
 
-	SaleDetailDto getSaleDetail(Long orderId, String sellerId);
+	SaleDetailDto getSaleDetail(int orderId, String sellerId);
 
 }

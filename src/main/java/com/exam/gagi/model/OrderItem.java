@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OrderItem {
-	private Long id; // 주문 상세 번호
-	private Long orderId; // 주문 ID (FK)
-	private Long itemId; // 상품 ID (FK)
+	private int id; // 주문 상세 번호
+	private int orderId; // 주문 ID (FK)
+	private int itemId; // 상품 ID (FK)
 	private Integer quantity; // 수량
 	private BigDecimal price; // 주문 당시 가격
 	private String orderStatus; // 주문 상품 상태
@@ -14,27 +14,27 @@ public class OrderItem {
 
 	private Items item; // ITEM_ID FK 참조
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Long getOrderId() {
+	public int getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Long orderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
-	public Long getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(Long itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 

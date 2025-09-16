@@ -99,8 +99,8 @@ public class MypageController {
 		return PATH + "mysale";
 	}
 
-		@GetMapping("/mysaleDetail/{orderId}")
-	public String mysaleDetail(@PathVariable("orderId") Long orderId, Model model, HttpSession session) {
+	@GetMapping("/mysaleDetail/{orderId}")
+	public String mysaleDetail(@PathVariable("orderId") int orderId, Model model, HttpSession session) {
 		Member member = (Member) session.getAttribute("loginUser");
 		if (member == null) {
 			return "redirect:/login";

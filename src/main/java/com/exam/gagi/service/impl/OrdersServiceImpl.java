@@ -47,7 +47,7 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public SaleDetailDto getSaleDetail(Long orderId, String sellerId) {
+	public SaleDetailDto getSaleDetail(int orderId, String sellerId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("orderId", orderId);
 		params.put("sellerId", sellerId);

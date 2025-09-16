@@ -173,9 +173,9 @@
                         <tbody>
                             <c:forEach var="item" items="${order.orderItems}">
                                 <tr>
-                                    <td>${item.item.title}</td>
+                                    <td>${item.itemName}</td>
                                     <td>${item.quantity}개</td>
-                                    <td><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</td>
+                                    <td><fmt:formatNumber value="${item.totalPrice}" pattern="#,##0" />원</td>
                                     <td>${item.orderStatus}</td>
                                 </tr>
                             </c:forEach>

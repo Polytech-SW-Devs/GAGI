@@ -62,7 +62,7 @@
 
     <!-- Insert Statements -->
   	<insert id="add" parameterType="Orders">
-  		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+  		<selectKey keyProperty="id" resultType="int" order="BEFORE">
   			SELECT ORDERS_SEQ.NEXTVAL FROM DUAL
   		</selectKey>
   		INSERT INTO ORDERS (
@@ -157,19 +157,18 @@
         <result property="buyerPhone" column="buyer_phone"/>
         <result property="buyerEmail" column="buyer_email"/>
         <result property="saleSubTotal" column="sale_sub_total"/>
-        <collection property="orderItems" ofType="com.exam.gagi.model.OrderItem">
-            <id property="id" column="order_item_id"/>
+        <collection property="orderItems" ofType="com.exam.gagi.dto.OrderItemDto">
+            <result property="itemId" column="item_id"/>
+            <result property="thumbnailUrl" column="image_url"/>
+            <result property="itemName" column="item_title"/>
             <result property="quantity" column="quantity"/>
-            <result property="price" column="price"/>
+            <result property="totalPrice" column="total_price"/>
             <result property="orderStatus" column="order_item_status"/>
-            <association property="item" javaType="com.exam.gagi.model.Items">
-                <result property="title" column="item_title"/>
-            </association>
         </collection>
     </resultMap>
 
     <!-- Select Statements -->
-    <select id="salelist" resultMap="saleOrderMap" parameterType="com.exam.gagi.dto.SaleSearchDto">
+    <select id="salelist" resultMap="saleOrderMap" parameterType="SaleSearchDto">
         SELECT
             <include refid="orderColumns" />,
             <include refid="orderItemColumns" />,
@@ -192,7 +191,7 @@
         ORDER BY o.CREATED_AT DESC, oi.ID ASC
     </select>
   	
-    <select id="orderList" resultMap="orderListMap" parameterType="com.exam.gagi.dto.OrderSearchDto">
+    <select id="orderList" resultMap="orderListMap" parameterType="OrderSearchDto">
         SELECT
             o.ID AS order_id,
             o.CREATED_AT AS order_date,
@@ -253,9 +252,9 @@
 
             oi.ID AS order_item_id,
             oi.QUANTITY AS quantity,
-            oi.PRICE AS price,
+            (oi.QUANTITY * oi.PRICE) AS total_price,
             oi.ORDER_STATUS AS order_item_status,
-
+            (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS image_url,
             i.TITLE AS item_title
         FROM ORDERS o
         INNER JOIN ORDER_ITEMS oi ON o.ID = oi.ORDER_ID

@@ -7,9 +7,9 @@ import java.util.List;
 //판매자 내역 페이지 Entity
 public class Orders extends BaseEntity {
 	// 주문 번호
-	private Long id;
+	private int id;
 	// 주문자 ID
-	private Long userId;
+	private int userId;
 	// 거래 유형
 	private String transactionType;
 	// 총 주문 금액
@@ -30,19 +30,19 @@ public class Orders extends BaseEntity {
 	private String deliveryMemo;
 	private List<OrderItem> orderItems;
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Long getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
@@ -131,18 +131,6 @@ public class Orders extends BaseEntity {
 			return "";
 		}
 		return getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-	}
-
-	public BigDecimal getSaleSubTotal() {
-	    if (orderItems == null || orderItems.isEmpty()) {
-	        return BigDecimal.ZERO;
-	    }
-	    BigDecimal subTotal = BigDecimal.ZERO;
-	    for (OrderItem item : orderItems) {
-	        BigDecimal itemTotal = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
-	        subTotal = subTotal.add(itemTotal);
-	    }
-	    return subTotal;
 	}
 
 }

@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Items extends BaseEntity {
-	private Long id; // 상품 번호
-	private Long userId; // 등록한 회원 번호 (FK)
-	private Long categoryId; // 카테고리 번호 (FK)
+	private int id; // 상품 번호
+	private int userId; // 등록한 회원 번호 (FK)
+	private int categoryId; // 카테고리 번호 (FK)
 	private String title; // 상품 제목
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
@@ -18,27 +18,27 @@ public class Items extends BaseEntity {
 	private int views; // 조회수
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Long getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
-	public Long getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Long categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
