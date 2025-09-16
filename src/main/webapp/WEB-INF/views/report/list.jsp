@@ -48,6 +48,6 @@
         	<a href="?page=${page+1}&search=${search}">다음</a>
     	</c:if>
 	</div>
-	<a href="${pageContext.request.contextPath}/report/write">신고하기</a>
+	<a href="${pageContext.request.contextPath}/report/writeWithFile">신고하기</a>
 </body>
 </html>

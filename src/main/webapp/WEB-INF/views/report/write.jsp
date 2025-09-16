@@ -15,7 +15,7 @@
   		<label>설명: <textarea name="description"></textarea></label><br>
   		<label>이미지URL: <input type="text" name="imageUrl"></label><br>
   		<button type="submit">등록</button>
-</form>
+	</form>
 
 </body>
 </html>

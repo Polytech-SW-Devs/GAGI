@@ -38,6 +38,7 @@
         
         <div>
         	 <input type="submit" value="로그인">
+        	 <input type="submit" value="회원가입" onclick="location.href='join'"> 
             <a href="javascript:void(0)" onclick="findId()">아이디 찾기</a>
             <a href="javascript:void(0)" onclick="findPw()">패스워드 찾기</a>
         </div>

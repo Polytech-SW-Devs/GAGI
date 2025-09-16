@@ -1,16 +1,20 @@
 
 package com.exam.gagi.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.gagi.model.Report;
 import com.exam.gagi.service.ReportService;
@@ -32,6 +36,37 @@ public class ReportController extends BaseBoardController<Report> {
 		return post.getDefectId(); 
 	}
 	
+	@GetMapping("/write")
+	@Override
+	public String writeForm() {
+		// 신고게시판은 기본 write.jsp 대신 writeWithFile.jsp 사용
+		return "report/writeWithFile";
+	}
+	
+	@GetMapping("/writeWithFile")
+	public String writeWithFileForm() {
+		return "report/writeWithFile";
+	}
+	
+	// 신고 작성 (파일 업로드 포함)
+	@PostMapping("/writeWithFile")
+	public String write(@ModelAttribute Report post,
+						@RequestParam("imageFile") MultipartFile file) {
+		if(!file.isEmpty()) {
+			try {
+				String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+				String uploadPath = "C:/upload/" + fileName;
+				file.transferTo(new File(uploadPath));
+				
+				post.setImageUrl("/uploads/" + fileName);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		reportService.create(post);
+		return "redirect:/report/list";
+	}
+	
 	/* 사용자 */
 	// 내 신고 내역
 	@GetMapping("/user/{userId}")
@@ -48,6 +83,14 @@ public class ReportController extends BaseBoardController<Report> {
 		List<Report> reports = reportService.getAllReports();
 		model.addAttribute("list", reports);
 		return "report/adminList";
+	}
+	
+	// 관리자 상세 조회
+	@GetMapping("/admin/{id}")
+	public String adminDetail(@PathVariable int id, Model model) {
+		Report report = reportService.getPost(id);
+		model.addAttribute("post", report);
+		return "report/adminDetail";
 	}
 	
 	// 신고 상태 업데이트 (관리자 전용)
