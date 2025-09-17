@@ -15,7 +15,7 @@
 		<div style="float: left; width: 20%;">
 			<!-- 사이드바 -->
 			<div>
-				<h3>마이페이지</h3>
+				<h3><a href="<c:url value='/mypage'/>">마이페이지</a></h3>
 				<nav>
 					<p>
 						<a href="<c:url value='/mypage/myorder'/>">구매내역</a>
