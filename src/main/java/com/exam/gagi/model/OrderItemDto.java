@@ -3,18 +3,18 @@ package com.exam.gagi.model;
 import java.math.BigDecimal;
 
 public class OrderItemDto {
-    private Long itemId; // 상품 상세페이지 링크용 ID
+    private int itemId; // 상품 상세페이지 링크용 ID
     private String thumbnailUrl;
     private String itemName;
     private int quantity;
     private BigDecimal totalPrice;
     private String orderStatus;
 
-    public Long getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(Long itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 

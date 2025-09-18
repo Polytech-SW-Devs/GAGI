@@ -18,6 +18,7 @@
         .item-detail { border-bottom: 1px dashed #ddd; padding-bottom: 10px; margin-bottom: 10px; }
         .item-detail:last-child { border-bottom: none; }
     </style>
+    <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
     <h2>주문 상세 내역</h2>

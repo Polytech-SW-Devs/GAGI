@@ -64,6 +64,7 @@
         background-color: #f2f2f2;
     }
 </style>
+<jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
     <div>

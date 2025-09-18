@@ -61,45 +61,38 @@
     </sql>
 
     <!-- Insert Statements -->
-  	<insert id="add" parameterType="Orders">
-  		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-  			SELECT ORDERS_SEQ.NEXTVAL FROM DUAL
-  		</selectKey>
-  		INSERT INTO ORDERS (
+    <insert id="add" parameterType="Orders">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            SELECT ORDERS_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO ORDERS (
             ID, USER_ID, TRANSACTION_TYPE, TOTAL_PRICE, PAYMENT_METHOD,
             RECIPIENT_NAME, RECIPIENT_PHONE, DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN,
             DELIVERY_ADDRESS_DETAIL, DELIVERY_MEMO, CREATED_AT, UPDATED_AT
         ) VALUES (
-            #{id}, 
-            #{userId}, 
-            #{transactionType, jdbcType=VARCHAR}, 
-            #{totalPrice}, 
-            #{paymentMethod, jdbcType=VARCHAR},
-            #{recipientName, jdbcType=VARCHAR}, 
-            #{recipientPhone, jdbcType=VARCHAR}, 
-            #{deliveryZipcode, jdbcType=VARCHAR}, 
-            #{deliveryAddressMain, jdbcType=VARCHAR},
-            #{deliveryAddressDetail, jdbcType=VARCHAR}, 
-            #{deliveryMemo, jdbcType=VARCHAR}, 
-            CURRENT_TIMESTAMP, 
-            CURRENT_TIMESTAMP
+            #{id}, #{userId}, #{transactionType, jdbcType=VARCHAR}, #{totalPrice},
+            #{paymentMethod, jdbcType=VARCHAR}, #{recipientName, jdbcType=VARCHAR},
+            #{recipientPhone, jdbcType=VARCHAR}, #{deliveryZipcode, jdbcType=VARCHAR},
+            #{deliveryAddressMain, jdbcType=VARCHAR}, #{deliveryAddressDetail, jdbcType=VARCHAR},
+            #{deliveryMemo, jdbcType=VARCHAR}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
         )
-  	</insert>
-  	
-  	<insert id="addOrderItem" parameterType="OrderItem">
-  		INSERT INTO ORDER_ITEMS (
+    </insert>
+
+   <insert id="addOrderItem" parameterType="OrderItem">
+        INSERT INTO ORDER_ITEMS (
             ID, ORDER_ID, ITEM_ID, QUANTITY, PRICE, ORDER_STATUS, CREATED_AT
         ) VALUES (
-            ORDER_ITEMS_SEQ.NEXTVAL, #{orderId}, #{itemId}, #{quantity}, #{price}, #{orderStatus, jdbcType=VARCHAR}, CURRENT_TIMESTAMP
+            ORDER_ITEMS_SEQ.NEXTVAL, #{orderId}, #{itemId}, #{quantity},
+            #{price}, #{orderStatus, jdbcType=VARCHAR}, CURRENT_TIMESTAMP
         )
-  	</insert>
-  	
-  	<select id="findRandomItems" resultType="Item" parameterType="int">
-	    SELECT * FROM (
-	        SELECT * FROM ITEMS ORDER BY DBMS_RANDOM.VALUE
-	    ) WHERE ROWNUM &lt;= #{limit}
-  	</select>
-  	
+    </insert>
+
+    <select id="findRandomItems" resultType="Item" parameterType="int">
+        SELECT * FROM (
+            SELECT * FROM ITEMS ORDER BY DBMS_RANDOM.VALUE
+        ) WHERE ROWNUM &lt;= #{limit}
+    </select>
+
     <!-- ResultMaps -->
     <resultMap id="saleOrderMap" type="Orders">
         <id property="id" column="order_id"/>
@@ -124,7 +117,7 @@
             <result property="price" column="price"/>
             <result property="orderStatus" column="order_item_status"/>
             <result property="createdAt" column="order_item_created_at"/>
-            
+
             <association property="item" javaType="Item">
                 <id property="id" column="item_id"/>
                 <result property="userId" column="item_user_id"/>
@@ -143,11 +136,11 @@
         </collection>
     </resultMap>
 
-	<resultMap id="orderListMap" type="OrderDetailDto">
+    <resultMap id="orderListMap" type="OrderDetailDto">
         <id property="orderId" column="order_id"/>
         <result property="orderDate" column="order_date"/>
         <collection property="orderItems" ofType="OrderItemDto">
-        	<result property="itemId" column="item_id"/>
+            <result property="itemId" column="item_id"/>
             <result property="thumbnailUrl" column="image_url"/>
             <result property="itemName" column="item_title"/>
             <result property="quantity" column="quantity"/>
@@ -158,33 +151,21 @@
 
     <!-- Select Statements -->
     <select id="salelist" resultMap="saleOrderMap" parameterType="string">
-        SELECT
-            <include refid="orderColumns" />,
-            <include refid="orderItemColumns" />,
-            <include refid="itemColumns" />
+        SELECT <include refid="orderColumns" />, <include refid="orderItemColumns" />, <include refid="itemColumns" />
         FROM ORDERS o
         <include refid="orderItemJoin" />
         <include refid="itemJoin" />
         WHERE i.USER_ID = #{sellerId}
         ORDER BY o.CREATED_AT DESC, oi.ID ASC
     </select>
-  	
+
     <select id="orderList" resultMap="orderListMap" parameterType="string">
-        SELECT
-            o.ID AS order_id,
-            o.CREATED_AT AS order_date,
-            <include refid="itemImageThumbnail" />,
-            i.TITLE AS item_title,
-            oi.QUANTITY AS quantity,
-            (oi.QUANTITY * oi.PRICE) AS total_price,
-            oi.ORDER_STATUS AS order_status
-        FROM
-            ORDERS o
+        SELECT o.ID AS order_id, o.CREATED_AT AS order_date, <include refid="itemImageThumbnail" />, i.TITLE AS item_title, oi.QUANTITY AS quantity, (oi.QUANTITY * oi.PRICE) AS total_price, oi.ORDER_STATUS AS order_status
+        FROM ORDERS o
         <include refid="orderItemJoin" />
         <include refid="itemJoin" />
-        WHERE
-            o.USER_ID = #{userId, jdbcType=NUMERIC}
-        ORDER BY
-            o.ID DESC
+        WHERE o.USER_ID = #{userId, jdbcType=NUMERIC}
+        ORDER BY o.ID DESC
     </select>
-  </mapper>
+
+</mapper>

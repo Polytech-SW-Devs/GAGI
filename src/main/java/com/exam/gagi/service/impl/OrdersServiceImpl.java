@@ -39,7 +39,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Transactional
 	@Override
-	public void createDummyOrder(long userId) {
+	public void createDummyOrder(int userId) {
 		// 1. DB에서 임의의 상품 1~3개를 가져온다.
 		int itemCount = ThreadLocalRandom.current().nextInt(1, 4); // 1, 2, or 3
 		List<Item> randomItems = dao.findRandomItems(itemCount);
@@ -81,7 +81,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 		// 3. 주문(Orders)을 DB에 추가. 이 때 order 객체에 생성된 ID가 담긴다.
 		dao.add(order);
-		Long orderId = order.getId();
+		int orderId = order.getId();
 
 		// 4. 주문상품(OrderItem) 객체들을 생성하고 DB에 추가
 		for (Item item : randomItems) {

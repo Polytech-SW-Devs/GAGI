@@ -1,0 +1,53 @@
+package com.exam.gagi.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.exam.gagi.dao.ProductDao;
+import com.exam.gagi.model.Category;
+import com.exam.gagi.model.Item;
+import com.exam.gagi.service.ProductService;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+	
+	@Autowired
+	ProductDao dao;
+	
+	@Override//로그인한 유저가 등록한 리스트 조회
+	public List<Item> list(int userId) {
+		return dao.list(userId);
+	}
+	
+	@Override//추가
+	public void add(Item item) {
+		dao.add(item);
+		
+	}
+
+	@Override
+	public void delete(int id) {
+		dao.delete(id);
+		
+	}
+
+	@Override
+	public Item item(int id) {
+		return dao.item(id);
+	}
+
+	@Override
+	public void update(Item item) {
+		dao.update(item);
+	}
+
+	@Override
+	public List<Item> totalList() {
+		return dao.totalList();
+	}
+
+
+
+}

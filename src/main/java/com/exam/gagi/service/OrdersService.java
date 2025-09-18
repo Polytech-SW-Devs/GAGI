@@ -14,6 +14,6 @@ public interface OrdersService {
 	List<OrderDetailDto> orderList(String userId);
 
 	// 더미 order만들기
-	void createDummyOrder(long userId);
+	void createDummyOrder(int l);
 
 }

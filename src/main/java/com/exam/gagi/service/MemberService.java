@@ -22,7 +22,8 @@ public interface MemberService {
 
 	void passwordUpdate(String email, String newPassword); // 비밀번호 업데이트
 
-
+	//userId로 조회
+	Member findById(int id);
 
 }
 

@@ -21,7 +21,8 @@ import com.exam.gagi.service.OrdersService;
 public class MypageController {
 	private final OrdersService ordersService; // 서비스 계층 주입
 	private final String PATH = "mypage/";
-
+	
+	
 	// 생성자 주입
 	public MypageController(OrdersService service) {
 		this.ordersService = service;
@@ -34,11 +35,27 @@ public class MypageController {
 		return PATH + "mypage";
 	}
 
-	// 내 게시글 보기
-	@GetMapping("/myarticle")
-	String myArticles() {
-		return PATH + "myarticle";
-	}
+//	// 내 게시글 보기
+//	@GetMapping("/myarticle")
+//	String myArticles() {
+//		return PATH + "myarticle";
+//	}
+	
+//	// 게시글 등록
+//	@GetMapping("/product/add")
+//	public String add(Model model) {
+//		List<Category> categoryList = myboardService.categoryList(); 
+//		model.addAttribute("categories", categoryList);
+//		
+//		return  "add";
+//	}
+//	
+//	@PostMapping("/add")
+//	public String add(MyBoard myboard) {
+//		myboardService.add(myboard);
+//		
+//		return "redirect:list";
+//	}
 
 	// 구매 내역
 	@GetMapping("/myorder")
@@ -85,7 +102,7 @@ public class MypageController {
 		Member member = (Member) session.getAttribute("loginUser");
 
 		if (member != null) {
-			ordersService.createDummyOrder(1L); // Changed to 1L
+			ordersService.createDummyOrder((int) 1L); // Changed to 1L
 		}
 
 		return "redirect:/mypage/myorder";
