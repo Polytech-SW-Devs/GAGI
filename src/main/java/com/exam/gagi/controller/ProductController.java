@@ -94,7 +94,7 @@ public class ProductController {
 		model.addAttribute("item", item);
 		model.addAttribute("member", member);
 		return "/product/detail";
-	}
+	}//2025.09.18 21:36
 	
 	
 	
