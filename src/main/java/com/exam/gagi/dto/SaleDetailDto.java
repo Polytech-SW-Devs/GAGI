@@ -1,15 +1,15 @@
 package com.exam.gagi.dto;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class SaleDetailDto {
 
 	// 주문 정보
-	private Long orderId;
+	private int orderId;
 	private String createdAtFormatted;
 	private String transactionType;
 	private String paymentMethod;
+	private String orderStatus;
 
 	// 구매자 정보
 	private String buyerName;
@@ -25,14 +25,17 @@ public class SaleDetailDto {
 	private String deliveryMemo;
 
 	// 상품 및 가격 정보
-	private List<OrderItemDto> orderItems;
-	private BigDecimal saleSubTotal;
+	private int itemId;
+	private String itemName;
+	private String thumbnailUrl;
+	private int quantity;
+	private BigDecimal totalPrice;
 
-	public Long getOrderId() {
+	public int getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Long orderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
@@ -58,6 +61,14 @@ public class SaleDetailDto {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public String getBuyerName() {
@@ -132,22 +143,43 @@ public class SaleDetailDto {
 		this.deliveryMemo = deliveryMemo;
 	}
 
-	public List<OrderItemDto> getOrderItems() {
-		return orderItems;
+	public int getItemId() {
+		return itemId;
 	}
 
-	public void setOrderItems(List<OrderItemDto> orderItems) {
-		this.orderItems = orderItems;
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 
-	public BigDecimal getSaleSubTotal() {
-		return saleSubTotal;
+	public String getItemName() {
+		return itemName;
 	}
 
-	public void setSaleSubTotal(BigDecimal saleSubTotal) {
-		this.saleSubTotal = saleSubTotal;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
-	// Getters and Setters
+	public String getThumbnailUrl() {
+		return thumbnailUrl;
+	}
 
+	public void setThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 }

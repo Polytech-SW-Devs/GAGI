@@ -100,7 +100,7 @@ body {
 
 .sidebar {
 	position: fixed;
-	left: 20px;
+	left: 300px;
 	top: 50%;
 	transform: translateY(-50%);
 	background: white;
@@ -143,7 +143,7 @@ body {
 }
 
 .main-content {
-	margin-left: 350px;
+	margin-left: 300px;
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
@@ -161,6 +161,9 @@ body {
 	padding: 40px;
 	border-radius: 15px;
 	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .user-info h3 {
@@ -185,10 +188,12 @@ body {
 	color: white;
 }
 
+.edit-section {
+	display: flex;
+	align-items: center;
+}
+
 .edit-btn {
-	position: absolute;
-	top: 20px;
-	right: 20px;
 	color: #BDB9BA;
 	text-decoration: none;
 	font-size: 14px;
@@ -292,12 +297,13 @@ th {
 	font-size: 16px;
 }
 
-@media ( max-width : 1200px) {
+@media ( max-width : 1400px) {
 	.sidebar {
 		position: static;
 		transform: none;
 		margin-bottom: 30px;
 		width: 100%;
+		left: auto;
 	}
 	.main-content {
 		margin-left: 0;
@@ -430,7 +436,6 @@ th {
 		<main class="main-content">
 			<section class="profile-section">
 				<div class="user-profile">
-					<a href="#" class="edit-btn">수정 ></a>
 					<div class="user-info">
 						<h3>아이디표시</h3>
 						<h2>???님 환영합니다</h2>
@@ -438,6 +443,9 @@ th {
 							<p>전화: 010-1111-1111</p>
 							<p>이메일: test@gmail.com</p>
 						</div>
+					</div>
+					<div class="edit-section">
+						<a href="#" class="edit-btn">수정 ></a>
 					</div>
 				</div>
 
@@ -465,14 +473,36 @@ th {
 						<thead>
 							<tr>
 								<th>주문일자</th>
-								<th>상품명</th>
+								<th>상품정보</th>
 								<th>수량</th>
-								<th>가격</th>
+								<th>총 가격</th>
 								<th>주문상태</th>
 							</tr>
 						</thead>
 						<tbody>
-							
+							<c:if test="${empty orderHistory}">
+								<tr>
+									<td colspan="5" class="empty-state">최근 구매 내역이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:forEach var="order" items="${orderHistory}" varStatus="status">
+                                <c:if test="${status.index < 3}">
+                                    <tr>
+                                        <td>${order.createdAtStr}</td>
+                                        <td>
+                                            <a href="<c:url value='/items/${order.itemId}'/>">
+                                                <img src="<c:url value='${order.thumbnailUrl}'/>"
+                                                alt="${order.itemName}"
+                                                style="width: 80px; height: 80px; vertical-align: middle;">
+                                                <span>${order.itemName}</span>
+                                            </a>
+                                        </td>
+                                        <td>${order.amount}개</td>
+                                        <td><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
+                                        <td>${order.orderStatus}</td>
+                                    </tr>
+                                </c:if>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>

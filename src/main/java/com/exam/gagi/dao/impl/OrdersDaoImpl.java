@@ -36,12 +36,12 @@ public class OrdersDaoImpl implements OrdersDao {
 	}
 
 	@Override
-	public int getTotal(String userId) {
+	public int getTotal(int userId) {
 		return sql.selectOne("orders.getTotal", userId);
 	}
 
 	@Override
-	public int getSaleTotal(String sellerId) {
+	public int getSaleTotal(int sellerId) {
 		return sql.selectOne("orders.getSaleTotal", sellerId);
 	}
 

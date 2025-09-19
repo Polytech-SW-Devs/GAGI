@@ -17,9 +17,9 @@ public interface OrdersDao {
 
 	List<OrderDetailDto> orderList(OrderSearchDto searchDto);
 
-	int getTotal(String userId);
+	int getTotal(int userId);
 
-	int getSaleTotal(String sellerId);
+	int getSaleTotal(int sellerId);
 
 	SaleDetailDto getSaleDetail(Map<String, Object> params);
 }

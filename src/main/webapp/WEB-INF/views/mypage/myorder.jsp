@@ -44,47 +44,48 @@
 				<table border="1">
 					<thead>
 						<tr>
-							<th>주문일자</th>
+							<th>주문정보</th>
 							<th>상품정보</th>
-							<th>수량</th>
-							<th>총 가격</th>
 							<th>주문상태</th>
+							<th>배송지</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:if test="${empty orderHistory}">
 							<tr>
-								<td colspan="5">주문 내역이 없습니다.</td>
+								<td colspan="4">주문 내역이 없습니다.</td>
 							</tr>
 						</c:if>
 
 						<c:forEach var="order" items="${orderHistory}">
-							<c:forEach var="item" items="${order.orderItems}"
-								varStatus="loop">
-								<tr>
-									<c:if test="${loop.first}">
-										<!-- LocalDateTime을 DTO에서 문자열로 변환 -->
-										<td rowspan="${order.orderItems.size()}">${order.orderDateStr}</td>
-									</c:if>
-
-									<td><a href="<c:url value='/items/${item.itemId}'/>">
-											<img src="<c:url value='${item.thumbnailUrl}'/>"
-											alt="${item.itemName}"
-											style="width: 80px; height: 80px; vertical-align: middle;">
-											<span>${item.itemName}</span>
-									</a></td>
-									<td>${item.quantity}개</td>
-									<td><fmt:formatNumber value="${item.totalPrice}"
-											pattern="#,##0" />원</td>
-									<td>${item.orderStatus}</td>
-								</tr>
-							</c:forEach>
+							<tr>
+								<td>
+									<p>주문일: ${order.createdAtStr}</p>
+									<p>거래유형: ${order.transactionType}</p>
+								</td>
+								<td>
+                                    <a href="<c:url value='/items/${order.itemId}'/>">
+                                        <img src="<c:url value='${order.thumbnailUrl}'/>"
+                                        alt="${order.itemName}"
+                                        style="width: 80px; height: 80px; vertical-align: middle;">
+                                        <span>${order.itemName}</span>
+                                    </a>
+                                    <p>단가: <fmt:formatNumber value="${order.price}" pattern="#,##0" />원</p>
+                                    <p>수량: ${order.amount}개</p>
+                                    <p>총 금액: <fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</p>
+								</td>
+								<td>${order.orderStatus}</td>
+								<td>
+									<p>${order.deliveryAddressMain}</p>
+									<p>${order.deliveryAddressDetail}</p>
+								</td>
+							</tr>
 						</c:forEach>
 					</tbody>
 					<!-- 페이지네이션 -->
 					<tfoot>
 						<tr>
-							<td colspan="5">
+							<td colspan="4">
 								<div class="pagination pagination-sm justify-content-center">
 									<div class="page-item">
 										<a href="?page=1${pager.query}" class="page-link">처음</a>

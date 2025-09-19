@@ -37,17 +37,17 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public int getTotal(String userId) {
+	public int getTotal(int userId) {
 		return dao.getTotal(userId);
 	}
 
 	@Override
-	public int getSaleTotal(String sellerId) {
+	public int getSaleTotal(int sellerId) {
 		return dao.getSaleTotal(sellerId);
 	}
 
 	@Override
-	public SaleDetailDto getSaleDetail(int orderId, String sellerId) {
+	public SaleDetailDto getSaleDetail(int orderId, int sellerId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("orderId", orderId);
 		params.put("sellerId", sellerId);

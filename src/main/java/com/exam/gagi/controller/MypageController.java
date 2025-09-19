@@ -32,7 +32,30 @@ public class MypageController {
 
 	// 마이페이지 메인 화면
 	@GetMapping("")
-	String mypage(Model model) {
+	String mypage(Model model, HttpSession session, Pager pager) {
+		// 세션에서 member 정보 가져오기
+		Member member = (Member) session.getAttribute("loginUser");
+
+		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+		if (member == null) {
+			return "redirect:/login";
+		}
+
+		int memberId = member.getId();
+
+		// 총 주문 수량으로 Pager 설정
+		pager.setTotal(ordersService.getTotal(memberId));
+
+		// OrderSearchDto 생성 및 설정
+		OrderSearchDto searchDto = new OrderSearchDto();
+		searchDto.setUserId(memberId);
+		searchDto.setPager(pager);
+
+		// 주문 내역 조회 (페이징 적용)
+		List<OrderDetailDto> orderHistory = ordersService.orderList(searchDto);
+
+		model.addAttribute("orderHistory", orderHistory);
+		model.addAttribute("pager", pager);
 
 		return PATH + "mypage";
 	}
@@ -54,13 +77,15 @@ public class MypageController {
 			return "redirect:/login";
 		}
 
-		String memberId = String.valueOf(member.getId());
+		int memberId = member.getId();
 
 		// 총 주문 수량으로 Pager 설정
 		pager.setTotal(ordersService.getTotal(memberId));
 
 		// OrderSearchDto 생성 및 설정
-		OrderSearchDto searchDto = new OrderSearchDto(memberId, pager);
+		OrderSearchDto searchDto = new OrderSearchDto();
+		searchDto.setUserId(memberId);
+		searchDto.setPager(pager);
 
 		// 주문 내역 조회 (페이징 적용)
 		List<OrderDetailDto> orderHistory = ordersService.orderList(searchDto);
@@ -83,7 +108,7 @@ public class MypageController {
 			return "redirect:/login";
 		}
 
-		String sellerId = String.valueOf(member.getId());
+		int sellerId = member.getId();
 
 		// 총 판매내역 수량으로 Pager 설정
 		pager.setTotal(ordersService.getSaleTotal(sellerId));
@@ -105,7 +130,7 @@ public class MypageController {
 		if (member == null) {
 			return "redirect:/login";
 		}
-		String sellerId = String.valueOf(member.getId());
+		int sellerId = member.getId();
 
 		SaleDetailDto order = ordersService.getSaleDetail(orderId, sellerId);
 

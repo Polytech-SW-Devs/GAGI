@@ -1,26 +1,30 @@
 package com.exam.gagi.model;
 
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.time.LocalDateTime;
 
-//판매자 내역 페이지 Entity
-public class Orders extends BaseEntity {
-	// 주문 번호
+public class Orders {
+	// 주문PK
 	private int id;
-	// 주문자 ID
+	// 주문자 (FK)
 	private int userId;
-	// 거래 유형
-	private String transactionType;
+	// 상품 ID (FK)
+	private Integer itemId;
+	// 상품 단가
+	private BigDecimal price;
+	// 주문 수량
+	private Integer amount;
 	// 총 주문 금액
 	private BigDecimal totalPrice;
+	// 거래유형 (배송/직거래)
+	private String transactionType;
 	// 결제 수단
 	private String paymentMethod;
 	// 수령인 이름
 	private String recipientName;
 	// 수령인 연락처
 	private String recipientPhone;
-	// 배종지 우편번호
+	// 배송지 우편번호
 	private String deliveryZipcode;
 	// 배송지 주소(기본)
 	private String deliveryAddressMain;
@@ -28,7 +32,12 @@ public class Orders extends BaseEntity {
 	private String deliveryAddressDetail;
 	// 배송 요청사항
 	private String deliveryMemo;
-	private List<OrderItem> orderItems;
+	// 생성일
+	private LocalDateTime createdAt;
+	// 수정일
+	private LocalDateTime updatedAt;
+	// 주문 상태
+	private String orderStatus;
 
 	public int getId() {
 		return id;
@@ -46,12 +55,28 @@ public class Orders extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public String getTransactionType() {
-		return transactionType;
+	public Integer getItemId() {
+		return itemId;
 	}
 
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
 	public BigDecimal getTotalPrice() {
@@ -60,6 +85,14 @@ public class Orders extends BaseEntity {
 
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
 	public String getPaymentMethod() {
@@ -118,19 +151,28 @@ public class Orders extends BaseEntity {
 		this.deliveryMemo = deliveryMemo;
 	}
 
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public String getCreatedAtFormatted() {
-		if (getCreatedAt() == null) {
-			return "";
-		}
-		return getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 }

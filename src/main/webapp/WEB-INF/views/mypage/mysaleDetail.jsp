@@ -233,7 +233,7 @@
             <!-- 총 가격 -->
             <div class="price">
                 <span>판매자 정산 금액</span>
-                <span><fmt:formatNumber value="${order.saleSubTotal}" pattern="#,##0" />원</span>
+                <span><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</span>
             </div>
 
         </c:if>

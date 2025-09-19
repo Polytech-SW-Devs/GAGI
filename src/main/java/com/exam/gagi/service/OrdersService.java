@@ -16,10 +16,10 @@ public interface OrdersService {
 
 	List<OrderDetailDto> orderList(OrderSearchDto searchDto);
 
-	int getTotal(String userId);
+	int getTotal(int memberId);
 
-	int getSaleTotal(String sellerId);
+	int getSaleTotal(int sellerId);
 
-	SaleDetailDto getSaleDetail(int orderId, String sellerId);
+	SaleDetailDto getSaleDetail(int orderId, int sellerId);
 
 }
