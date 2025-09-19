@@ -1,25 +1,36 @@
 package com.exam.gagi.model;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-//판매자 내역 페이지 Entity
 public class Orders extends BaseEntity {
+<<<<<<< HEAD
+	// 주문PK
+	private int id;
+	// 주문자 (FK)
+	private int userId;
+	// 상품 ID (FK)
+	private Integer itemId;
+	// 상품 단가
+	private Integer price;
+	// 주문 수량
+	private Integer amount;
+=======
 	// 주문 번호
 	private int id;
 	// 주문자 ID
 	private int userId;
 	// 거래 유형
 	private String transactionType;
+>>>>>>> main
 	// 총 주문 금액
-	private BigDecimal totalPrice;
+	private Integer totalPrice;
+	// 거래유형 (배송/직거래)
+	private String transactionType;
 	// 결제 수단
 	private String paymentMethod;
 	// 수령인 이름
 	private String recipientName;
 	// 수령인 연락처
 	private String recipientPhone;
-	// 배종지 우편번호
+	// 배송지 우편번호
 	private String deliveryZipcode;
 	// 배송지 주소(기본)
 	private String deliveryAddressMain;
@@ -27,7 +38,13 @@ public class Orders extends BaseEntity {
 	private String deliveryAddressDetail;
 	// 배송 요청사항
 	private String deliveryMemo;
-	private List<OrderItem> orderItems;
+	// 주문 상태
+	private String orderStatus;
+
+
+	// JOIN으로 가져올 추가 필드들
+	private String title; // 상품명
+	private String imageUrl; // 상품 썸네일
 
 	public int getId() {
 		return id;
@@ -41,8 +58,40 @@ public class Orders extends BaseEntity {
 		return userId;
 	}
 
-	public void setUserId(int userId2) {
-		this.userId = userId2;
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public Integer getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public String getTransactionType() {
@@ -51,14 +100,6 @@ public class Orders extends BaseEntity {
 
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
-	}
-
-	public BigDecimal getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
 	}
 
 	public String getPaymentMethod() {
@@ -117,12 +158,28 @@ public class Orders extends BaseEntity {
 		this.deliveryMemo = deliveryMemo;
 	}
 
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
+	public String getOrderStatus() {
+		return orderStatus;
 	}
 
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

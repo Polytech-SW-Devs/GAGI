@@ -17,7 +17,8 @@
 	
 	<!-- url 변경 및 저장폴터 변경하는 설정(js라는 폴더안으로 javascript파일을 넣고, url: js/**으로 표시됨) -->
 	<resources location="/js/" mapping="js/**"></resources> 
-
+	
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

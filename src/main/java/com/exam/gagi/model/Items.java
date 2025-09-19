@@ -1,39 +1,28 @@
 package com.exam.gagi.model;
 
-import java.math.BigDecimal;
-<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
+public class Items extends BaseEntity {
 
-public class Item extends BaseEntity {
 	private int id; // 상품 번호
 	private int userId; // 등록한 회원 번호 (FK)
 	private int categoryId; // 카테고리 번호 (FK)
-=======
-import java.time.LocalDateTime;
-
-public class Items extends BaseEntity {
-	private Long id; // 상품 번호
-	private Long userId; // 등록한 회원 번호 (FK)
-	private Long categoryId; // 카테고리 번호 (FK)
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
 	private String title; // 상품 제목
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
 	private String isDirectDeal; // 직거래 가능 여부 (Y/N)
-	private BigDecimal price; // 판매 가격
+	private int price; // 판매 가격
 	private int amount; // 수량
 	private String bankAccountNumber; // 판매자 계좌번호
 	private String salesStatus; // 판매 상태
 	private int views; // 조회수
-<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
-	private Timestamp deletedAt; // 삭제일 (soft delete)
-	private Timestamp createdAt; //생성일
-=======
+
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
+
+	private List<ItemImage> itemImages;
 
 	public int getId() {
 		return id;
@@ -91,11 +80,11 @@ public class Items extends BaseEntity {
 		this.isDirectDeal = isDirectDeal;
 	}
 
-	public BigDecimal getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -139,15 +128,17 @@ public class Items extends BaseEntity {
 		this.deletedAt = deletedAt;
 	}
 
-<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
-	public Timestamp getCreateAt() {
-		return createdAt;
+	public List<ItemImage> getItemImages() {
+		return itemImages;
 	}
 
-	public void setCreateAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+	public void setItemImages(List<ItemImage> itemImages) {
+		this.itemImages = itemImages;
 	}
-	
-=======
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
+
+	// JSP용 getter
+	public Date getDeletedAtDate() {
+		return deletedAt == null ? null : Date.from(deletedAt.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 public abstract class BaseEntity {
 
 	private LocalDateTime createdAt; // 생성일
+
 	private LocalDateTime updatedAt; // 수정일
 
 	public LocalDateTime getCreatedAt() {
@@ -25,11 +26,9 @@ public abstract class BaseEntity {
 		this.updatedAt = updatedAt;
 	}
 
+	// JSP용 getter
 	public Date getCreatedAtDate() {
 		return createdAt == null ? null : Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
-	public Date getUpdatedAtDate() {
-		return updatedAt == null ? null : Date.from(updatedAt.atZone(ZoneId.systemDefault()).toInstant());
-	}
 }
