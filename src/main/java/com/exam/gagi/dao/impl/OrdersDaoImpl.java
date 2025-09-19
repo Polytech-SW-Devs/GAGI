@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.OrdersDao;
+
+import com.exam.gagi.model.Item;
+import com.exam.gagi.model.MyBoard;
+
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
 
@@ -30,4 +34,10 @@ public class OrdersDaoImpl implements OrdersDao {
 	public List<OrderDetailDto> orderList(String userId) {
 		return sql.selectList("orders.orderList", userId);
 	}
+
+	@Override
+	public List<MyBoard> list() {
+		return sql.selectList("orders.list");
+	}
+
 }

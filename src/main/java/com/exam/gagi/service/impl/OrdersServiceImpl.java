@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.OrdersDao;
+
+import com.exam.gagi.model.Item;
+import com.exam.gagi.model.MyBoard;
+
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
@@ -29,6 +33,12 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public List<OrderDetailDto> orderList(String userId) {
 		return dao.orderList(userId);
+	}
+
+	//내 게시글 페이지
+	@Override
+	public List<MyBoard> list() {
+		return dao.list();
 	}
 
 }

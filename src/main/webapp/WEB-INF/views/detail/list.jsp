@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 삭제 페이지 -->
 	<div>
 		<div>
 			<div><h3>나의 게시판</h3></div>
