@@ -5,203 +5,61 @@
   
 <mapper namespace="orders">
 
-    
-
-    <resultMap id="orderListMap" type="com.exam.gagi.dto.OrderDetailDto">
-        <id property="id" column="order_id"/>
-        <result property="createdAt" column="created_at"/>
-        <result property="itemId" column="item_id"/>
-        <result property="thumbnailUrl" column="thumbnail_url"/>
-        <result property="itemName" column="item_title"/>
-        <result property="amount" column="amount"/>
-        <result property="price" column="price"/>
-        <result property="totalPrice" column="total_price"/>
-        <result property="orderStatus" column="order_status"/>
-        <result property="transactionType" column="transaction_type"/>
-        <result property="deliveryAddressMain" column="delivery_address_main"/>
-        <result property="deliveryAddressDetail" column="delivery_address_detail"/>
-    </resultMap>
-
-    <resultMap id="saleListMap" type="Orders">
-        <id property="id" column="order_id"/>
-        <result property="userId" column="user_id"/>
-        <result property="itemId" column="item_id"/>
-        <result property="price" column="price"/>
-        <result property="amount" column="amount"/>
-        <result property="totalPrice" column="total_price"/>
-        <result property="transactionType" column="transaction_type"/>
-        <result property="paymentMethod" column="payment_method"/>
-        <result property="recipientName" column="recipient_name"/>
-        <result property="recipientPhone" column="recipient_phone"/>
-        <result property="deliveryZipcode" column="delivery_zipcode"/>
-        <result property="deliveryAddressMain" column="delivery_address_main"/>
-        <result property="deliveryAddressDetail" column="delivery_address_detail"/>
-        <result property="deliveryMemo" column="delivery_memo"/>
-        <result property="orderStatus" column="order_status"/>
-        <result property="createdAt" column="created_at"/>
-        <result property="updatedAt" column="updated_at"/>
-    </resultMap>
-
-    <resultMap id="saleDetailDtoMap" type="com.exam.gagi.dto.SaleDetailDto">
-        <id property="orderId" column="order_id"/>
-        <result property="createdAtFormatted" column="created_at_formatted"/>
-        <result property="transactionType" column="transaction_type"/>
-        <result property="paymentMethod" column="payment_method"/>
-        <result property="orderStatus" column="order_status"/>
-        
-        <result property="buyerName" column="buyer_name"/>
-        <result property="buyerPhone" column="buyer_phone"/>
-        <result property="buyerEmail" column="buyer_email"/>
-
-        <result property="recipientName" column="recipient_name"/>
-        <result property="recipientPhone" column="recipient_phone"/>
-        <result property="deliveryZipcode" column="delivery_zipcode"/>
-        <result property="deliveryAddressMain" column="delivery_address_main"/>
-        <result property="deliveryAddressDetail" column="delivery_address_detail"/>
-        <result property="deliveryMemo" column="delivery_memo"/>
-
-        <result property="itemId" column="item_id"/>
-        <result property="itemName" column="item_title"/>
-        <result property="thumbnailUrl" column="thumbnail_url"/>
-        <result property="quantity" column="amount"/>
-        <result property="totalPrice" column="total_price"/>
-    </resultMap>
-
-  	<insert id="add" parameterType="Orders">
-        <selectKey keyProperty="id" resultType="int" order="BEFORE">
-            SELECT ORDERS_SEQ.NEXTVAL FROM DUAL
-        </selectKey>
-  		INSERT INTO ORDERS (
-            ID, USER_ID, ITEM_ID, PRICE, AMOUNT, TOTAL_PRICE, TRANSACTION_TYPE, PAYMENT_METHOD,
-            RECIPIENT_NAME, RECIPIENT_PHONE, DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN,
-            DELIVERY_ADDRESS_DETAIL, DELIVERY_MEMO, CREATED_AT, UPDATED_AT, ORDER_STATUS
-        ) VALUES (
-            #{id}, 
-            #{userId}, 
-            #{itemId},
-            #{price},
-            #{amount},
-            #{totalPrice},
-            #{transactionType, jdbcType=VARCHAR}, 
-            #{paymentMethod, jdbcType=VARCHAR},
-            #{recipientName, jdbcType=VARCHAR}, 
-            #{recipientPhone, jdbcType=VARCHAR}, 
-            #{deliveryZipcode, jdbcType=VARCHAR}, 
-            #{deliveryAddressMain, jdbcType=VARCHAR},
-            #{deliveryAddressDetail, jdbcType=VARCHAR}, 
-            #{deliveryMemo, jdbcType=VARCHAR}, 
-            CURRENT_TIMESTAMP, 
-            CURRENT_TIMESTAMP,
-            #{orderStatus, jdbcType=VARCHAR}
-        )
-  	</insert>
+	<select id="orderTotal" resultType="Integer">
+  		SELECT COUNT(*)
+  		FROM ORDERS
+  		WHERE USER_ID = #{userId} 
+  	</select>
   	
-    <select id="orderList" resultMap="orderListMap" parameterType="OrderSearchDto">
-        SELECT * FROM (
-            SELECT ROWNUM AS rnum, o.* FROM (
-                SELECT
-                    o.ID AS order_id,
-                    o.CREATED_AT AS created_at,
-                    o.ITEM_ID AS item_id,
-                    (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS thumbnail_url,
-                    i.TITLE AS item_title,
-                    o.AMOUNT AS amount,
-                    o.PRICE AS price,
-                    o.TOTAL_PRICE AS total_price,
-                    o.ORDER_STATUS AS order_status,
-                    o.TRANSACTION_TYPE as transaction_type,
-                    o.DELIVERY_ADDRESS_MAIN as delivery_address_main,
-                    o.DELIVERY_ADDRESS_DETAIL as delivery_address_detail
-                FROM
-                    ORDERS o
-                JOIN
-                    ITEMS i ON o.ITEM_ID = i.ID
-                <where>
-                    o.USER_ID = #{userId, jdbcType=NUMERIC}
-                    <if test="orderStatus != null and orderStatus != ''">
-                        AND o.ORDER_STATUS = #{orderStatus}
-                    </if>
-                    <if test="startDate != null">
-                        AND o.CREATED_AT &gt;= #{startDate}
-                    </if>
-                    <if test="endDate != null">
-                        AND o.CREATED_AT &lt;= #{endDate}
-                    </if>
-                </where>
-                ORDER BY
-                    o.CREATED_AT DESC
-            ) o WHERE ROWNUM &lt;= #{pager.page} * #{pager.perPage}
-        ) WHERE rnum &gt;= (#{pager.page} - 1) * #{pager.perPage} + 1
-    </select>
-    
-    <select id="getTotal" resultType="int" parameterType="int">
-    	SELECT COUNT(*) FROM ORDERS WHERE USER_ID = #{userId, jdbcType=NUMERIC}
-    </select>
-    
-    <select id="salelist" resultMap="saleListMap" parameterType="SaleSearchDto">
-        SELECT * FROM (
-            SELECT ROWNUM AS rnum, o.* FROM (
-                SELECT
-                    o.ID AS order_id,
-                    o.USER_ID AS user_id,
-                    o.ITEM_ID AS item_id,
-                    i.PRICE AS price,
-                    o.AMOUNT AS amount,
-                    o.TOTAL_PRICE AS total_price,
-                    o.TRANSACTION_TYPE AS transaction_type,
-                    o.PAYMENT_METHOD AS payment_method,
-                    o.RECIPIENT_NAME AS recipient_name,
-                    o.RECIPIENT_PHONE AS recipient_phone,
-                    o.DELIVERY_ZIPCODE AS delivery_zipcode,
-                    o.DELIVERY_ADDRESS_MAIN AS delivery_address_main,
-                    o.DELIVERY_ADDRESS_DETAIL AS delivery_address_detail,
-                    o.DELIVERY_MEMO AS delivery_memo,
-                    o.ORDER_STATUS AS order_status,
-                    o.CREATED_AT AS created_at,
-                    o.UPDATED_AT AS updated_at,
-                    i.TITLE as item_title
-                FROM ORDERS o
-                JOIN ITEMS i ON o.ITEM_ID = i.ID
-                WHERE i.USER_ID = #{sellerId, jdbcType=NUMERIC}
-                ORDER BY o.CREATED_AT DESC
-            ) o WHERE ROWNUM &lt;= #{pager.page} * #{pager.perPage}
-        ) WHERE rnum &gt;= (#{pager.page} - 1) * #{pager.perPage} + 1
-    </select>
-
-    <select id="getSaleTotal" resultType="int" parameterType="int">
-    	SELECT COUNT(*) 
+  	
+  	<select id="saleTotal" resultType="Integer">
+    	SELECT COUNT(*)
     	FROM ORDERS o
-        JOIN ITEMS i ON o.ITEM_ID = i.ID
-    	WHERE i.USER_ID = #{sellerId, jdbcType=NUMERIC}
-    </select>
-    
-    <select id="getSaleDetail" resultMap="saleDetailDtoMap" parameterType="map">
-        SELECT
-            o.ID AS order_id,
-            TO_CHAR(o.CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS created_at_formatted,
-            o.TRANSACTION_TYPE AS transaction_type,
-            o.PAYMENT_METHOD AS payment_method,
-            o.ORDER_STATUS AS order_status,
-
-            m.USERNAME AS buyer_name,
-            m.PHONE AS buyer_phone,
-            m.EMAIL AS buyer_email,
-
-            o.RECIPIENT_NAME AS recipient_name,
-            o.RECIPIENT_PHONE AS recipient_phone,
-            o.DELIVERY_ZIPCODE AS delivery_zipcode,
-            o.DELIVERY_ADDRESS_MAIN AS delivery_address_main,
-            o.DELIVERY_ADDRESS_DETAIL AS delivery_address_detail,
-            o.DELIVERY_MEMO AS delivery_memo,
-
-            i.ID AS item_id,
-            i.TITLE AS item_title,
-            (SELECT IMAGE_URL FROM item_images ii WHERE ii.item_id = i.id AND ROWNUM = 1) AS thumbnail_url,
-            o.AMOUNT AS amount,
-            o.TOTAL_PRICE AS total_price
+    	JOIN ITEMS i ON o.ITEM_ID = i.ID
+    	WHERE i.USER_ID = #{userId}
+	</select>
+  	
+  	<!-- 주문 목록 + 페이징 + JOIN 컬럼 -->
+    <select id="orderList" resultType="Orders">
+       SELECT *
+    FROM (
+        SELECT 
+            o.*,                       <!-- ORDERS 모든 컬럼 자동 매핑 -->
+            i.TITLE AS title,          <!-- Orders.title -->
+            img.IMAGE_URL AS imageUrl, <!-- Orders.imageUrl -->
+            ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
         FROM ORDERS o
-        JOIN ITEMS i ON o.ITEM_ID = i.ID
-        JOIN MEMBER m ON o.USER_ID = m.ID
-        WHERE o.ID = #{orderId} AND i.USER_ID = #{sellerId}
+        LEFT JOIN ITEMS i ON o.ITEM_ID = i.ID
+        LEFT JOIN ITEM_IMAGES img 
+               ON o.ITEM_ID = img.ITEM_ID 
+              AND img.SORT_ORDER = 1      <!-- 첫 번째 이미지만 가져오기 -->
+        WHERE o.USER_ID = #{userId}
+    ) t
+    WHERE t.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
+                      AND (#{page} * #{perPage})
     </select>
+	
+	<select id="saleList" resultType="Orders">
+    SELECT *
+    FROM (
+        SELECT 
+            o.*,                       <!-- ORDERS 모든 컬럼 자동 매핑 -->
+            i.TITLE AS title,          <!-- Orders.title -->
+            img.IMAGE_URL AS imageUrl, <!-- Orders.imageUrl -->
+            ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
+        FROM ORDERS o
+        LEFT JOIN ITEMS i 
+               ON o.ITEM_ID = i.ID
+              AND i.USER_ID = #{userId}    <!-- 판매자 필터 -->
+        LEFT JOIN ITEM_IMAGES img 
+               ON o.ITEM_ID = img.ITEM_ID 
+              AND img.SORT_ORDER = 1     <!-- 첫 번째 이미지 -->
+    ) t
+    WHERE t.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
+                      AND (#{page} * #{perPage})
+</select>
+	
+
+
+
 </mapper>

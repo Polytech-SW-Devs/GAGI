@@ -87,6 +87,7 @@
                                             <a href="<c:url value='/mypage/mysaleDetail/${order.id}'/>" class="text-decoration-none text-primary fw-bold">${order.id}</a>
                                         </td>
                                         <td class="align-middle">
+                                            <!-- LocalDateTime 대신 변환된 Date getter 사용 -->
                                             <fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd HH:mm" />
                                         </td>
                                         <td class="text-start ps-3">${order.itemName}</td>

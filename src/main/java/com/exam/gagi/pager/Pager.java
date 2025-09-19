@@ -15,6 +15,7 @@ public class Pager {
 
 	private int search;
 	private String keyword;
+	private int userId;
 
 	public int getPage() {
 		return page;
@@ -101,6 +102,14 @@ public class Pager {
 			query = "&search=" + search + "&keyword=" + keyword;
 
 		return query;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

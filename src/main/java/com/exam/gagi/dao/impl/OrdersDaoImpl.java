@@ -1,18 +1,14 @@
 package com.exam.gagi.dao.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.OrdersDao;
-import com.exam.gagi.dto.OrderDetailDto;
-import com.exam.gagi.dto.OrderSearchDto;
-import com.exam.gagi.dto.SaleDetailDto;
-import com.exam.gagi.dto.SaleSearchDto;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 
 @Repository
 public class OrdersDaoImpl implements OrdersDao {
@@ -21,33 +17,27 @@ public class OrdersDaoImpl implements OrdersDao {
 	SqlSession sql;
 
 	@Override
-	public void add(Orders item) {
-		sql.insert("orders.add", item);
+	public List<Orders> orderList(Pager pager) {
+
+		return sql.selectList("orders.orderList", pager);
 	}
 
 	@Override
-	public List<Orders> salelist(SaleSearchDto searchDto) {
-		return sql.selectList("orders.salelist", searchDto);
+	public int orderTotal(Pager pager) {
+
+		return sql.selectOne("orders.orderTotal", pager);
 	}
 
 	@Override
-	public List<OrderDetailDto> orderList(OrderSearchDto searchDto) {
-		return sql.selectList("orders.orderList", searchDto);
+	public int saleTotal(Pager pager) {
+
+		return sql.selectOne("orders.saleTotal", pager);
+
 	}
 
 	@Override
-	public int getTotal(int userId) {
-		return sql.selectOne("orders.getTotal", userId);
+	public List<Orders> saleList(Pager pager) {
+		return sql.selectList("orders.saleList", pager);
 	}
 
-	@Override
-	public int getSaleTotal(int sellerId) {
-		return sql.selectOne("orders.getSaleTotal", sellerId);
-	}
-
-	@Override
-	public SaleDetailDto getSaleDetail(Map<String, Object> params) {
-		List<SaleDetailDto> list = sql.selectList("orders.getSaleDetail", params);
-		return list.isEmpty() ? null : list.get(0);
-	}
 }

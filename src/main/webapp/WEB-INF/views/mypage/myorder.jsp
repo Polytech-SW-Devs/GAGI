@@ -51,24 +51,24 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:if test="${empty orderHistory}">
+						<c:if test="${empty list}">
 							<tr>
 								<td colspan="4">주문 내역이 없습니다.</td>
 							</tr>
 						</c:if>
 
-						<c:forEach var="order" items="${orderHistory}">
+						<c:forEach var="order" items="${list}">
 							<tr>
 								<td>
-									<p>주문일: ${order.createdAtStr}</p>
+									<p>주문일: ${order.createdAtDate}</p>
 									<p>거래유형: ${order.transactionType}</p>
 								</td>
 								<td>
                                     <a href="<c:url value='/items/${order.itemId}'/>">
-                                        <img src="<c:url value='${order.thumbnailUrl}'/>"
-                                        alt="${order.itemName}"
+                                        <img src="<c:url value='${order.imageUrl}'/>"
+                                        alt="${order.title}"
                                         style="width: 80px; height: 80px; vertical-align: middle;">
-                                        <span>${order.itemName}</span>
+                                        <span>${order.title}</span>
                                     </a>
                                     <p>단가: <fmt:formatNumber value="${order.price}" pattern="#,##0" />원</p>
                                     <p>수량: ${order.amount}개</p>

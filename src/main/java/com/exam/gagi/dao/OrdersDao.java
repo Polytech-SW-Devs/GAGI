@@ -1,25 +1,18 @@
 package com.exam.gagi.dao;
 
 import java.util.List;
-import java.util.Map;
 
-import com.exam.gagi.dto.OrderDetailDto;
-import com.exam.gagi.dto.OrderSearchDto;
-import com.exam.gagi.dto.SaleDetailDto;
-import com.exam.gagi.dto.SaleSearchDto;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 
 public interface OrdersDao {
 
-	void add(Orders item);
+	List<Orders> orderList(Pager pager);
 
-	List<Orders> salelist(SaleSearchDto searchDto);
+	int orderTotal(Pager pager);
 
-	List<OrderDetailDto> orderList(OrderSearchDto searchDto);
+	int saleTotal(Pager pager);
 
-	int getTotal(int userId);
+	List<Orders> saleList(Pager pager);
 
-	int getSaleTotal(int sellerId);
-
-	SaleDetailDto getSaleDetail(Map<String, Object> params);
 }

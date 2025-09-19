@@ -1,9 +1,6 @@
 package com.exam.gagi.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-public class Orders {
+public class Orders extends BaseEntity {
 	// 주문PK
 	private int id;
 	// 주문자 (FK)
@@ -11,11 +8,11 @@ public class Orders {
 	// 상품 ID (FK)
 	private Integer itemId;
 	// 상품 단가
-	private BigDecimal price;
+	private Integer price;
 	// 주문 수량
 	private Integer amount;
 	// 총 주문 금액
-	private BigDecimal totalPrice;
+	private Integer totalPrice;
 	// 거래유형 (배송/직거래)
 	private String transactionType;
 	// 결제 수단
@@ -32,12 +29,12 @@ public class Orders {
 	private String deliveryAddressDetail;
 	// 배송 요청사항
 	private String deliveryMemo;
-	// 생성일
-	private LocalDateTime createdAt;
-	// 수정일
-	private LocalDateTime updatedAt;
 	// 주문 상태
 	private String orderStatus;
+
+	// JOIN으로 가져올 추가 필드들
+	private String title; // 상품명
+	private String imageUrl; // 상품 썸네일
 
 	public int getId() {
 		return id;
@@ -63,11 +60,11 @@ public class Orders {
 		this.itemId = itemId;
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -79,11 +76,11 @@ public class Orders {
 		this.amount = amount;
 	}
 
-	public BigDecimal getTotalPrice() {
+	public Integer getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(BigDecimal totalPrice) {
+	public void setTotalPrice(Integer totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
@@ -151,28 +148,28 @@ public class Orders {
 		this.deliveryMemo = deliveryMemo;
 	}
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
 	public String getOrderStatus() {
 		return orderStatus;
 	}
 
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }
