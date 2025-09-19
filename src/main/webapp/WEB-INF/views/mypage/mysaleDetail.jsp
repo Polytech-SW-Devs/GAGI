@@ -118,6 +118,7 @@
             margin: 0;
         }
     </style>
+    <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
     <div class="container">

@@ -21,7 +21,8 @@ import com.exam.gagi.service.OrdersService;
 public class MypageController {
 	private final OrdersService service; // 서비스 계층 주입
 	private final String PATH = "mypage/";
-
+	
+	
 	// 생성자 주입
 	public MypageController(OrdersService service) {
 		this.service = service;
@@ -32,12 +33,6 @@ public class MypageController {
 	String mypage(Model model, HttpSession session, Pager pager) {
 
 		return PATH + "mypage";
-	}
-
-	// 내 게시글 보기
-	@GetMapping("/myarticle")
-	String myArticles() {
-		return PATH + "myarticle";
 	}
 
 	// 구매 내역 조회
@@ -76,5 +71,6 @@ public class MypageController {
 	@GetMapping("/mysaleDetail/{orderId}")
 	public String mysaleDetail(@PathVariable("orderId") int orderId, Model model, HttpSession session) {
 		return null;
+
 	}
 }

@@ -6,9 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Items extends BaseEntity {
+
 	private int id; // 상품 번호
 	private int userId; // 등록한 회원 번호 (FK)
-	private Integer categoryId; // 카테고리 번호 (FK)
+	private int categoryId; // 카테고리 번호 (FK)
 	private String title; // 상품 제목
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
@@ -18,6 +19,7 @@ public class Items extends BaseEntity {
 	private String bankAccountNumber; // 판매자 계좌번호
 	private String salesStatus; // 판매 상태
 	private int views; // 조회수
+
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 
 	private List<ItemImage> itemImages;
@@ -38,11 +40,11 @@ public class Items extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public Integer getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 

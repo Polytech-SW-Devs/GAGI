@@ -1,5 +1,7 @@
 package com.exam.gagi.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,51 @@ import com.exam.gagi.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	// 회원가입 페이지 요청
+	@GetMapping("/join")
+	public String joinPage() {
+		// 게시판 메뉴 취득
+		return "join";
+	}
+	
+	// 회원가입 요청
+	@PostMapping("/join")
+	public String joinAply(Member member) {
+		memberService.insertMember(member);
+	    return "redirect:/login";	
+	}
+	
+	// 로그인 페이지 요청
+	@GetMapping("/login")
+	public String loginPage() {
+		// 게시판 메뉴 취득
+		return "login";
+	}
+	
+	// 로그인 처리
+	@PostMapping("/login")
+	public String login(Member member, HttpSession session, Model model) {
+		Member loginUser = memberService.findByEmail(member.getEmail());
+		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
+			session.setAttribute("loginUser", loginUser);
+			System.out.println("로그인 유저:" + loginUser);//로그 확인용(삭제해도됨)
+			int id1 =loginUser.getId();//로그 확인용(삭제해도됨)
+			System.out.println("아이디번호는:" + id1);//로그 확인용(삭제해도됨)
+			
+			
+			return "redirect:/";
+		} else {
+			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
+			return "login";
+		}
+	}
+	// 로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 
 	// 중복아이디 체크
 	@ResponseBody

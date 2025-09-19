@@ -11,6 +11,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>마이페이지 - 판매내역</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    div {
+        box-sizing: border-box;
+    }
+    .sidebar {
+        float: left;
+        width: 20%;
+        min-height: 100vh;
+        border-right: 1px solid #ccc;
+        padding: 20px;
+    }
+    .main-content {
+        float: left;
+        width: 75%;
+        margin-left: 20px;
+        padding: 20px;
+    }
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    nav p {
+        margin: 5px 0;
+    }
+    nav a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 5px 0;
+    }
+    nav a:hover {
+        color: #007bff;
+    }
+    nav a.active {
+        font-weight: bold;
+        color: #007bff;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        vertical-align: middle; /* 추가: 셀 내용 수직 가운데 정렬 */
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+<jsp:include page="../templete/logo.jsp"></jsp:include>
+
 </head>
 <body class="bg-light">
     <!-- 헤더 영역 -->

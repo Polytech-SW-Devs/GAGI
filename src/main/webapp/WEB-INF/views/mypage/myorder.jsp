@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지 - 구매내역</title>
+<jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
 	<div>

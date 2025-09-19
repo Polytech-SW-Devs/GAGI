@@ -1,6 +1,7 @@
 package com.exam.gagi.model;
 
 public class ItemImage extends BaseEntity {
+
 	private int id; // 이미지 ID
 	private int itemId; // 상품 ID (FK)
 	private String imageUrl; // 이미지 경로
@@ -22,7 +23,11 @@ public class ItemImage extends BaseEntity {
 		this.itemId = itemId;
 	}
 
-	public String getImageUrl() {
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+    
+    public String getImageUrl() {
 		return imageUrl;
 	}
 

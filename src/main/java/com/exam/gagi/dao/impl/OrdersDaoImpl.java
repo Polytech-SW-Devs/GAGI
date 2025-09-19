@@ -38,6 +38,7 @@ public class OrdersDaoImpl implements OrdersDao {
 	@Override
 	public List<Orders> saleList(Pager pager) {
 		return sql.selectList("orders.saleList", pager);
+
 	}
 
 }
