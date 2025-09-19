@@ -1,18 +1,15 @@
 package com.exam.gagi.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.gagi.dao.OrdersDao;
-import com.exam.gagi.model.Item;
+
+import com.exam.gagi.model.MyBoard;
+
 import com.exam.gagi.model.OrderDetailDto;
-import com.exam.gagi.model.OrderItem;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
 
@@ -21,7 +18,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Autowired
 	OrdersDao dao;
-	
+
 	@Override
 	public void add(Orders item) {
 		dao.add(item);
@@ -37,8 +34,9 @@ public class OrdersServiceImpl implements OrdersService {
 		return dao.orderList(userId);
 	}
 
-	@Transactional
+	//내 게시글 페이지
 	@Override
+<<<<<<< HEAD
 	public void createDummyOrder(int userId) {
 		// 1. DB에서 임의의 상품 1~3개를 가져온다.
 		int itemCount = ThreadLocalRandom.current().nextInt(1, 4); // 1, 2, or 3
@@ -94,6 +92,10 @@ public class OrdersServiceImpl implements OrdersService {
 			
 			dao.addOrderItem(orderItem);
 		}
+=======
+	public List<MyBoard> list() {
+		return dao.list();
+>>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
 	}
 
 }

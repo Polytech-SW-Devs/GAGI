@@ -1,6 +1,7 @@
 package com.exam.gagi.model;
 
 import java.math.BigDecimal;
+<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -10,6 +11,14 @@ public class Item extends BaseEntity {
 	private int id; // 상품 번호
 	private int userId; // 등록한 회원 번호 (FK)
 	private int categoryId; // 카테고리 번호 (FK)
+=======
+import java.time.LocalDateTime;
+
+public class Items extends BaseEntity {
+	private Long id; // 상품 번호
+	private Long userId; // 등록한 회원 번호 (FK)
+	private Long categoryId; // 카테고리 번호 (FK)
+>>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
 	private String title; // 상품 제목
 	private String description; // 상품 설명
 	private String delivery; // 거래 지역/주소
@@ -19,8 +28,12 @@ public class Item extends BaseEntity {
 	private String bankAccountNumber; // 판매자 계좌번호
 	private String salesStatus; // 판매 상태
 	private int views; // 조회수
+<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
 	private Timestamp deletedAt; // 삭제일 (soft delete)
 	private Timestamp createdAt; //생성일
+=======
+	private LocalDateTime deletedAt; // 삭제일 (soft delete)
+>>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
 
 	public int getId() {
 		return id;
@@ -118,14 +131,15 @@ public class Item extends BaseEntity {
 		this.views = views;
 	}
 
-	public Timestamp getDeletedAt() {
+	public LocalDateTime getDeletedAt() {
 		return deletedAt;
 	}
 
-	public void setDeletedAt(Timestamp deletedAt) {
+	public void setDeletedAt(LocalDateTime deletedAt) {
 		this.deletedAt = deletedAt;
 	}
 
+<<<<<<< HEAD:src/main/java/com/exam/gagi/model/Item.java
 	public Timestamp getCreateAt() {
 		return createdAt;
 	}
@@ -134,4 +148,6 @@ public class Item extends BaseEntity {
 		this.createdAt = createdAt;
 	}
 	
+=======
+>>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437:src/main/java/com/exam/gagi/model/Items.java
 }

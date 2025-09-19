@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마이페이지 - 판매내역 id 2번 기준</title>
+<title>마이페이지 - 판매내역</title>
 <style>
     body {
         margin: 0;
@@ -67,83 +67,68 @@
 <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
-    <div>
-        <div class="sidebar">
-            <!-- 사이드바 -->
-            <div>
-                <h3>마이페이지</h3>
-                <nav>
-                    <p><a href="<c:url value='/mypage/myorder'/>">구매내역</a></p>
-                    <p><a href="<c:url value='/mypage/mysale'/>" class="active">판매내역</a></p>
-                    <p><a href="<c:url value='/mypage/mypage'/>">개인정보 수정</a></p>
-                    <p><a href="<c:url value='/mypage/myarticle'/>">내 게시글 보기</a></p>
-                    <p><a href="#">회원탈퇴</a></p>
-                </nav>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <!-- 메인 컨텐츠 -->
-            <h2>판매 내역</h2>
-
-            <div>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%;">주문번호</th>
-                            <th style="width: 15%;">주문일자</th>
-                            <th style="width: 30%;">상품명</th>
-                            <th style="width: 10%;">수량</th>
-                            <th style="width: 10%;">가격</th>
-                            <th style="width: 10%;">총 가격</th>
-                            <th style="width: 10%;">주문상태</th>
-                            <th style="width: 10%;">주문자</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <c:if test="${empty list}">
-                            <tr>
-                                <td colspan="8">판매 내역이 없습니다</td>
-                            </tr>
-                        </c:if>
-                        
-                        <c:forEach var="order" items="${list}">
-                            <c:forEach var="orderItem" items="${order.orderItems}" varStatus="loop">
-                                <tr data-order-id="${order.id}">
-                                    <c:if test="${loop.first}">
-                                        <td rowspan="${order.orderItems.size()}" class="order-id-cell" data-order-id="${order.id}" style="cursor: pointer;">${order.id}</td>
-                                        <td rowspan="${order.orderItems.size()}"><fmt:formatDate value="${order.createdAt}" pattern="yyyy-MM-dd HH:mm" /></td>
-                                    </c:if>
-                                    
-                                    <td>${orderItem.item.title}</td>
-                                    <td>${orderItem.quantity}개</td>
-                                    <td><fmt:formatNumber value="${orderItem.price}" pattern="#,##0" />원</td>
-                                    <td><fmt:formatNumber value="${orderItem.quantity * orderItem.price}" pattern="#,##0" />원</td>
-                                    
-                                    <c:if test="${loop.first}">
-                                        <td rowspan="${order.orderItems.size()}">${orderItem.orderStatus}</td>
-                                        <td rowspan="${order.orderItems.size()}">${order.userId}</td>
-                                    </c:if>
-                                </tr>
-                            </c:forEach>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div>
+    <div class="sidebar">
+        <h3>마이페이지</h3>
+        <nav>
+            <p><a href="<c:url value='/mypage/myorder'/>">구매내역</a></p>
+            <p><a href="<c:url value='/mypage/mysale'/>" class="active">판매내역</a></p>
+            <p><a href="<c:url value='/mypage/mypage'/>">개인정보 수정</a></p>
+            <p><a href="<c:url value='/mypage/myarticle'/>">내 게시글 보기</a></p>
+            <p><a href="#">회원탈퇴</a></p>
+        </nav>
     </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var orderIdCells = document.querySelectorAll('.order-id-cell');
-        orderIdCells.forEach(function(cell) {
-            cell.addEventListener('click', function() {
-                var orderId = this.dataset.orderId;
-                var detailUrl = '<c:url value="/mypage/mysaleDetail"/>?orderId=' + orderId;
-                window.open(detailUrl, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
-            });
-        });
-    });
-</script>
+
+    <div class="main-content">
+        <h2>판매 내역</h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>주문일자</th>
+                    <th>상품명</th>
+                    <th>수량</th>
+                    <th>가격</th>
+                    <th>총 가격</th>
+                    <th>주문상태</th>
+                    <th>주문자</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:if test="${empty list}">
+                    <tr>
+                        <td colspan="8">판매 내역이 없습니다</td>
+                    </tr>
+                </c:if>
+
+                <c:forEach var="order" items="${list}">
+                    <c:forEach var="orderItem" items="${order.orderItems}" varStatus="loop">
+                        <tr>
+                            <c:if test="${loop.first}">
+                                <td rowspan="${order.orderItems.size()}">
+                                    <a href="<c:url value='/mypage/mysaleDetail/${order.id}'/>">${order.id}</a>
+                                </td>
+                                <td rowspan="${order.orderItems.size()}">
+                                    <fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd HH:mm" />
+                                </td>
+                            </c:if>
+
+                            <td>${orderItem.item.title}</td>
+                            <td>${orderItem.quantity}개</td>
+                            <td><fmt:formatNumber value="${orderItem.price}" pattern="#,##0" />원</td>
+                            <td><fmt:formatNumber value="${orderItem.totalPrice}" pattern="#,##0" />원</td>
+
+                            <c:if test="${loop.first}">
+                                <td rowspan="${order.orderItems.size()}">${orderItem.orderStatus}</td>
+                                <td rowspan="${order.orderItems.size()}">${order.userId}</td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

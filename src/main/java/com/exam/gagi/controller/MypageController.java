@@ -7,11 +7,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.gagi.model.Member;
+import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
@@ -28,36 +28,13 @@ public class MypageController {
 		this.ordersService = service;
 	}
 
-	// mypage 진입
+	// 마이페이지 메인 화면
 	@GetMapping("")
 	String mypage(Model model) {
-
 		return PATH + "mypage";
 	}
 
-//	// 내 게시글 보기
-//	@GetMapping("/myarticle")
-//	String myArticles() {
-//		return PATH + "myarticle";
-//	}
-	
-//	// 게시글 등록
-//	@GetMapping("/product/add")
-//	public String add(Model model) {
-//		List<Category> categoryList = myboardService.categoryList(); 
-//		model.addAttribute("categories", categoryList);
-//		
-//		return  "add";
-//	}
-//	
-//	@PostMapping("/add")
-//	public String add(MyBoard myboard) {
-//		myboardService.add(myboard);
-//		
-//		return "redirect:list";
-//	}
-
-	// 구매 내역
+	// 구매 내역 조회
 	@GetMapping("/myorder")
 	String myOrders(Model model, HttpSession session) {
 		// 세션에서 member 정보 가져오기
@@ -110,6 +87,7 @@ public class MypageController {
 
 	@GetMapping("/mysaleDetail")
 	public String mysaleDetail(@RequestParam("orderId") Long orderId, Model model) {
+
 		// TODO: ordersService.getOrderByIdWithItems(orderId) 구현 필요
 		// 현재는 임시로 null 반환
 		Orders order = null; // ordersService.getOrderByIdWithItems(orderId);

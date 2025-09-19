@@ -1,9 +1,10 @@
 package com.exam.gagi.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class OrderItem {
+
     private int id; // 주문 상세 번호
     private int orderId; // 주문 ID (FK)
     private int itemId; // 상품 ID (FK)
@@ -37,43 +38,55 @@ public class OrderItem {
         this.itemId = itemId;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public Integer getQuantity() {
+		return quantity;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public String getOrderStatus() {
-        return orderStatus;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
+	public String getOrderStatus() {
+		return orderStatus;
+	}
 
-    public Item getItem() {
-        return item;
-    }
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+	public Items getItem() {
+		return item;
+	}
+
+	public void setItem(Items item) {
+		this.item = item;
+	}
+
+	// 편의 메서드
+	public BigDecimal getTotalPrice() {
+		if (price != null && quantity != null) {
+			return price.multiply(BigDecimal.valueOf(quantity));
+		}
+		return BigDecimal.ZERO;
+	}
 }
