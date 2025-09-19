@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.OrdersDao;
 
-import com.exam.gagi.model.Item;
 import com.exam.gagi.model.MyBoard;
 
 import com.exam.gagi.model.OrderDetailDto;

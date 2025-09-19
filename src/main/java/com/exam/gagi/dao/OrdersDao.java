@@ -2,8 +2,6 @@ package com.exam.gagi.dao;
 
 import java.util.List;
 
-
-import com.exam.gagi.model.Item;
 import com.exam.gagi.model.MyBoard;
 
 import com.exam.gagi.model.OrderDetailDto;
