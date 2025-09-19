@@ -76,7 +76,6 @@
             #{deliveryAddressMain, jdbcType=VARCHAR}, #{deliveryAddressDetail, jdbcType=VARCHAR},
             #{deliveryMemo, jdbcType=VARCHAR}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
         )
-<<<<<<< HEAD
     </insert>
 
    <insert id="addOrderItem" parameterType="OrderItem">
@@ -94,10 +93,8 @@
         ) WHERE ROWNUM &lt;= #{limit}
     </select>
 
-=======
-  	</insert>
-  	
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
+
+
     <!-- ResultMaps -->
     <resultMap id="saleOrderMap" type="Orders">
         <id property="id" column="order_id"/>
@@ -122,13 +119,8 @@
             <result property="price" column="price"/>
             <result property="orderStatus" column="order_item_status"/>
             <result property="createdAt" column="order_item_created_at"/>
-<<<<<<< HEAD
-
             <association property="item" javaType="Item">
-=======
-            
-            <association property="item" javaType="Items">
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
+
                 <id property="id" column="item_id"/>
                 <result property="userId" column="item_user_id"/>
                 <result property="categoryId" column="category_id"/>
@@ -170,37 +162,15 @@
     </select>
 
     <select id="orderList" resultMap="orderListMap" parameterType="string">
-<<<<<<< HEAD
         SELECT o.ID AS order_id, o.CREATED_AT AS order_date, <include refid="itemImageThumbnail" />, i.TITLE AS item_title, oi.QUANTITY AS quantity, (oi.QUANTITY * oi.PRICE) AS total_price, oi.ORDER_STATUS AS order_status
         FROM ORDERS o
-=======
-        SELECT
-            o.ID AS order_id,
-            o.CREATED_AT AS order_date,
-            oi.ITEM_ID AS item_id,
-            <include refid="itemImageThumbnail" />,
-            i.TITLE AS item_title,
-            oi.QUANTITY AS quantity,
-            (oi.QUANTITY * oi.PRICE) AS total_price,
-            oi.ORDER_STATUS AS order_status
-        FROM
-            ORDERS o
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
+
         <include refid="orderItemJoin" />
         <include refid="itemJoin" />
         WHERE o.USER_ID = #{userId, jdbcType=NUMERIC}
         ORDER BY o.ID DESC
     </select>
-<<<<<<< HEAD
+
 
 </mapper>
-=======
-    
-    <!-- 내 게시글 페이지 -->
-    <select id="list" resultType="Myboard">
-		SELECT M.*, C.NAME CATEGORY_NAME
-		FROM MYBOARD M
-		JOIN CATEGORIES C ON M.CATEGORY_ID = C.CATEGORY_ID
-	</select>
-  </mapper>
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
+

@@ -3,21 +3,21 @@ package com.exam.gagi.service;
 import java.util.List;
 
 import com.exam.gagi.model.Category;
-import com.exam.gagi.model.Item;
+import com.exam.gagi.model.Items;
 
 public interface ProductService {
 
-	List<Item> list(int userId);//로그인한 유저가 등록한 상품만 조회
+	List<Items> list(int userId);//로그인한 유저가 등록한 상품만 조회
 	
-	void add(Item item);
+	void add(Items item);
 
 	void delete(int id);
 
-	Item item(int id);
+	Items item(int id);
 
-	void update(Item item);
+	void update(Items item);
 
-	List<Item> totalList();
+	List<Items> totalList();
 
 
 

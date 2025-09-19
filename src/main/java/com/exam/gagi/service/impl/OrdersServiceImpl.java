@@ -1,15 +1,18 @@
 package com.exam.gagi.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.OrdersDao;
-
+import com.exam.gagi.model.Items;
 import com.exam.gagi.model.MyBoard;
 
-import com.exam.gagi.model.OrderDetailDto;
+
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
 
@@ -29,23 +32,20 @@ public class OrdersServiceImpl implements OrdersService {
 		return dao.salelist(sellerId);
 	}
 
-	@Override
-	public List<OrderDetailDto> orderList(String userId) {
-		return dao.orderList(userId);
-	}
+	
 
 	//내 게시글 페이지
 	@Override
-<<<<<<< HEAD
+
 	public void createDummyOrder(int userId) {
 		// 1. DB에서 임의의 상품 1~3개를 가져온다.
 		int itemCount = ThreadLocalRandom.current().nextInt(1, 4); // 1, 2, or 3
-		List<Item> randomItems = dao.findRandomItems(itemCount);
-		
-		if (randomItems.isEmpty()) {
-			// 상품이 하나도 없으면 더미 데이터 생성 불가
-			return;
-		}
+//		List<Items> randomItems = dao.findRandomItems(itemCount);
+//		
+//		if (randomItems.isEmpty()) {
+//			//상품이 하나도 없으면 더미 데이터 생성 불가
+//			return;
+//		}
 
 		// 2. 주문(Orders) 객체 생성
 		Orders order = new Orders();
@@ -53,10 +53,10 @@ public class OrdersServiceImpl implements OrdersService {
 		
 		// 2-1. 총 가격 계산
 		BigDecimal totalPrice = BigDecimal.ZERO;
-		for (Item item : randomItems) {
-			// 각 상품의 가격을 더함 (수량은 1로 가정)
-			totalPrice = totalPrice.add(item.getPrice());
-		}
+//		for (Items item : randomItems) {
+//			// 각 상품의 가격을 더함 (수량은 1로 가정)
+//			totalPrice = totalPrice.add(item.getPrice());
+//		}
 		order.setTotalPrice(totalPrice);
 
 		// 2-2. 임의의 주문 상태 설정 (Orders에서는 제거됨)
@@ -81,21 +81,16 @@ public class OrdersServiceImpl implements OrdersService {
 		dao.add(order);
 		int orderId = order.getId();
 
-		// 4. 주문상품(OrderItem) 객체들을 생성하고 DB에 추가
-		for (Item item : randomItems) {
-			OrderItem orderItem = new OrderItem();
-			orderItem.setOrderId(orderId);
-			orderItem.setItemId(item.getId());
-			orderItem.setQuantity(1); // 수량은 1로 고정
-			orderItem.setPrice(item.getPrice()); // 주문 당시 가격
-			orderItem.setOrderStatus(randomStatus); // OrderItem에 주문 상태 설정
-			
-			dao.addOrderItem(orderItem);
-		}
-=======
-	public List<MyBoard> list() {
-		return dao.list();
->>>>>>> dac3a86ed6663cf00984ad5a3ddc22db44e87437
+//		// 4. 주문상품(OrderItem) 객체들을 생성하고 DB에 추가
+//		for (Items item : randomItems) {
+//			orderItem.setOrderId(orderId);
+//			orderItem.setItemId(item.getId());
+//			orderItem.setQuantity(1); // 수량은 1로 고정
+//			orderItem.setPrice(item.getPrice()); // 주문 당시 가격
+//			orderItem.setOrderStatus(randomStatus); // OrderItem에 주문 상태 설정
+//			
+//			dao.addOrderItem(orderItem);
+//		}
 	}
 
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.exam.gagi.model.Category;
-import com.exam.gagi.model.Item;
+import com.exam.gagi.model.Items;
 import com.exam.gagi.model.Member;
 import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.service.MemberService;
@@ -41,7 +41,7 @@ public class ProductController {
 			return "redirect:/login";
 		}
 		int userId = loginUser.getId();
-		List<Item> list= service.list(userId); 
+		List<Items> list= service.list(userId); 
 		model.addAttribute("list", list);	
 		return "/product/list";
 	}
@@ -53,7 +53,7 @@ public class ProductController {
 		return "/product/add";	
 	}
 	@PostMapping("product/add")
-	String add(HttpSession session, Item item) {
+	String add(HttpSession session, Items item) {
 		
 		System.out.println("title: " + item.getTitle());
 		Member loginUser = (Member) session.getAttribute("loginUser");
@@ -75,12 +75,12 @@ public class ProductController {
 	//게시글 수정
 	@GetMapping("product/update/{id}")
 	String update(@PathVariable("id") int id, Model model) {
-		Item item = service.item(id);
+		Items item = service.item(id);
 		model.addAttribute("item",item);		
 		return "/product/update";
 	}
 	@PostMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Item item ,Model model) {
+	String update(@PathVariable("id") int id, Items item ,Model model) {
 		item.setId(id);
 		service.update(item);		
 		return "redirect:/product/list";
@@ -89,7 +89,7 @@ public class ProductController {
 	//상세페이지
 	@GetMapping("/product/detail/{id}")
 	String detail(@PathVariable int id, Model model) {
-		Item item = service.item(id);
+		Items item = service.item(id);
 		Member member = mService.findById(item.getUserId()) ;
 		model.addAttribute("item", item);
 		model.addAttribute("member", member);

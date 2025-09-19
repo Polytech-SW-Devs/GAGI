@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
-import com.exam.gagi.model.Item;
+import com.exam.gagi.model.Items;
 
 @Repository
 public class ProductDaoImpl implements ProductDao{
@@ -17,13 +17,13 @@ public class ProductDaoImpl implements ProductDao{
 	SqlSession sql;
 	
 	@Override
-	public void add(Item item) {
+	public void add(Items item) {
 		sql.insert("product.add",item);
 		
 	}
 
 	@Override
-	public List<Item> list(int userId) {
+	public List<Items> list(int userId) {
 		return sql.selectList("product.list", userId);
 	}
 
@@ -34,17 +34,17 @@ public class ProductDaoImpl implements ProductDao{
 	}
 	
 	@Override
-	public Item item(int id) {
+	public Items item(int id) {
 		return sql.selectOne("product.item", id);
 	}
 
 	@Override
-	public void update(Item item) {
+	public void update(Items item) {
 		sql.update("product.update",item);
 	}
 
 	@Override
-	public List<Item> totalList() {
+	public List<Items> totalList() {
 		return sql.selectList("product.totalList");
 	}
 

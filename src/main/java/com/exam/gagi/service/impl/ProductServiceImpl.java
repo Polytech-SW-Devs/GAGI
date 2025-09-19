@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
-import com.exam.gagi.model.Item;
+import com.exam.gagi.model.Items;
 import com.exam.gagi.service.ProductService;
 
 @Service
@@ -17,12 +17,12 @@ public class ProductServiceImpl implements ProductService {
 	ProductDao dao;
 	
 	@Override//로그인한 유저가 등록한 리스트 조회
-	public List<Item> list(int userId) {
+	public List<Items> list(int userId) {
 		return dao.list(userId);
 	}
 	
 	@Override//추가
-	public void add(Item item) {
+	public void add(Items item) {
 		dao.add(item);
 		
 	}
@@ -34,17 +34,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Item item(int id) {
+	public Items item(int id) {
 		return dao.item(id);
 	}
 
 	@Override
-	public void update(Item item) {
+	public void update(Items item) {
 		dao.update(item);
 	}
 
 	@Override
-	public List<Item> totalList() {
+	public List<Items> totalList() {
 		return dao.totalList();
 	}
 

@@ -8,11 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.gagi.model.Member;
 import com.exam.gagi.model.MyBoard;
-import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.service.OrdersService;
 
@@ -34,24 +35,24 @@ public class MypageController {
 		return PATH + "mypage";
 	}
 
-	// 구매 내역 조회
-	@GetMapping("/myorder")
-	String myOrders(Model model, HttpSession session) {
-		// 세션에서 member 정보 가져오기
-		Member member = (Member) session.getAttribute("loginUser");
-
-		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-		if (member == null) {
-			return "redirect:/login";
-		}
-
-		String memberId = String.valueOf(member.getId());
-
-		// 주문 내역 조회 (계층 구조로 변경)
-		List<OrderDetailDto> orderHistory = ordersService.orderList(memberId);
-		model.addAttribute("orderHistory", orderHistory);
-		return PATH + "myorder";
-	}
+//	// 구매 내역 조회
+//	@GetMapping("/myorder")
+//	String myOrders(Model model, HttpSession session) {
+//		// 세션에서 member 정보 가져오기
+//		Member member = (Member) session.getAttribute("loginUser");
+//
+//		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+//		if (member == null) {
+//			return "redirect:/login";
+//		}
+//
+//		String memberId = String.valueOf(member.getId());
+//
+//		// 주문 내역 조회 (계층 구조로 변경)
+//		List<OrderDetailDto> orderHistory = ordersService.orderList(memberId);
+//		model.addAttribute("orderHistory", orderHistory);
+//		return PATH + "myorder";
+//	}
 
 	// 판매내역
 	@GetMapping("/mysale")

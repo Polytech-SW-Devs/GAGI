@@ -10,7 +10,7 @@ import com.exam.gagi.dao.OrdersDao;
 
 import com.exam.gagi.model.MyBoard;
 
-import com.exam.gagi.model.OrderDetailDto;
+
 import com.exam.gagi.model.Orders;
 
 @Repository
@@ -29,10 +29,10 @@ public class OrdersDaoImpl implements OrdersDao {
 		return sql.selectList("orders.salelist", sellerId);
 	}
 
-	@Override
-	public List<OrderDetailDto> orderList(String userId) {
-		return sql.selectList("orders.orderList", userId);
-	}
+//	@Override
+//	public List<OrderDetailDto> orderList(String userId) {
+//		return sql.selectList("orders.orderList", userId);
+//	}
 
 	@Override
 	public List<MyBoard> list() {

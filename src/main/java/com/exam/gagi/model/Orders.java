@@ -27,7 +27,7 @@ public class Orders extends BaseEntity {
 	private String deliveryAddressDetail;
 	// 배송 요청사항
 	private String deliveryMemo;
-	private List<OrderItem> orderItems;
+	
 
 	public int getId() {
 		return id;
@@ -115,14 +115,6 @@ public class Orders extends BaseEntity {
 
 	public void setDeliveryMemo(String deliveryMemo) {
 		this.deliveryMemo = deliveryMemo;
-	}
-
-	public List<OrderItem> getOrderItems() {
-		return orderItems;
-	}
-
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
 	}
 
 }
