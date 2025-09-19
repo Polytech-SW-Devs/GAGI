@@ -1,19 +1,14 @@
 package com.exam.gagi.service;
 
 import java.util.List;
-
-import com.exam.gagi.model.MyBoard;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 
 public interface OrdersService {
 
-	void add(Orders item);
 
-	List<Orders> salelist(String sellerId);
+	List<Orders> orderList(Pager pager);
 
-
-	// 더미 order만들기
-	void createDummyOrder(int l);
-
+	List<Orders> saleList(Pager pager);
 
 }

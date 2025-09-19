@@ -1,21 +1,18 @@
 package com.exam.gagi.dao;
 
 import java.util.List;
-
-import com.exam.gagi.model.MyBoard;
-
-
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 
 public interface OrdersDao {
 
-	void add(Orders item);
+	List<Orders> orderList(Pager pager);
 
-	List<Orders> salelist(String sellerId);
+	int orderTotal(Pager pager);
+	int saleTotal(Pager pager);
 
-//	List<OrderDetailDto> orderList(String userId);
 
-	// 내 게시글 페이지
-	List<MyBoard> list();
+	List<Orders> saleList(Pager pager);
 
 }
+

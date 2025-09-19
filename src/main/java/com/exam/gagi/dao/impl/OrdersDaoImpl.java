@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.OrdersDao;
-
-import com.exam.gagi.model.MyBoard;
-
-
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 
 @Repository
 public class OrdersDaoImpl implements OrdersDao {
@@ -20,23 +17,29 @@ public class OrdersDaoImpl implements OrdersDao {
 	SqlSession sql;
 
 	@Override
-	public void add(Orders item) {
-		sql.insert("orders.add", item);
+	public List<Orders> orderList(Pager pager) {
+
+		return sql.selectList("orders.orderList", pager);
 	}
 
 	@Override
-	public List<Orders> salelist(String sellerId) {
-		return sql.selectList("orders.salelist", sellerId);
+	public int orderTotal(Pager pager) {
+
+		return sql.selectOne("orders.orderTotal", pager);
 	}
 
-//	@Override
-//	public List<OrderDetailDto> orderList(String userId) {
-//		return sql.selectList("orders.orderList", userId);
-//	}
 
 	@Override
-	public List<MyBoard> list() {
-		return sql.selectList("orders.list");
+	public int saleTotal(Pager pager) {
+
+		return sql.selectOne("orders.saleTotal", pager);
+
+	}
+
+	@Override
+	public List<Orders> saleList(Pager pager) {
+		return sql.selectList("orders.saleList", pager);
+
 	}
 
 }
