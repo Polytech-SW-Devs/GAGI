@@ -24,6 +24,7 @@ public class ItemImage extends BaseEntity {
 	}
     
     public String getImageUrl() {
+
 		return imageUrl;
 	}
 

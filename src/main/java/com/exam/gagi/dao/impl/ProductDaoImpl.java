@@ -11,15 +11,14 @@ import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 
 @Repository
-public class ProductDaoImpl implements ProductDao{
+public class ProductDaoImpl implements ProductDao {
 
 	@Autowired
 	SqlSession sql;
-	
+
 	@Override
 	public void add(Items item) {
 		sql.insert("product.add",item);
-		
 	}
 
 	@Override
@@ -29,10 +28,10 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public void delete(int id) {
-		sql.selectOne("product.delete",id);
-		
+		sql.selectOne("product.delete", id);
+
 	}
-	
+
 	@Override
 	public Items item(int id) {
 		return sql.selectOne("product.item", id);
@@ -40,6 +39,7 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public void update(Items item) {
+
 		sql.update("product.update",item);
 	}
 
@@ -47,9 +47,5 @@ public class ProductDaoImpl implements ProductDao{
 	public List<Items> totalList() {
 		return sql.selectList("product.totalList");
 	}
-
-
-	
-
 
 }
