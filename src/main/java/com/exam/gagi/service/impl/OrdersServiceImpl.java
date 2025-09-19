@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.OrdersDao;
 
-import com.exam.gagi.model.Item;
 import com.exam.gagi.model.MyBoard;
 
 import com.exam.gagi.model.OrderDetailDto;
