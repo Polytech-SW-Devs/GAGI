@@ -7,9 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exam.gagi.model.Member;
 import com.exam.gagi.model.MyBoard;
@@ -28,7 +27,7 @@ public class MypageController {
 		this.ordersService = service;
 	}
 
-	// mypage 진입
+	// 마이페이지 메인 화면
 	@GetMapping("")
 	String mypage(Model model) {
 		return PATH + "mypage";
@@ -44,7 +43,7 @@ public class MypageController {
 		return PATH + "myarticle";
 	}
 
-	// 구매 내역
+	// 구매 내역 조회
 	@GetMapping("/myorder")
 	String myOrders(Model model, HttpSession session) {
 		// 세션에서 member 정보 가져오기
@@ -83,20 +82,8 @@ public class MypageController {
 		return PATH + "mysale";
 	}
 
-	// 구매내역 데이터 추가
-	@PostMapping("/add-dummy-order")
-	public String addDummyOrder(HttpSession session) {
-		Member member = (Member) session.getAttribute("loginUser");
-
-		if (member != null) {
-			ordersService.createDummyOrder(1L); // Changed to 1L
-		}
-
-		return "redirect:/mypage/myorder";
-	}
-
-	@GetMapping("/mysaleDetail")
-	public String mysaleDetail(@RequestParam("orderId") Long orderId, Model model) {
+	@GetMapping("/mysaleDetail/{orderId}")
+	public String mysaleDetail(@PathVariable("orderId") Long orderId, Model model) {
 		// TODO: ordersService.getOrderByIdWithItems(orderId) 구현 필요
 		// 현재는 임시로 null 반환
 		Orders order = null; // ordersService.getOrderByIdWithItems(orderId);
