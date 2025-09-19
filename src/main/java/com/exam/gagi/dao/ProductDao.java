@@ -2,22 +2,20 @@ package com.exam.gagi.dao;
 
 import java.util.List;
 
-import com.exam.gagi.model.Category;
-import com.exam.gagi.model.Item;
+import com.exam.gagi.model.Items;
 
 public interface ProductDao {
 
-	void add(Item item);
+	void add(Items item);
 
-	List<Item> list(int userId);
+	List<Items> list(int userId);
 
 	void delete(int id);
 
-	void update(Item item);
+	void update(Items item);
 
-	Item item(int id);
+	Items item(int id);
 
-	List<Item> totalList();
+	List<Items> totalList();
 
-	
 }

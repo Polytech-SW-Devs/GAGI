@@ -23,11 +23,7 @@ public class ItemImage extends BaseEntity {
 		this.itemId = itemId;
 	}
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-    
-    public String getImageUrl() {
+	public String getImageUrl() {
 		return imageUrl;
 	}
 

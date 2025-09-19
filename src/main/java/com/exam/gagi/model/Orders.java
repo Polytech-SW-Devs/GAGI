@@ -1,7 +1,6 @@
 package com.exam.gagi.model;
 
 public class Orders extends BaseEntity {
-<<<<<<< HEAD
 	// 주문PK
 	private int id;
 	// 주문자 (FK)
@@ -12,14 +11,6 @@ public class Orders extends BaseEntity {
 	private Integer price;
 	// 주문 수량
 	private Integer amount;
-=======
-	// 주문 번호
-	private int id;
-	// 주문자 ID
-	private int userId;
-	// 거래 유형
-	private String transactionType;
->>>>>>> main
 	// 총 주문 금액
 	private Integer totalPrice;
 	// 거래유형 (배송/직거래)
@@ -40,7 +31,6 @@ public class Orders extends BaseEntity {
 	private String deliveryMemo;
 	// 주문 상태
 	private String orderStatus;
-
 
 	// JOIN으로 가져올 추가 필드들
 	private String title; // 상품명
