@@ -64,5 +64,10 @@
 	    WHERE email = #{email}
 	</update>
 	
+	<select id="findById" resultType="Member">
+		SELECT ID, EMAIL, NICKNAME, PHONE
+		FROM USERS
+		WHERE ID = #{id}
+	</select>
 
   </mapper>

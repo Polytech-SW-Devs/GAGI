@@ -12,7 +12,7 @@
 	
 	<insert id="add">
 		INSERT INTO MYBOARD(BOARD_ID, CATEGORY_ID, TITLE, CONTENT)
-		VALUES(BOARD_ID_SEQ.NEXTVAL, #{categoryId}, #{title}, #{content})
+		VALUES(BOARD_ID_SEQ.NEXTVAL, #{categoryId}, #{title}, #{description})
 	</insert>
 
 

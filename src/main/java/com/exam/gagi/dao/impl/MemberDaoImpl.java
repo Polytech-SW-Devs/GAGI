@@ -63,6 +63,12 @@ public class MemberDaoImpl implements MemberDao {
 		 sqlSession.update("member.updatePassword", params);
 	
 	}
+	
+	//userId로 조회
+	@Override
+	public Member findById(int id) {
+		return sqlSession.selectOne("member.findById", id);
+	}
 
 }
 

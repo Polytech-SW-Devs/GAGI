@@ -19,21 +19,21 @@ import com.exam.gagi.service.MyBoardService;
 @RequestMapping("/myBoard")
 public class MyBoardController {
 	
-	Logger logger = LoggerFactory.getLogger(MyBoardController.class);
-	
-	final private String path = "/myboard/";
-	
+//	Logger logger = LoggerFactory.getLogger(MyBoardController.class);
+//	
+	final private String path = "/mypage/";
+//	
 	@Autowired
 	MyBoardService service;
-	
-	@GetMapping("/list")
-	public String list(Model model) {
-		List<MyBoard> list = service.list();
-		
-		model.addAttribute("list", list);
-		
-		return path + "list";
-	}
+//	
+//	@GetMapping("/myarticle")
+//	public String list(Model model) {
+//		List<MyBoard> list = service.list();
+//		
+//		model.addAttribute("list", list);
+//		
+//		return path + "list";
+//	}
 
 
 	@GetMapping("/add")

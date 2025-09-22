@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.OrdersDao;
-
-import com.exam.gagi.model.MyBoard;
-
-import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 import com.exam.gagi.service.OrdersService;
 
 @Service
@@ -20,24 +17,17 @@ public class OrdersServiceImpl implements OrdersService {
 	OrdersDao dao;
 
 	@Override
-	public void add(Orders item) {
-		dao.add(item);
+	public List<Orders> orderList(Pager pager) {
+		int total = dao.orderTotal(pager);
+		pager.setTotal(total);
+		return dao.orderList(pager);
 	}
 
 	@Override
-	public List<Orders> salelist(String sellerId) {
-		return dao.salelist(sellerId);
-	}
-
-	@Override
-	public List<OrderDetailDto> orderList(String userId) {
-		return dao.orderList(userId);
-	}
-
-	//내 게시글 페이지
-	@Override
-	public List<MyBoard> list() {
-		return dao.list();
+	public List<Orders> saleList(Pager pager) {
+		int total = dao.saleTotal(pager);
+		pager.setTotal(total);
+		return dao.saleList(pager);
 	}
 
 }

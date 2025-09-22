@@ -9,85 +9,68 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.exam.gagi.model.Member;
-import com.exam.gagi.model.MyBoard;
-import com.exam.gagi.model.OrderDetailDto;
 import com.exam.gagi.model.Orders;
+import com.exam.gagi.pager.Pager;
 import com.exam.gagi.service.OrdersService;
 
 @Controller
 @RequestMapping("/mypage")
 public class MypageController {
-	private final OrdersService ordersService; // 서비스 계층 주입
+	private final OrdersService service; // 서비스 계층 주입
 	private final String PATH = "mypage/";
-
+	
+	
 	// 생성자 주입
 	public MypageController(OrdersService service) {
-		this.ordersService = service;
+		this.service = service;
 	}
 
 	// 마이페이지 메인 화면
 	@GetMapping("")
-	String mypage(Model model) {
-		return PATH + "mypage";
-	}
+	String mypage(Model model, HttpSession session, Pager pager) {
 
-	// 내 게시글 보기
-	@GetMapping("/myarticle")
-	String myArticles(Model model) {
-		// 내 게시글 페이지
-		List<MyBoard> list = ordersService.list();
-		
-		model.addAttribute("list", list);
-		return PATH + "myarticle";
+		return PATH + "mypage";
 	}
 
 	// 구매 내역 조회
 	@GetMapping("/myorder")
-	String myOrders(Model model, HttpSession session) {
-		// 세션에서 member 정보 가져오기
-		Member member = (Member) session.getAttribute("loginUser");
-
-		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-		if (member == null) {
+	String myOrders(Model model, @SessionAttribute(name = "loginUser", required = false) Member loginUser,
+			Pager pager) {
+		if (loginUser == null) {
 			return "redirect:/login";
 		}
 
-		String memberId = String.valueOf(member.getId());
+		int userId = loginUser.getId();
+		pager.setUserId(userId);
 
-		// 주문 내역 조회 (계층 구조로 변경)
-		List<OrderDetailDto> orderHistory = ordersService.orderList(memberId);
-		model.addAttribute("orderHistory", orderHistory);
+		List<Orders> list = service.orderList(pager);
+		model.addAttribute("list", list);
 		return PATH + "myorder";
 	}
 
 	// 판매내역
 	@GetMapping("/mysale")
-	String mySales(Model model, HttpSession session) {
+	String mySales(Model model, @SessionAttribute(name = "loginUser", required = false) Member loginUser, Pager pager) {
 
-		// 세션에서 member 정보 가져오기
-		Member member = (Member) session.getAttribute("loginUser");
-
-		// 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-		if (member == null) {
+		if (loginUser == null) {
 			return "redirect:/login";
 		}
 
-		String sellerId = String.valueOf(member.getId());
-		List<Orders> list = ordersService.salelist(sellerId);
+		int userId = loginUser.getId();
+		pager.setUserId(userId);
 
-		System.out.println("list: " + list);
+		List<Orders> list = service.saleList(pager);
 		model.addAttribute("list", list);
+
 		return PATH + "mysale";
 	}
 
 	@GetMapping("/mysaleDetail/{orderId}")
-	public String mysaleDetail(@PathVariable("orderId") Long orderId, Model model) {
-		// TODO: ordersService.getOrderByIdWithItems(orderId) 구현 필요
-		// 현재는 임시로 null 반환
-		Orders order = null; // ordersService.getOrderByIdWithItems(orderId);
-		model.addAttribute("order", order);
-		return PATH + "mysaleDetail";
+	public String mysaleDetail(@PathVariable("orderId") int orderId, Model model, HttpSession session) {
+		return null;
+
 	}
 }

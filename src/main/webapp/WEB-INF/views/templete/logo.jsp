@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-</head>
-<body>
+<div><h3><a href="${pageContext.request.contextPath}/">GAGI</a></h3></div>
 
-	
+</body>
+</html>

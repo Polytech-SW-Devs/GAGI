@@ -28,5 +28,8 @@ public interface MemberDao {
 
 
 	void updatePassword(@Param("email") String email, @Param("newPassword") String newPassword);
+	
+	//userId로 조회
+	Member findById(int id);
 
 }

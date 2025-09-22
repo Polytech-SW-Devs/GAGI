@@ -62,4 +62,10 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	//userId로 조회
+	@Override
+	public Member findById(int id) {
+		return memberDao.findById(id);
+	}
+
 }

@@ -45,7 +45,7 @@
 				</table>
 			</div>
 			<div>
-				<a href="add">글쓰기</a>
+				<a href="../add">글쓰기</a>
 			</div>
 		</div>
 	</div>
