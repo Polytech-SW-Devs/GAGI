@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mycart">
+
+    <!-- MYCART ResultMap -->
+    <resultMap id="MyCartResultMap" type="com.exam.gagi.model.MyCart">
+        <id property="id" column="ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="itemId" column="ITEM_ID"/>
+        <result property="quantity" column="QUANTITY"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
+    </resultMap>
+
+    <!-- 장바구니에 추가 -->
+    <insert id="insertCart" parameterType="com.exam.gagi.model.MyCart">
+        INSERT INTO MYCART (id, user_id, item_id, quantity, created_at, updated_at)
+        VALUES (MYCART_SEQ.NEXTVAL, #{userId}, #{itemId}, #{quantity},
+                #{createdAt, jdbcType=TIMESTAMP}, #{updatedAt, jdbcType=TIMESTAMP})
+    </insert>
+
+    <!-- 특정 사용자의 장바구니 조회 -->
+    <select id="findByUserId" parameterType="int" resultMap="MyCartResultMap">
+        SELECT id, user_id, item_id, quantity, created_at, updated_at
+        FROM MYCART
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 장바구니 아이템 하나 조회 -->
+    <select id="findByUserAndItem" parameterType="map" resultMap="MyCartResultMap">
+        SELECT id, user_id, item_id, quantity, created_at, updated_at
+        FROM MYCART
+        WHERE user_id = #{userId}
+          AND item_id = #{itemId}
+    </select>
+
+    <!-- 수량 업데이트 -->
+    <update id="updateQuantity" parameterType="map">
+        UPDATE MYCART
+        SET quantity = #{quantity},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = #{userId}
+          AND item_id = #{itemId}
+    </update>
+
+    <!-- 장바구니에서 아이템 삭제 -->
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM MYCART
+        WHERE user_id = #{userId}
+          AND item_id = #{itemId}
+    </delete>
+
+    <!-- 특정 사용자의 장바구니 전체 삭제 -->
+    <delete id="deleteAllByUserId" parameterType="int">
+        DELETE FROM MYCART
+        WHERE user_id = #{userId}
+    </delete>
+
+</mapper>
+
