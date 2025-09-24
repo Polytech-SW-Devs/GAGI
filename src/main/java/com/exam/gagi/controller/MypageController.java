@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.exam.gagi.model.Member;
+import com.exam.gagi.model.MypageViewDto;
 import com.exam.gagi.model.OrderSaleViewDto;
-import com.exam.gagi.model.Orders;
 import com.exam.gagi.model.OrdersSaleDetailViewDto;
+import com.exam.gagi.model.RecentOrderDto;
 import com.exam.gagi.pager.MyPagePager;
 import com.exam.gagi.service.OrdersService;
 
@@ -37,8 +36,13 @@ public class MypageController {
 
 	// 마이페이지 메인 화면
 	@GetMapping("")
-	String mypage(Model model, HttpSession session, MyPagePager pager) {
-
+	String mypage(Model model, @SessionAttribute(name = "loginUser", required = false) Member loginUser) {
+		if (loginUser == null) {
+			return "redirect:/login";
+		}
+		int id = loginUser.getId();
+		MypageViewDto view = service.view(id);
+		model.addAttribute("view", view);
 		return PATH + "mypage";
 	}
 
@@ -53,7 +57,7 @@ public class MypageController {
 		int userId = loginUser.getId();
 		pager.setUserId(userId);
 
-		List<Orders> list = service.orderList(pager);
+		List<RecentOrderDto> list = service.orderList(pager);
 		model.addAttribute("list", list);
 		return PATH + "myorder";
 	}

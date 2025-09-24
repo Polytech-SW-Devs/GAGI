@@ -11,6 +11,7 @@ import com.exam.gagi.dao.OrdersDao;
 import com.exam.gagi.model.OrderSaleViewDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.model.OrdersSaleDetailViewDto;
+import com.exam.gagi.model.RecentOrderDto;
 import com.exam.gagi.pager.MyPagePager;
 
 @Repository
@@ -21,7 +22,7 @@ public class OrdersDaoImpl implements OrdersDao {
 
 	// 구매내역
 	@Override
-	public List<Orders> orderList(MyPagePager pager) {
+	public List<RecentOrderDto> orderList(MyPagePager pager) {
 
 		return sql.selectList("orders.orderList", pager);
 	}
@@ -48,15 +49,18 @@ public class OrdersDaoImpl implements OrdersDao {
 
 	}
 
+	// 판매 상세 내역
 	@Override
 	public OrdersSaleDetailViewDto datail(int id) {
 
 		return sql.selectOne("orders.detail", id);
 	}
 
+	// 주문상태 변경
 	@Override
 	public int updateOrderStatus(Map<String, Object> params) {
 		return sql.update("orders.updateOrderStatus", params);
 	}
+
 
 }

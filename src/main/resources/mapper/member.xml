@@ -68,5 +68,22 @@
 		FROM USERS
 		WHERE ID = #{id}
 	</select>
+	
+	<!-- mypage 정보 -->
+	<select id="myPageInfo" parameterType="int" resultType="com.exam.gagi.model.MypageViewDto">
+	  <![CDATA[
+    	SELECT
+        	u.USERNAME AS username,
+        	u.EMAIL AS email,
+        	u.PHONE AS phone,
+        	u.NICKNAME AS nickname,
+        	(SELECT NVL(SUM(TOTAL_PRICE), 0) FROM ORDERS o WHERE o.USER_ID = u.ID AND o.ORDER_STATUS <> '취소') AS totalPurchase,
+        	(SELECT NVL(SUM(o.TOTAL_PRICE), 0) FROM ORDERS o JOIN ITEMS i ON o.ITEM_ID = i.ID WHERE i.USER_ID = u.ID AND o.ORDER_STATUS NOT IN ('입금준비', '취소')) AS totalSales
+    	FROM
+        	USERS u
+    	WHERE
+        	u.ID = #{id}
+	  ]]>
+	</select>
 
   </mapper>

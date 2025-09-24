@@ -72,6 +72,16 @@
 				<div class="bg-white rounded border p-4">
 					<h4 class="mb-4 text-start fw-bold">구매 내역</h4>
 
+					<!-- 주문 상태 필터 버튼 -->
+					<div class="d-flex justify-content-start gap-2 mb-3">
+						<a href="<c:url value='/mypage/myorder'/>" class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금준비'/>" class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금완료'/>" class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송중'/>" class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송완료'/>" class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=취소'/>" class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
+					</div>
+
 					<div class="table-responsive">
 						<table class="table table-bordered align-middle">
 							<thead class="table-light">
