@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="delevery">
+	
+	<select id="deleveryList" parameterType="int" resultType="Address">
+	    SELECT *
+	    FROM ADDRESS A
+	    LEFT JOIN USERS U ON A.USER_ID = U.ID
+		WHERE A.USER_ID = #{userId}
+	</select>
+
+	<!-- 기존 기본 배송지 해제 -->
+    <update id="clearDefault" parameterType="int">
+        UPDATE ADDRESS
+        SET IS_DEFAULT = 'N'
+        WHERE USER_ID = #{memberId}
+          AND IS_DEFAULT = 'Y'
+    </update>
+	
+	<!-- 신규 배송지 등록 -->
+    <insert id="insertAddress" parameterType="Address">
+        INSERT INTO ADDRESS (
+            ADDRESS_ID,
+            ZIP_CODE,
+            ADDRESS,
+            ADDRESS_DETAIL,
+            IS_DEFAULT,
+            USER_ID,
+            DELEVERY_NAME,
+            DELEVERY_PICKUP,
+            PHONE
+        ) VALUES (
+            ADDRESS_SEQ.NEXTVAL,
+            #{zipCode},
+            #{address},
+            #{addressDetail},
+            #{isDefault},
+            #{memberId},
+            #{deleveryName},
+            #{deleveryPickup},
+            #{phone}
+        )
+    </insert>
+    
+    <select id="selectMap" parameterType="map" resultType="Address">
+    	SELECT * FROM ADDRESS
+    	WHERE ADDRESS_ID = #{addressId}
+    	AND USER_ID = #{memberId}
+    </select>
+    
+    <update id="updateAddr" parameterType="Address">
+    	UPDATE ADDRESS 
+    	SET ZIP_CODE = #{zipCode}, 
+    		ADDRESS = #{address}, 
+    		ADDRESS_DETAIL = #{addressDetail}, 
+    		IS_DEFAULT = #{isDefault, jdbcType=CHAR},
+    		DELEVERY_NAME = #{deleveryName},
+    		DELEVERY_PICKUP = #{deleveryPickup},
+    		PHONE = #{phone}
+   		WHERE address_id = #{addressId}
+   		AND USER_ID = #{memberId}
+    </update>
+    
+    <delete id="deletedAddr" parameterType="map">
+    	DELETE FROM ADDRESS
+   		WHERE ADDRESS_ID = #{addressId}
+   		AND USER_ID = #{memberId}
+    </delete>
+	
+</mapper>
