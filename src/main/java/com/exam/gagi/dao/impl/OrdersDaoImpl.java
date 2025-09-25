@@ -35,6 +35,7 @@ public class OrdersDaoImpl implements OrdersDao {
 	}
 
 	// 판매내역 전체 페이징
+
 	@Override
 	public int saleTotal(MyPagePager pager) {
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.gagi.dao.ProductDao;
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.service.ProductService;
 
@@ -14,13 +15,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductDao dao;
-
-	@Override // 로그인한 유저가 등록한 리스트 조회
+	
+	@Override//로그인한 유저가 등록한 리스트 조회
 	public List<Items> list(int userId) {
 		return dao.list(userId);
-	}
-
-	@Override // 추가
+	}	
+	@Override//추가
 	public void add(Items item) {
 		dao.add(item);
 

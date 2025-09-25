@@ -2,6 +2,7 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
+
 import com.exam.gagi.model.MypageViewDto;
 import com.exam.gagi.model.OrderSaleViewDto;
 import com.exam.gagi.model.OrdersSaleDetailViewDto;
@@ -11,6 +12,7 @@ import com.exam.gagi.pager.MyPagePager;
 public interface OrdersService {
 	// 구매내역
 	List<RecentOrderDto> orderList(MyPagePager pager);
+
 
 	// 판매내역
 	List<OrderSaleViewDto> saleList(MyPagePager pager);
