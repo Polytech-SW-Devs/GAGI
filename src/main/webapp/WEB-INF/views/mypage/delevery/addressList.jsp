@@ -11,7 +11,7 @@
 <body>
 	<div>
 		<div>
-			<p><strong>${loginUser.nickname}님의 배송지</strong></p>
+			<p><strong><c:out value="${loginUser.nickname}"/>님의 배송지</strong></p>
 		</div>
 		<div>
 			<div>
@@ -20,14 +20,18 @@
 						<ul>
 							<c:forEach var="addr" items="${deleveryList}">
 								<li>
-
+									<c:url var="updateUrl" value="/mypage/delevery/addressUpdate/${addr.addressId}"></c:url>
+									<c:url var="deleteUrl" value="/mypage/delevery/addressDelete/${addr.addressId}" />
+									
 									<div>
 										<strong><c:out value="${addr.getMember()}"/></strong>
 										<c:if test="${addr.getIsDefault() eq 'Y'}">
 											<span style="color:blue;">[대표 배송지]</span>
 										</c:if>
-										<a href="/mypage/delevery/addressUpdate/${addr.addressId}"><button>수정</button></a>
-										<button type="button" onclick="deleteAddress(${addr.addressId})">삭제</button>
+										<a href="${updateUrl}"><button type="button">수정</button></a>
+										<form method="post" action="${deleteUrl}" style="display:inline;" onsubmit="return confirm('정말 이 주소를 삭제하시겠습니까?');">
+											<button type="submit">삭제</button>
+										</form>
 									</div>
 
 									<p><c:out value="${addr.phone}"></c:out></p>
@@ -44,21 +48,11 @@
 			</div>
 			<div>
 				<div>
-					<a href="/mypage/delevery/addressAdd"><button>배송지 등록</button></a>
+					<c:url var="addUrl" value="/mypage/delevery/addressAdd"></c:url>
+					<a href="${addUrl}"><button>배송지 등록</button></a>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script>
-function deleteAddress(addressId) {
-    if (confirm("정말 이 주소를 삭제하시겠습니까?")) {
-        // 확인 → 삭제 실행
-        window.location.href = "/addressDelete/" + addressId;
-    } else {
-        // 취소 → 아무 동작 없음
-        return;
-    }
-}
-</script>
 </html>

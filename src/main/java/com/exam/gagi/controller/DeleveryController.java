@@ -160,7 +160,7 @@ public class DeleveryController {
 	    }
 
 	    rttr.addFlashAttribute("msg", "주소가 삭제되었습니다.");
-	    return "redirect:/addressList";
-	}
+	    return "redirect:" + path + "addressList";
+	} 
 	
 }
