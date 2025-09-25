@@ -445,7 +445,7 @@ th {
 						</div>
 					</div>
 					<div class="edit-section">
-						<a href="#" class="edit-btn">수정 ></a>
+						<a href="${pageContext.request.contextPath}/mypage/myUpdate" class="edit-btn">수정 ></a>
 					</div>
 				</div>
 
