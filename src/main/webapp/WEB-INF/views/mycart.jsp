@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -89,28 +90,31 @@
         </tr>
         </thead>
         <tbody>
-        <!-- 나중에 c:forEach 로 상품 출력 -->
-        <tr>
-            <td><img src="https://via.placeholder.com/60" class="product-img" alt="상품이미지"></td>
-            <td>테스트 상품 1</td>
-            <td>10,000원</td>
-            <td>1</td>
-            <td>10,000원</td>
-            <td><a href="#" class="btn btn-danger">삭제</a></td>
-        </tr>
-        <tr>
-            <td><img src="https://via.placeholder.com/60" class="product-img" alt="상품이미지"></td>
-            <td>테스트 상품 2</td>
-            <td>25,000원</td>
-            <td>2</td>
-            <td>50,000원</td>
-            <td><a href="#" class="btn btn-danger">삭제</a></td>
-        </tr>
+        <c:forEach var="item" items="${cartList}">
+            <tr>
+                <!-- 상품 이미지: DB에 없으면 placeholder -->
+                <td>
+                    <img src="${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
+                         class="product-img" alt="상품이미지">
+                </td>
+                <td>${item.itemName}</td>
+                <td><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</td>
+                <td>${item.quantity}</td>
+                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원</td>
+                <td>
+                    <a href="/mycart/delete?userId=${item.userId}&itemId=${item.itemId}" class="btn btn-danger">삭제</a>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 
     <div class="total-box">
-        <p>총 결제금액: <span>60,000원</span></p>
+        <p>총 결제금액:
+            <span>
+                <fmt:formatNumber value="${totalPrice}" pattern="#,###"/>원
+            </span>
+        </p>
         <a href="#" class="btn btn-primary">결제하기</a>
     </div>
 </div>

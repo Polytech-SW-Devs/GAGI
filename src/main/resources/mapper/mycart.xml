@@ -6,28 +6,43 @@
 <mapper namespace="mycart">
 
     <!-- MYCART ResultMap -->
-    <resultMap id="MyCartResultMap" type="com.exam.gagi.model.MyCart">
-        <id property="id" column="ID"/>
-        <result property="userId" column="USER_ID"/>
-        <result property="itemId" column="ITEM_ID"/>
-        <result property="quantity" column="QUANTITY"/>
-        <result property="createdAt" column="CREATED_AT"/>
-        <result property="updatedAt" column="UPDATED_AT"/>
-    </resultMap>
+<resultMap id="MyCartResultMap" type="com.exam.gagi.model.MyCart">
+		  <id property="id" column="ID"/>
+		  <result property="userId" column="USER_ID"/>
+		  <result property="itemId" column="ITEM_ID"/>
+		  <result property="quantity" column="QUANTITY"/>
+		  <result property="createdAt" column="CREATED_AT"/>
+		  <result property="updatedAt" column="UPDATED_AT"/>
+	    <!-- JOIN 결과 -->
+	    <result property="itemName" column="ITEM_TITLE"/>
+		  <result property="price" column="ITEM_PRICE"/>
+		  <result property="imageUrl" column="ITEM_IMAGE"/>
+	</resultMap>
 
     <!-- 장바구니에 추가 -->
     <insert id="insertCart" parameterType="com.exam.gagi.model.MyCart">
-        INSERT INTO MYCART (id, user_id, item_id, quantity, created_at, updated_at)
-        VALUES (MYCART_SEQ.NEXTVAL, #{userId}, #{itemId}, #{quantity},
-                #{createdAt, jdbcType=TIMESTAMP}, #{updatedAt, jdbcType=TIMESTAMP})
+        INSERT INTO MYCART (user_id, item_id, quantity, created_at, updated_at)
+		VALUES (#{userId}, #{itemId}, #{quantity},
+        	CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     </insert>
 
     <!-- 특정 사용자의 장바구니 조회 -->
-    <select id="findByUserId" parameterType="int" resultMap="MyCartResultMap">
-        SELECT id, user_id, item_id, quantity, created_at, updated_at
-        FROM MYCART
-        WHERE user_id = #{userId}
-    </select>
+   <select id="findByUserId" parameterType="int" resultMap="MyCartResultMap">
+  SELECT 
+    c.id,
+    c.user_id,
+    c.item_id,
+    c.quantity,
+    c.created_at,
+    c.updated_at,
+    i.title AS ITEM_TITLE,
+    i.price AS ITEM_PRICE,
+    im.image_url AS ITEM_IMAGE
+	  FROM mycart c
+	  JOIN items i ON c.item_id = i.id
+	  LEFT JOIN item_images im ON i.id = im.item_id AND im.sort_order = 1
+	  WHERE c.user_id = #{userId}
+</select>
 
     <!-- 장바구니 아이템 하나 조회 -->
     <select id="findByUserAndItem" parameterType="map" resultMap="MyCartResultMap">
