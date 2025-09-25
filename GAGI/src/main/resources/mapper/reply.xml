@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="reply">
+  
+  	<resultMap id="ReplyResultMap" type="com.exam.gagi.model.Reply">
+        <id property="id" column="id"/>
+        <result property="boardType" column="board_type"/>
+        <result property="postId" column="post_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+  	
+    <insert id="insertReply" parameterType="com.exam.gagi.model.Reply">
+    	INSERT INTO REPLIES (id, board_type, post_id, user_id, content, created_at, updated_at)
+        VALUES (replies_seq.NEXTVAL, #{boardType}, #{postId}, #{userId}, #{content},
+                SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    
+    <select id="selectRepliesByPost" resultMap="ReplyResultMap" parameterType="map">
+    	SELECT * FROM REPLIES
+        WHERE post_id = #{postId} AND board_type = #{boardType}
+        ORDER BY created_at ASC
+    </select>
+    
+    <delete id="deleteReply" parameterType="map">
+    	DELETE FROM REPLIES
+        WHERE id = #{id} AND user_id = #{userId}
+    </delete>
+	
+  </mapper>
+  
