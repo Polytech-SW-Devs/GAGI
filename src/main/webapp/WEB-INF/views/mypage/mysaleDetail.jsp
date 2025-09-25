@@ -126,7 +126,7 @@
             <h1>판매 상세 내역</h1>
         </div>
 
-        <c:if test="${not empty order}">
+        <c:if test="${not empty item}">
             <!-- 주문 기본 정보 -->
             <div class="section">
                 <div class="section-content">
@@ -135,53 +135,26 @@
                         <div class="info-value">
                             <div class="delivery-method">
                                 <div class="method-item">
-                                    <input type="radio" name="delivery_method" value="delivery" <c:if test="${order.transactionType == '배송'}">checked</c:if> disabled>
+                                    <input type="radio" name="delivery_method" value="delivery" <c:if test="${item.transactionType == '배송'}">checked</c:if> disabled>
                                     <label>배송</label>
-                                    <c:if test="${order.transactionType == '배송'}"><span class="checkmark">✓</span></c:if>
+                                    <c:if test="${item.transactionType == '배송'}"><span class="checkmark">✓</span></c:if>
                                 </div>
                                 <div class="method-item">
-                                    <input type="radio" name="delivery_method" value="direct" <c:if test="${order.transactionType == '직거래'}">checked</c:if> disabled>
+                                    <input type="radio" name="delivery_method" value="direct" <c:if test="${item.transactionType == '직거래'}">checked</c:if> disabled>
                                     <label>직거래</label>
-                                    <c:if test="${order.transactionType == '직거래'}"><span class="checkmark">✓</span></c:if>
+                                    <c:if test="${item.transactionType == '직거래'}"><span class="checkmark">✓</span></c:if>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">주문번호:</div>
-                        <div class="info-value">${order.orderId}</div>
+                        <div class="info-value">${item.id}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">주문일자:</div>
-                        <div class="info-value">${order.createdAtFormatted}</div>
+                        <div class="info-value"><fmt:formatDate value="${item.createdAtDate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 판매 상품 정보 -->
-            <div class="section">
-                <h2 class="section-header">판매 상품 정보</h2>
-                <div class="section-content">
-                    <table class="items-table">
-                        <thead>
-                            <tr>
-                                <th>상품명</th>
-                                <th>수량</th>
-                                <th>가격</th>
-                                <th>주문상태</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="item" items="${order.orderItems}">
-                                <tr>
-                                    <td>${item.itemName}</td>
-                                    <td>${item.quantity}개</td>
-                                    <td><fmt:formatNumber value="${item.totalPrice}" pattern="#,##0" />원</td>
-                                    <td>${item.orderStatus}</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
@@ -191,19 +164,19 @@
                 <div class="section-content">
                     <div class="info-row">
                         <div class="info-label">구매자 이름</div>
-                        <div class="info-value">${order.buyerName}</div>
+                        <div class="info-value">${item.username}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">구매자 연락처</div>
-                        <div class="info-value">${order.buyerPhone}</div>
+                        <div class="info-value">${item.phone}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">구매자 이메일</div>
-                        <div class="info-value">${order.buyerEmail}</div>
+                        <div class="info-value">${item.email}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">결제 수단</div>
-                        <div class="info-value">${order.paymentMethod}</div>
+                        <div class="info-value">${item.paymentMethod}</div>
                     </div>
                 </div>
             </div>
@@ -214,19 +187,19 @@
                 <div class="section-content">
                     <div class="info-row">
                         <div class="info-label">수령인</div>
-                        <div class="info-value">${order.recipientName}</div>
+                        <div class="info-value">${item.recipientName}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">연락처</div>
-                        <div class="info-value">${order.recipientPhone}</div>
+                        <div class="info-value">${item.recipientPhone}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">배송지</div>
-                        <div class="info-value">(${order.deliveryZipcode}) ${order.deliveryAddressMain} ${order.deliveryAddressDetail}</div>
+                        <div class="info-value">(${item.deliveryZipcode}) ${item.deliveryAddressMain} ${item.deliveryAddressDetail}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">배송메모</div>
-                        <div class="info-value">${order.deliveryMemo}</div>
+                        <div class="info-value">${item.deliveryMemo}</div>
                     </div>
                 </div>
             </div>
@@ -234,12 +207,12 @@
             <!-- 총 가격 -->
             <div class="price">
                 <span>판매자 정산 금액</span>
-                <span><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</span>
+                <span><fmt:formatNumber value="${item.totalPrice}" pattern="#,##0" />원</span>
             </div>
 
         </c:if>
 
-        <c:if test="${empty order}">
+        <c:if test="${empty item}">
             <div class="section-content">
                 <p>주문 정보를 찾을 수 없거나 조회할 권한이 없습니다.</p>
             </div>

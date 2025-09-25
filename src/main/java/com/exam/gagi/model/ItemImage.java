@@ -6,6 +6,8 @@ public class ItemImage extends BaseEntity {
 	private int itemId; // 상품 ID (FK)
 	private String imageUrl; // 이미지 경로
 	private int sortOrder; // 정렬 순서
+	private String fileName;
+	private String uuid;
 
 	public int getId() {
 		return id;
@@ -37,6 +39,22 @@ public class ItemImage extends BaseEntity {
 
 	public void setSortOrder(int sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 }

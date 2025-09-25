@@ -20,8 +20,9 @@
         <result property="updatedAt" column="UPDATED_AT"/>
         <result property="nickname" column="NICKNAME"/>
     </resultMap>
-  
+ 
   	<select id="findByEmail" parameterType="String" resultType="Member">
+
   		SELECT id, username, email, password, phone, created_at, updated_at, nickname
     	FROM USERS
     	WHERE EMAIL = #{email}
@@ -29,7 +30,7 @@
   	
   	<insert id="insertMember" parameterType="Member">
   		INSERT INTO USERS (id, username, email, password, phone,
-    					   created_at, updated_at, nickname, address_id)
+    					   created_at, updated_at, nickname)
   		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, #{createdAt, jdbcType=TIMESTAMP}, 
     			#{updatedAt, jdbcType=TIMESTAMP}, #{nickname})
 	</insert>
@@ -67,6 +68,23 @@
 		SELECT ID, EMAIL, NICKNAME, PHONE
 		FROM USERS
 		WHERE ID = #{id}
+	</select>
+	
+	<!-- mypage 정보 -->
+	<select id="myPageInfo" parameterType="int" resultType="com.exam.gagi.model.MypageViewDto">
+	  <![CDATA[
+    	SELECT
+        	u.USERNAME AS username,
+        	u.EMAIL AS email,
+        	u.PHONE AS phone,
+        	u.NICKNAME AS nickname,
+        	(SELECT NVL(SUM(TOTAL_PRICE), 0) FROM ORDERS o WHERE o.USER_ID = u.ID AND o.ORDER_STATUS <> '취소') AS totalPurchase,
+        	(SELECT NVL(SUM(o.TOTAL_PRICE), 0) FROM ORDERS o JOIN ITEMS i ON o.ITEM_ID = i.ID WHERE i.USER_ID = u.ID AND o.ORDER_STATUS NOT IN ('입금준비', '취소')) AS totalSales
+    	FROM
+        	USERS u
+    	WHERE
+        	u.ID = #{id}
+	  ]]>
 	</select>
 
   </mapper>
