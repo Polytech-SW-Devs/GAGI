@@ -29,8 +29,6 @@ public class Member {
 	private LocalDateTime updatedAt;
 	// 닉네임
 	private String nickname;
-	// 배송지
-	private Integer addressId;
 
 	// 비밀번호 확인용
 	private String confirmPassword;
@@ -137,14 +135,6 @@ public class Member {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	public Integer getAddressId() {
-		return addressId;
-	}
-
-	public void setAddressId(Integer addressId) {
-		this.addressId = addressId;
 	}
 
 	// 비밀번호 확인용

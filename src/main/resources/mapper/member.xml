@@ -5,7 +5,7 @@
   
   <mapper namespace="member">
   
-  	<resultMap id="MemberResultMap" type="com.exam.gagi.model.Member">
+  	<resultMap id="MemberResultMap" type="Member">
         <id property="id" column="ID"/>
         <result property="username" column="USERNAME"/>
         <result property="email" column="EMAIL"/>
@@ -19,20 +19,19 @@
         <result property="createdAt" column="CREATED_AT"/>
         <result property="updatedAt" column="UPDATED_AT"/>
         <result property="nickname" column="NICKNAME"/>
-        <result property="addressId" column="ADDRESS_ID"/>
     </resultMap>
   
-  	<select id="findByEmail" parameterType="String" resultType="com.exam.gagi.model.Member">
-  		SELECT id, username, email, password, phone, created_at, updated_at, nickname, address_id
+  	<select id="findByEmail" parameterType="String" resultType="Member">
+  		SELECT id, username, email, password, phone, created_at, updated_at, nickname
     	FROM USERS
     	WHERE EMAIL = #{email}
   	</select>
   	
-  	<insert id="insertMember" parameterType="com.exam.gagi.model.Member">
+  	<insert id="insertMember" parameterType="Member">
   		INSERT INTO USERS (id, username, email, password, phone,
     					   created_at, updated_at, nickname, address_id)
   		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, #{createdAt, jdbcType=TIMESTAMP}, 
-    			#{updatedAt, jdbcType=TIMESTAMP}, #{nickname}, #{addressId, jdbcType=NUMERIC})
+    			#{updatedAt, jdbcType=TIMESTAMP}, #{nickname})
 	</insert>
   	
   	<select id="checkId" parameterType="String" resultType="int">
