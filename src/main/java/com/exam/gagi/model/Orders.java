@@ -33,11 +33,6 @@ public class Orders extends BaseEntity {
 	// 주문 상태
 	private String orderStatus;
 
-	// JOIN으로 가져올 추가 필드들
-	private String title; // 상품명
-	private String imageUrl; // 상품 썸네일
-
-
 	public int getId() {
 		return id;
 	}
@@ -157,22 +152,5 @@ public class Orders extends BaseEntity {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
 }
 

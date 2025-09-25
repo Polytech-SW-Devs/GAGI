@@ -5,59 +5,113 @@
   
 <mapper namespace="orders">
 
-
+	<!-- 구매내역 전체수 -->
 	<select id="orderTotal" resultType="Integer">
   		SELECT COUNT(*)
   		FROM ORDERS
-  		WHERE USER_ID = #{userId} 
+  		WHERE USER_ID = #{userId}
+    	<if test="orderStatus != null and orderStatus != ''">
+			AND ORDER_STATUS = #{orderStatus}
+		</if>
   	</select>
   	
-  	
+  	<!-- 판매내역 전체수 -->
   	<select id="saleTotal" resultType="Integer">
     	SELECT COUNT(*)
     	FROM ORDERS o
     	JOIN ITEMS i ON o.ITEM_ID = i.ID
     	WHERE i.USER_ID = #{userId}
+    	<if test="orderStatus != null and orderStatus != ''">
+			AND o.ORDER_STATUS = #{orderStatus}
+		</if>
 	</select>
   	
-  	<select id="orderList" resultType="Orders">
-	    SELECT *
-	    FROM (
-	        SELECT 
-	            o.*,                       <!-- ORDERS 모든 컬럼 자동 매핑 -->
-	            i.TITLE AS title,          <!-- Orders.title -->
-	            img.IMAGE_URL AS imageUrl, <!-- Orders.imageUrl -->
-	            ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
-	        FROM ORDERS o
-	        LEFT JOIN ITEMS i ON o.ITEM_ID = i.ID
-	        LEFT JOIN ITEM_IMAGES img 
-	               ON o.ITEM_ID = img.ITEM_ID 
-	              AND img.SORT_ORDER = 1      <!-- 첫 번째 이미지만 가져오기 -->
-	        WHERE o.USER_ID = #{userId}
-	    ) t
-	    WHERE t.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
-	                      AND (#{page} * #{perPage})
+  	<!-- 구매내역 + 페이징 (RecentOrderDto 사용) -->
+  	<select id="orderList" resultType="com.exam.gagi.model.RecentOrderDto">
+    	SELECT * FROM (
+        	SELECT
+        		o.ID as id,
+            	o.ITEM_ID AS itemId,
+            	o.CREATED_AT,
+            	i.TITLE,
+            	o.AMOUNT,
+            	o.TOTAL_PRICE,
+            	o.ORDER_STATUS,
+            	img.IMAGE_URL AS imageUrl,
+            	ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
+        	FROM ORDERS o
+        	LEFT JOIN ITEMS i ON o.ITEM_ID = i.ID
+        	LEFT JOIN ITEM_IMAGES img 
+               	ON o.ITEM_ID = img.ITEM_ID 
+              	AND img.SORT_ORDER = 1
+        	WHERE o.USER_ID = #{userId}
+        	<if test="orderStatus != null and orderStatus != ''">
+            	AND o.ORDER_STATUS = #{orderStatus}
+        	</if>
+    	)
+    	WHERE rnum BETWEEN ((#{page}-1) * #{perPage}) + 1 AND (#{page} * #{perPage})
 	</select>
   	
-  	<select id="saleList" resultType="Orders">
-	    SELECT *
-	    FROM (
-	        SELECT 
-	            o.*,                       <!-- ORDERS 모든 컬럼 자동 매핑 -->
-	            i.TITLE AS title,          <!-- Orders.title -->
-	            img.IMAGE_URL AS imageUrl, <!-- Orders.imageUrl -->
-	            ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
-	        FROM ORDERS o
-	        LEFT JOIN ITEMS i 
-	               ON o.ITEM_ID = i.ID
-	              AND i.USER_ID = #{userId}    <!-- 판매자 필터 -->
-	        LEFT JOIN ITEM_IMAGES img 
-	               ON o.ITEM_ID = img.ITEM_ID 
-	              AND img.SORT_ORDER = 1      <!-- 첫 번째 이미지 -->
-	    ) t
-	    WHERE t.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
-	                      AND (#{page} * #{perPage})
+  	<!-- 판매내역 + 페이징 -->
+  	<select id="saleList" resultType="OrderSaleViewDto">
+   SELECT *
+    FROM (
+        SELECT
+            o.ID AS id,
+            o.CREATED_AT AS createdAt,
+            i.TITLE AS title,
+            o.AMOUNT AS amount,
+            o.TOTAL_PRICE AS totalPrice,
+            o.ORDER_STATUS AS orderStatus,
+            ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
+        FROM
+            ORDERS o
+        JOIN
+            ITEMS i ON o.ITEM_ID = i.ID
+        JOIN
+            USERS u ON o.USER_ID = u.ID
+        WHERE
+            i.USER_ID = #{userId}
+            <if test="orderStatus != null and orderStatus != ''">
+				AND o.ORDER_STATUS = #{orderStatus}
+			</if>
+    ) t
+    WHERE
+        t.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
+                   AND (#{page} * #{perPage})
 	</select>
   	
- </mapper>
+  	<!-- 주문 상세 내역 -->
+  	<select id="detail" resultType="OrdersSaleDetailViewDto">
+  		SELECT
+    o.ID AS id,
+    o.CREATED_AT AS createdAt,
+    o.TRANSACTION_TYPE AS transactionType,
+    o.PAYMENT_METHOD AS paymentMethod,
+    o.RECIPIENT_NAME AS recipientName,
+    o.RECIPIENT_PHONE AS recipientPhone,
+    o.DELIVERY_ZIPCODE AS deliveryZipcode,
+    o.DELIVERY_ADDRESS_MAIN AS deliveryAddressMain,
+    o.DELIVERY_ADDRESS_DETAIL AS deliveryAddressDetail,
+    o.DELIVERY_MEMO AS deliveryMemo,
+    o.TOTAL_PRICE AS totalPrice,
+    u.USERNAME AS username,
+    u.PHONE AS phone,
+    u.EMAIL AS email
+FROM
+    ORDERS o
+JOIN
+    USERS u ON o.USER_ID = u.ID
+WHERE
+    o.ID = #{id}
+  	</select>
+  	
+  	<!-- 주문 상태 업데이트 -->
+  	<update id="updateOrderStatus" parameterType="map">
+  		UPDATE ORDERS
+  		   SET ORDER_STATUS = #{orderStatus}
+  		 WHERE ID = #{id}
+  	</update>
+  	
 
+</mapper>

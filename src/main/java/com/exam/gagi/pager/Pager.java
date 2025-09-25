@@ -1,5 +1,8 @@
 package com.exam.gagi.pager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +18,6 @@ public class Pager {
 
 	private int search;
 	private String keyword;
-	private int userId;
 
 	public int getPage() {
 		return page;
@@ -34,6 +36,9 @@ public class Pager {
 	}
 
 	public int getLast() {
+		if (total == 0) {
+			return 1;
+		}
 		return (int) Math.ceil(total / perPage);
 	}
 
@@ -46,10 +51,10 @@ public class Pager {
 	}
 
 	public int getNext() {
-		int next = (((page - 1) / perGroup) + 1) * perGroup + 1;
+		int next = page + 1;
 		int last = getLast();
 
-		return next < last ? next : last;
+		return Math.min(next, last);
 	}
 
 	public int getPrev() {
@@ -96,20 +101,18 @@ public class Pager {
 	}
 
 	public String getQuery() {
-		String query = "";
+		StringBuilder query = new StringBuilder();
 
-		if (search > 0)
-			query = "&search=" + search + "&keyword=" + keyword;
+		try {
+			if (search > 0 && keyword != null && !keyword.trim().isEmpty()) {
+				query.append("&search=").append(search);
+				query.append("&keyword=").append(URLEncoder.encode(keyword, StandardCharsets.UTF_8.name()));
+			}
+		} catch (UnsupportedEncodingException e) {
+			// StandardCharsets.UTF_8.name()은 항상 유효하므로 이 예외는 거의 발생하지 않습니다.
+			// 필요 시 로깅 처리
+		}
 
-		return query;
+		return query.toString();
 	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
 }

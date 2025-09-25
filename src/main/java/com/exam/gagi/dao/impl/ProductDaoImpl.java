@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.ProductDao;
-import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 
 @Repository
@@ -18,7 +17,8 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public void add(Items item) {
-		sql.insert("product.add",item);
+		sql.insert("product.add", item);
+
 	}
 
 	@Override
@@ -39,8 +39,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public void update(Items item) {
-
-		sql.update("product.update",item);
+		sql.update("product.update", item);
 	}
 
 	@Override

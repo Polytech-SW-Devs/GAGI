@@ -437,28 +437,32 @@ th {
 			<section class="profile-section">
 				<div class="user-profile">
 					<div class="user-info">
-						<h3>아이디표시</h3>
-						<h2>???님 환영합니다</h2>
+						<h3>${view.username}</h3>
+						<h2>${view.nickname}님 환영합니다</h2>
 						<div class="user-details">
-							<p>전화: 010-1111-1111</p>
-							<p>이메일: test@gmail.com</p>
+							<p>전화: ${view.phone}</p>
+							<p>이메일: ${view.email}</p>
 						</div>
 					</div>
 					<div class="edit-section">
+<<<<<<< HEAD
 						<a href="${pageContext.request.contextPath}/mypage/myUpdate" class="edit-btn">수정 ></a>
+=======
+						<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">수정 ></a>
+>>>>>>> 1971ca10fde68b5362313e8770981912de74fd9b
 					</div>
 				</div>
 
 				<div class="stats-card">
 					<h3>총 구매 금액</h3>
-					<span class="stats-amount">100000000</span> <span
+					<span class="stats-amount"><fmt:formatNumber value="${view.totalPurchase}" pattern="#,##0" /></span> <span
 						class="stats-currency">원</span>
 				</div>
 			</section>
 
 			<section class="stats-card">
 				<h3>총 판매 금액</h3>
-				<span class="stats-amount">100000000</span> <span
+				<span class="stats-amount"><fmt:formatNumber value="${view.totalSales}" pattern="#,##0" /></span> <span
 					class="stats-currency">원</span>
 			</section>
 
@@ -480,28 +484,26 @@ th {
 							</tr>
 						</thead>
 						<tbody>
-							<c:if test="${empty orderHistory}">
+							<c:if test="${empty view.recentOrders}">
 								<tr>
 									<td colspan="5" class="empty-state">최근 구매 내역이 없습니다.</td>
 								</tr>
 							</c:if>
-							<c:forEach var="order" items="${orderHistory}" varStatus="status">
-                                <c:if test="${status.index < 3}">
+							<c:forEach var="order" items="${view.recentOrders}">
                                     <tr>
-                                        <td>${order.createdAtStr}</td>
+                                        <td><fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd" /></td>
                                         <td>
                                             <a href="<c:url value='/items/${order.itemId}'/>">
-                                                <img src="<c:url value='${order.thumbnailUrl}'/>"
-                                                alt="${order.itemName}"
+                                                <img src="<c:url value='${order.imageUrl}'/>"
+                                                alt="${order.title}"
                                                 style="width: 80px; height: 80px; vertical-align: middle;">
-                                                <span>${order.itemName}</span>
+                                                <span>${order.title}</span>
                                             </a>
                                         </td>
                                         <td>${order.amount}개</td>
                                         <td><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
                                         <td>${order.orderStatus}</td>
                                     </tr>
-                                </c:if>
 							</c:forEach>
 						</tbody>
 					</table>

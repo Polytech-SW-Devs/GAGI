@@ -58,11 +58,11 @@
 	<update id="update" parameterType="com.exam.gagi.model.Notice">
 		UPDATE NOTICES
         SET title = #{title},
-            content = #{content}
-            visible = #{visible}
-            posted_at = #{posted_at}
-            expires_at = #{expires_at}
-            admin_id = #{adminId}
+            content = #{content},
+            visible = #{visible},
+            posted_at = #{posted_at},
+            expires_at = #{expires_at},
+            admin_id = #{adminId},
             updated_at = NOW()
         WHERE id = #{id}
 	</update>

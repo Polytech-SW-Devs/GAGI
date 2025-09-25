@@ -1,7 +1,7 @@
 package com.exam.gagi.dao;
 
 import java.util.List;
-import com.exam.gagi.model.Category;
+
 import com.exam.gagi.model.Items;
 
 public interface ProductDao {

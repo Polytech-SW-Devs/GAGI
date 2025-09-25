@@ -69,7 +69,10 @@
     }
 </style>
 <jsp:include page="../templete/logo.jsp"></jsp:include>
-
+<script>
+const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/js/mypage/mysale.js"></script>
 </head>
 <body class="bg-light">
     <!-- 헤더 영역 -->
@@ -115,6 +118,16 @@
                 <div class="bg-white rounded border p-4">
                     <h4 class="mb-4 text-start fw-bold">판매 내역</h4>
 
+                    <!-- 주문 상태 필터 버튼 -->
+                    <div class="d-flex justify-content-start gap-2 mb-3">
+						<a href="<c:url value='/mypage/mysale'/>" class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
+						<a href="<c:url value='/mypage/mysale?orderStatus=입금준비'/>" class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
+						<a href="<c:url value='/mypage/mysale?orderStatus=입금완료'/>" class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
+						<a href="<c:url value='/mypage/mysale?orderStatus=배송중'/>" class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
+						<a href="<c:url value='/mypage/mysale?orderStatus=배송완료'/>" class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
+						<a href="<c:url value='/mypage/mysale?orderStatus=취소'/>" class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
+					</div>
+
                     <div class="table-responsive">
                         <table class="table table-bordered mb-0">
                             <thead class="table-light">
@@ -123,7 +136,7 @@
                                     <th class="py-3" style="width: 15%;">주문일자</th>
                                     <th class="py-3">상품명</th>
                                     <th class="py-3" style="width: 8%;">수량</th>
-                                    <th class="py-3" style="width: 15%;">가격</th>
+
                                     <th class="py-3" style="width: 15%;">총 가격</th>
                                     <th class="py-3" style="width: 12%;">주문상태</th>
                                 </tr>
@@ -131,7 +144,7 @@
                             <tbody>
                                 <c:if test="${empty list}">
                                     <tr>
-                                        <td colspan="7" class="text-center py-5 text-muted">
+                                        <td colspan="6" class="text-center py-5 text-muted">
                                             <div>
                                                 <i class="bi bi-inbox text-muted mb-2" style="font-size: 2rem;"></i>
                                                 <div>판매 내역이 없습니다</div>
@@ -149,12 +162,18 @@
                                             <!-- LocalDateTime 대신 변환된 Date getter 사용 -->
                                             <fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd HH:mm" />
                                         </td>
-                                        <td class="text-start ps-3">${order.itemName}</td>
-                                        <td>${order.amount}개</td>
-                                        <td class="text-end"><fmt:formatNumber value="${order.price}" pattern="#,##0" />원</td>
+                                        <td class="text-start ps-3">${order.title}</td>
+                                        <td>${order.amount}개</td>                                   
+
                                         <td class="text-end fw-bold"><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
                                         <td class="align-middle">
-                                            <span class="badge bg-primary">${order.orderStatus}</span>
+                                            <select class="status-select" data-order-id="${order.id}" data-current-status="${order.orderStatus}">
+                                                <option value="입금준비" ${order.orderStatus == '입금준비' ? 'selected' : ''}>입금준비</option>
+                                                <option value="입금완료" ${order.orderStatus == '입금완료' ? 'selected' : ''}>입금완료</option>
+                                                <option value="배송중" ${order.orderStatus == '배송중' ? 'selected' : ''}>배송중</option>
+                                                <option value="배송완료" ${order.orderStatus == '배송완료' ? 'selected' : ''}>배송완료</option>
+                                                <option value="취소" ${order.orderStatus == '취소' ? 'selected' : ''}>취소</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 </c:forEach>
