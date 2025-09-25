@@ -6,7 +6,7 @@
 	    SELECT *
 	    FROM ADDRESS A
 	    LEFT JOIN USERS U ON A.USER_ID = U.ID
-		WHERE A.USER_ID = #{userId}
+		WHERE A.USER_ID = #{memberId}
 	</select>
 
 	<!-- 기존 기본 배송지 해제 -->
