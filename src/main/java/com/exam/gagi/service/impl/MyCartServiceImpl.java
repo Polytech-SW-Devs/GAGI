@@ -1,0 +1,56 @@
+package com.exam.gagi.service.impl;
+
+import com.exam.gagi.dao.MyCartDAO;
+import com.exam.gagi.model.MyCart;
+import com.exam.gagi.service.MyCartService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class MyCartServiceImpl implements MyCartService {
+
+    private final MyCartDAO myCartDAO;
+
+    public MyCartServiceImpl(MyCartDAO myCartDAO) {
+        this.myCartDAO = myCartDAO;
+    }
+
+    @Override
+    public void addCart(MyCart cart) {
+        MyCart existing = myCartDAO.findByUserAndItem(cart.getUserId(), cart.getItemId());
+        if (existing != null) {
+            // 이미 존재하면 수량 증가
+            int newQuantity = existing.getQuantity() + cart.getQuantity();
+            myCartDAO.updateQuantity(cart.getUserId(), cart.getItemId(), newQuantity);
+        } else {
+            myCartDAO.insertCart(cart);
+        }
+    }
+
+    @Override
+    public List<MyCart> getCartByUserId(int userId) {
+        return myCartDAO.findByUserId(userId);
+    }
+
+    @Override
+    public MyCart getCartItem(int userId, int itemId) {
+        return myCartDAO.findByUserAndItem(userId, itemId);
+    }
+
+    @Override
+    public void updateCartQuantity(int userId, int itemId, int quantity) {
+        myCartDAO.updateQuantity(userId, itemId, quantity);
+    }
+
+    @Override
+    public void removeCartItem(int userId, int itemId) {
+        myCartDAO.deleteCartItem(userId, itemId);
+    }
+
+    @Override
+    public void clearCart(int userId) {
+        myCartDAO.deleteAllByUserId(userId);
+    }
+}
+

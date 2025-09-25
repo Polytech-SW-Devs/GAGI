@@ -427,7 +427,7 @@ th {
 			<ul class="sidebar-menu">
 				<li><a href="<c:url value='/mypage/myorder'/>">구매내역</a></li>
 				<li><a href="<c:url value='/mypage/mysale'/>" class="active">판매내역</a></li>
-				<li><a href="#">개인정보 수정</a></li>
+				<li><a href="<c:url value='/mypage/delevery/addressList'/>">배달자 관리</a></li>
 				<li><a href="<c:url value='/mypage/myarticle'/>">내 게시글 보기</a></li>
 				<li><a href="#">회원탈퇴</a></li>
 			</ul>
