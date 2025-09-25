@@ -445,11 +445,7 @@ th {
 						</div>
 					</div>
 					<div class="edit-section">
-<<<<<<< HEAD
-						<a href="${pageContext.request.contextPath}/mypage/myUpdate" class="edit-btn">수정 ></a>
-=======
 						<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">수정 ></a>
->>>>>>> 1971ca10fde68b5362313e8770981912de74fd9b
 					</div>
 				</div>
 
