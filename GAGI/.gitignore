@@ -25,7 +25,6 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
-.classpath   # ← 추가
 
 ### Java ###
 *.class
@@ -44,4 +43,3 @@ replay_pid*
 *.zip
 *.tar.gz
 *.rar
-.metadata/

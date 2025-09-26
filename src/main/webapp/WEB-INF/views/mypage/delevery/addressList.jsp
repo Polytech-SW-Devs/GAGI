@@ -18,7 +18,7 @@
 
       <!-- 상단 헤더 -->
       <div class="d-flex align-items-center mb-4">
-        <a href="javascript:history.back()" class="me-3 text-dark">
+        <a href="../" class="me-3 text-dark">
           <i class="bi bi-arrow-left fs-4"></i>
         </a>
         <h5 class="mb-0"><c:out value="${loginUser.nickname}"/>님의 배송지</h5>

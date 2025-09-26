@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings> 
+		<setting  name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.exam.gagi.model.Member" alias="Member"/>
+		<typeAlias type="com.exam.gagi.model.Review" alias="Review"/>	
+		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>	
+		<typeAlias type="com.exam.gagi.model.Notice" alias="Notice"/>	
+		<typeAlias type="com.exam.gagi.model.Report" alias="Report"/>	
+		<typeAlias type="com.exam.gagi.model.Reply" alias="Reply"/>	
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mapper/member.xml"/>
+		<mapper resource="mapper/review.xml"/>
+		<mapper resource="mapper/inquiry.xml"/>
+		<mapper resource="mapper/notice.xml"/>
+		<mapper resource="mapper/report.xml"/>
+		<mapper resource="mapper/reply.xml"/>
+	</mappers>
+		
+</configuration>
