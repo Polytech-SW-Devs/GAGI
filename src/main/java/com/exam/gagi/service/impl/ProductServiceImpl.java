@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.Pager;
 import com.exam.gagi.service.ProductService;
 
 @Service
@@ -43,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Items> totalList() {
-		return dao.totalList();
+	public List<Items> totalList(Pager pager) {
+		return dao.totalList(pager);
 	}
 
 }

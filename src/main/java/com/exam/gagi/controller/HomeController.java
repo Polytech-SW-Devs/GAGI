@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.Pager;
 import com.exam.gagi.service.ProductService;
 
 @Controller
@@ -18,8 +19,8 @@ public class HomeController {
 
 	// 홈페이지 호출 //전체게시글 리스트 호출
 	@GetMapping("/")
-	String totalList(Model model) {
-		List<Items> totalList = productService.totalList();
+	String totalList(Model model, Pager pager) {
+		List<Items> totalList = productService.totalList(pager);
 		model.addAttribute("totalList", totalList);
 		return "home";
 	}

@@ -3,6 +3,7 @@ package com.exam.gagi.service;
 import java.util.List;
 
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.Pager;
 
 public interface ProductService {
 
@@ -16,6 +17,6 @@ public interface ProductService {
 
 	void update(Items item);
 
-	List<Items> totalList();
+	List<Items> totalList(Pager pager);
 
 }

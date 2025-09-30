@@ -44,7 +44,6 @@ public class ProductController {
 	String add() {
 		return "/product/add";
 	}
-
 	@PostMapping("product/add")
 	String add(HttpSession session, Items item) {
 
@@ -73,7 +72,6 @@ public class ProductController {
 		model.addAttribute("item", item);
 		return "/product/update";
 	}
-
 	@PostMapping("product/update/{id}")
 	String update(@PathVariable("id") int id, Items item, Model model) {
 		item.setId(id);
