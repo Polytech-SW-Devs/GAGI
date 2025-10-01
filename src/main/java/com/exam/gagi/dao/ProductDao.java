@@ -1,6 +1,7 @@
 package com.exam.gagi.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.exam.gagi.model.Items;
 
@@ -17,5 +18,8 @@ public interface ProductDao {
 	Items item(int id);
 
 	List<Items> totalList();
+
+	// 재고 증감 메서드
+	int changeAmount(Map<String, Object> params);
 
 }

@@ -44,4 +44,12 @@
 		ORDER BY i.CREATED_AT DESC
 	</select>
 	
+	<update id="changeAmount">
+		UPDATE ITEMS
+		SET AMOUNT = AMOUNT + #{amount}
+		WHERE id = #{id}
+		<if test="amount &lt; 0">
+			AND AMOUNT >= -#{amount}
+		</if>
+	</update>
 </mapper>

@@ -18,4 +18,6 @@ public interface ProductService {
 
 	List<Items> totalList();
 
+	// 재고 증감 메서드
+	void changeAmount(int itemId, int amountChange);
 }

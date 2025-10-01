@@ -63,5 +63,9 @@ public class OrdersDaoImpl implements OrdersDao {
 		return sql.update("orders.updateOrderStatus", params);
 	}
 
+	@Override
+	public Orders item(int id) {
+		return sql.selectOne("orders.item", id);
+	}
 
 }

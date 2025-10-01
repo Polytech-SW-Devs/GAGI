@@ -1,6 +1,7 @@
 package com.exam.gagi.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,13 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public List<Items> totalList() {
 		return sql.selectList("product.totalList");
+	}
+
+	// 재고 증감 메서드
+	@Override
+	public int changeAmount(Map<String, Object> params) {
+
+		return sql.update("product.changeAmount", params);
 	}
 
 }
