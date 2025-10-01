@@ -3,7 +3,7 @@
 <mapper namespace="product">
 	
 	<select id="list" resultType="Items">
-		SELECT * 
+		SELECT i.*, C.NAME CATEGORY_NAME
 		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
 		WHERE user_id = #{userId}
 		ORDER BY CREATED_AT DESC
