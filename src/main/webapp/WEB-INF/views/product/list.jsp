@@ -47,7 +47,7 @@
 							<tr>
 								<td>${item.price}</td>
 								<td>${item.categoryName}</td>
-								<td><a href="/product/detail/${item.id}">${item.title}</a></td>
+								<td><a href="../product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.description}</td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>

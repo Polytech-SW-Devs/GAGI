@@ -8,34 +8,40 @@
 <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
-	<div>
-		<div class="container">
-			<div>		
+
+<div>
+	<div class="container">
+		<div>
+			<c:choose>
+	    		<c:when test="${not empty loginUser}">
+	        		<p>${loginUser.nickname}님, 환영합니다!</p>
+	        		<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
+	        		<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
+	        		<a href="${pageContext.request.contextPath}/">장바구니</a><!-- 장바구니 경로 설정해야함 -->
+	    		</c:when>
+	    		<c:otherwise>
+	        		<a href="${pageContext.request.contextPath}/login">로그인</a>
+	        		<a href="${pageContext.request.contextPath}/join">회원가입</a>
+	    		</c:otherwise>
+			</c:choose>
+		</div>
+		<div>
+			<form class="row">
 				<div>
-					<c:choose>
-	    				<c:when test="${not empty loginUser}">
-	        				<p>${loginUser.nickname}님, 환영합니다!</p>
-	        				<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
-	        				<a href="${pageContext.request.contextPath}/mypage">마이페이지</a>
-	        				<a href="${pageContext.request.contextPath}/">장바구니</a><!-- 장바구니 경로 설정해야함 -->
-	    				</c:when>
-	    				<c:otherwise>
-	        				<a href="${pageContext.request.contextPath}/login">로그인</a>
-	        				<a href="${pageContext.request.contextPath}/join">회원가입</a>
-	    				</c:otherwise>
-					</c:choose>
+					<select name="search" class="form-select form-select-sm">
+						<option value="1">상품명 및 내용</option>
+						<option value="2">판매자</option>
+					</select>
 				</div>
+				<div class=col></div>
 				<div>
-					<form class="row">
-						<div class=col>
-							<input type="text" name="keyword" class="fomr-control form-control-smd d-grid">
-							<button class="btn btn-primary btn-sm ">검색</button>	
-						</div>
-					</form>
+					<input type="text" name="keyword" class="fomr-control form-control-smd d-grid">
+					<button class="btn btn-primary btn-sm ">검색</button>	
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
+</div>
 </body>
 </html>
 

@@ -14,11 +14,9 @@
 
 </head>
 <body>
-
 	<div>
 		<div>
-			<div><h3>전체 게시판</h3></div>
-			
+			<div><h3>전체 게시판</h3></div>			
 			<div>
 				<table border="1">
 					<thead>

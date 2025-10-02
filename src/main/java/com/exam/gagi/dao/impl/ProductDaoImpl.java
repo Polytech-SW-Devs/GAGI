@@ -11,6 +11,8 @@ import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.MyPagePager;
+
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -25,8 +27,8 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Items> list(int userId) {
-		return sql.selectList("product.list", userId);
+	public List<Items> list(MyPagePager pager) {
+		return sql.selectList("product.list", pager);
 	}
 
 	@Override
@@ -46,8 +48,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Items> totalList() {
-		return sql.selectList("product.totalList");
+
+	public List<Items> totalList(MyPagePager pager) {
+		return sql.selectList("product.totalList", pager);
 	}
 
 	// 재고 증감 메서드
