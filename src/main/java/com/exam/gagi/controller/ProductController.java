@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.Member;
 import com.exam.gagi.service.MemberService;
@@ -41,7 +42,16 @@ public class ProductController {
 
 	// 게시글 등록
 	@GetMapping("product/add")
-	String add() {
+	String add(HttpSession session, Items item, Model model) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			System.out.println("로그인 정보가 없습니다. 로그인하세요");
+			return "redirect:/login";
+		}
+		List<Category> categories = service.getCategory();
+		model.addAttribute("categories", categories);
+		
+		model.addAttribute("itme", new Items());
 		return "/product/add";
 	}
 
@@ -55,6 +65,7 @@ public class ProductController {
 			return "redirect:/login";
 		}
 		item.setUserId(loginUser.getId());
+		
 		service.add(item);
 		return "redirect:./list";
 	}
