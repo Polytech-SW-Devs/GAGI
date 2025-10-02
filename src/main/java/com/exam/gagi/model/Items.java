@@ -21,6 +21,8 @@ public class Items extends BaseEntity {
 	private int views; // 조회수
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 	private List<ItemImage> itemImages;
+	
+	private String categoryName;	// 카테고리 이름
 
 	public int getId() {
 		return id;
@@ -114,6 +116,14 @@ public class Items extends BaseEntity {
 	// JSP용 getter
 	public Date getDeletedAtDate() {
 		return deletedAt == null ? null : Date.valueOf(deletedAt.toLocalDate());
+	}
+	
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 }

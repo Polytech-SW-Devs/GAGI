@@ -113,5 +113,10 @@ WHERE
   		 WHERE ID = #{id}
   	</update>
   	
-
+	<!-- 주문번호로 주문 조회 -->
+	<select id="item" resultType="Orders">
+		SELECT o.*
+		FROM ORDERS o 
+		WHERE id=#{id}
+	</select>
 </mapper>

@@ -28,7 +28,7 @@ function checkNm() {
 	
 	$.ajax({
     	type: "GET",
-    	url: contextPath+"/checknm",
+    	url: contextPath +"/checknm",
     	data: { data: snd_data },
     	dataType: "text",
     	success: function(data) {

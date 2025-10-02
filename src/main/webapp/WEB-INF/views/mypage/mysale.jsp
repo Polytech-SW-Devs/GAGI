@@ -167,7 +167,8 @@ const contextPath = "${pageContext.request.contextPath}";
 
                                         <td class="text-end fw-bold"><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
                                         <td class="align-middle">
-                                            <select class="status-select" data-order-id="${order.id}" data-current-status="${order.orderStatus}">
+                                            <select class="status-select" data-order-id="${order.id}" data-current-status="${order.orderStatus}"
+                                            ${order.orderStatus == '취소' ? 'disabled' : ''}>
                                                 <option value="입금준비" ${order.orderStatus == '입금준비' ? 'selected' : ''}>입금준비</option>
                                                 <option value="입금완료" ${order.orderStatus == '입금완료' ? 'selected' : ''}>입금완료</option>
                                                 <option value="배송중" ${order.orderStatus == '배송중' ? 'selected' : ''}>배송중</option>

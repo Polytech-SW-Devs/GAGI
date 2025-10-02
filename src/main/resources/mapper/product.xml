@@ -5,7 +5,7 @@
 	
 	
 	<select id="list" resultType="Items">
-		SELECT * 
+		SELECT i.*, C.NAME CATEGORY_NAME
 		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
 		WHERE user_id = #{userId} 
 		ORDER BY CREATED_AT DESC
@@ -14,7 +14,17 @@
 	
 	<insert id="add">
 		INSERT INTO items(ID, USER_ID, CATEGORY_ID, TITLE, DESCRIPTION, DELIVERY, PRICE, AMOUNT, VIEWS, BANK_ACCOUNT_NUMBER,IS_DIRECT_DEAL)
-		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal})
+		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal, jdbcType=VARCHAR})
+		
+  		 <!-- 현재 시퀀스 값을 유지함 -> 트랜잭션 발동 -->
+  		 <selectKey keyProperty="id" resultType="int" order="AFTER">
+  		 	SELECT ITEMS_SEQ.currval FROM dual
+  		 </selectKey>
+	</insert>
+	
+	<insert id="addWithImage">
+		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
+		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
 	
 	<delete id="delete">
@@ -63,6 +73,7 @@
 		ON U.ID = I.USER_ID
 		ORDER BY I.CREATED_AT DESC
 	</select>
+
 	<sql id="search">
 	    SELECT * FROM ITEMS
 	    <where>
@@ -76,4 +87,14 @@
 				</if>
 	    </where>
 	</sql>
+
+	<update id="changeAmount">
+		UPDATE ITEMS
+		SET AMOUNT = AMOUNT + #{amount}
+		WHERE id = #{id}
+		<if test="amount &lt; 0">
+			AND AMOUNT >= -#{amount}
+		</if>
+	</update>
+
 </mapper>

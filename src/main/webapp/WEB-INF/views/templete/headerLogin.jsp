@@ -8,6 +8,7 @@
 <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
+
 <div>
 	<div class="container">
 		<div>
@@ -41,7 +42,6 @@
 		</div>
 	</div>
 </div>
-
 </body>
 </html>
 
