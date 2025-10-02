@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.ItemImage;
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.pager.Pager;
 
@@ -61,6 +62,12 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void addWithImage(ItemImage image) {
 		sql.insert("product.addWithImage", image);
+	}
+
+	@Override
+	public List<Category> getCategory() {
+		return sql.selectList("product.selectCategory");
+
 	}
 
 }

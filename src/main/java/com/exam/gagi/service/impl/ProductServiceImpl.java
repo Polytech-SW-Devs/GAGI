@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.gagi.dao.ProductDao;
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.pager.Pager;
@@ -50,6 +51,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Items> totalList(Pager pager) {
 		return dao.totalList(pager);
+	}
+	@Override
+	public List<Category> getCategory() {
+		return dao.getCategory();
 	}
 
 	// 재고 증감 메서드

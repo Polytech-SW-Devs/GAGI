@@ -14,15 +14,23 @@
 		<div> <h3>상품 등록</h3> </div>
 			<div>
 			<form method="post">
-				<!-- 카테고리 선택 -->
-				<%-- <div>
-					<label for="selectBox">카테고리 선택</label>
-					<select id="selectBox" name="categoryId">
-						<c:forEach var="c" items="${categories}">
-							<option value="${c.categoryId}">${c.name}</option>
-						</c:forEach>
-					</select>
-				</div> --%>
+			    <!-- 카테고리 선택 -->
+			    <div class="mb-3">
+			        <label for="selectBox" class="form-label">카테고리 선택</label>
+			        <select id="selectBox" name="category.categoryId" class="form-select" required>
+			            <option value="" disabled 
+			                <c:if test="${item.category == null || item.category.categoryId == null}">selected</c:if>>
+			                카테고리를 선택하세요
+			            </option>
+			            <c:forEach var="c" items="${categories}">
+			                <option value="${c.categoryId}" 
+			                    <c:if test="${item.category != null && c.categoryId == item.category.categoryId}">selected</c:if>>
+			                    ${c.name}
+			                </option>
+			            </c:forEach>
+			        </select>
+			    </div>
+
 				<!-- 상품명 등록 -->
 				<div>
 					<div> <label>상품명:</label> </div>

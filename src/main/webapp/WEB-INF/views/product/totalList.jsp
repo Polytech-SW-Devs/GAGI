@@ -50,7 +50,7 @@
 						<c:forEach var="item" items="${totalList}">
 							<tr>
 								<td>${item.price}</td>
-								<td>${item.categoryId}</td>
+								<td>${item.categoryName}</td>
 								<td><a href="./product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>

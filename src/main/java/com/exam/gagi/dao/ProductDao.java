@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.exam.gagi.model.ItemImage;
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.pager.Pager;
 
@@ -26,5 +27,7 @@ public interface ProductDao {
 
 	// 테스트용 상품+이미지 등록
 	void addWithImage(ItemImage image);
+
+	List<Category> getCategory();
 
 }
