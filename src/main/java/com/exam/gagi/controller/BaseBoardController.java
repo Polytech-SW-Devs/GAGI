@@ -2,6 +2,8 @@ package com.exam.gagi.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,7 +45,11 @@ public abstract class BaseBoardController<T> {
 	}
 
 	@GetMapping("/write")
-	public String writeForm() {
+	public String writeForm(HttpSession session) {
+		Object loginUser = session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return "redirect:/login";  // 로그인 안 했으면 로그인 페이지로 이동
+		}
 		return viewPath + "/write";
 	}
 
@@ -55,7 +61,11 @@ public abstract class BaseBoardController<T> {
 	}
 
 	@PostMapping("/write")
-	public String write(@ModelAttribute T post) {
+	public String write(@ModelAttribute T post, HttpSession session) {
+		Object loginUser = session.getAttribute("loginUser");
+		if (loginUser == null) {
+			return "redirect:/login";  // 로그인 안 했으면 로그인 페이지로 이동 
+		}
 		service.create(post);
 		return "redirect:/" + viewPath;
 	}
