@@ -9,6 +9,7 @@
 </head>
 <body>
 <jsp:include page="../views/templete/headerLogin.jsp"></jsp:include>
+<jsp:include page="../views/category/category.jsp"></jsp:include>
 <jsp:include page="../views/product/totalList.jsp">
 	<jsp:param value="${totalList}" name="totalList"/>
 </jsp:include>
