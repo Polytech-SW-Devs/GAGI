@@ -16,15 +16,7 @@
 <body>
 	<div>
 		<div>
-			<div><h3>전체 게시판</h3></div>
-			
-			<div>
-				<form action="" method="get">
-					<input type="text" name="keyword">
-					<button type="button">검색</button>
-				</form>
-			</div>
-			
+			<div><h3>전체 게시판</h3></div>			
 			<div>
 				<table border="1">
 					<thead>
