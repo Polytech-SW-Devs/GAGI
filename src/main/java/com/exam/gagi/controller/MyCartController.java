@@ -41,16 +41,35 @@ public class MyCartController {
         return myCartService.getCartByUserId(userId);
     }
 
-    @PutMapping("/update")
-    public String updateQuantity(@RequestBody MyCart cart) {
-        myCartService.updateCartQuantity(cart.getUserId(), cart.getItemId(), cart.getQuantity());
-        return "수량이 업데이트되었습니다.";
+    @PostMapping("/update")
+    @ResponseBody
+    public Map<String, Object> updateQuantity(@RequestBody MyCart cart) {
+        System.out.println("== updateQuantity 요청 ==");
+        System.out.println("userId: " + cart.getUserId());
+        System.out.println("itemId: " + cart.getItemId());
+        System.out.println("quantity: " + cart.getQuantity());
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            myCartService.updateCartQuantity(cart.getUserId(), cart.getItemId(), cart.getQuantity());
+            response.put("status", "success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("status", "fail");
+        }
+        return response;
     }
 
-    @DeleteMapping("/delete")
-    public String deleteItem(@RequestBody MyCart cart) {
-        myCartService.removeCartItem(cart.getUserId(), cart.getItemId());
-        return "장바구니에서 삭제되었습니다.";
+    @GetMapping("/delete")
+    public String deleteCart(@RequestParam int userId,
+                             @RequestParam int itemId) {
+        System.out.println("🛒 deleteCart 호출됨 - userId=" + userId + ", itemId=" + itemId);
+
+        myCartService.removeCartItem(userId, itemId);
+
+        System.out.println("✅ 장바구니 삭제 완료, redirect 실행");
+
+        return "redirect:/mycart/view/" + userId;
     }
 
     @DeleteMapping("/clear/{userId}")

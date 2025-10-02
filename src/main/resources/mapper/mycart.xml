@@ -53,7 +53,7 @@
     </select>
 
     <!-- 수량 업데이트 -->
-    <update id="updateQuantity" parameterType="map">
+    <update id="updateQuantity" parameterType="com.exam.gagi.model.MyCart">
         UPDATE MYCART
         SET quantity = #{quantity},
             updated_at = CURRENT_TIMESTAMP

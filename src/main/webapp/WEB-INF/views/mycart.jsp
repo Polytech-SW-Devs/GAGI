@@ -73,7 +73,29 @@
         .btn:hover {
             opacity: 0.9;
         }
+        .qty-wrapper {
+		  display: flex;
+		  align-items: center;
+		}
+		
+		.qty-input {
+		  width: 50px;
+		  text-align: center;
+		  font-size: 16px;
+		  margin: 0 5px;
+		}
+		
+		.qty-btn {
+		  font-size: 20px; /* 화살표 키우기 */
+		  width: 35px;
+		  height: 35px;
+		  cursor: pointer;
+		}
     </style>
+	<script>
+		const contextPath = "${pageContext.request.contextPath}";
+	</script>
+    <script src="${pageContext.request.contextPath}/js/mycart.js"></script>
 </head>
 <body>
 <div class="container">
@@ -91,18 +113,24 @@
         </thead>
         <tbody>
         <c:forEach var="item" items="${cartList}">
-            <tr>
+            <tr data-userid="${item.userId}" data-itemid="${item.itemId}" data-price="${item.price}">
                 <!-- 상품 이미지: DB에 없으면 placeholder -->
                 <td>
                     <img src="${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
                          class="product-img" alt="상품이미지">
                 </td>
                 <td>${item.itemName}</td>
-                <td><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</td>
-                <td>${item.quantity}</td>
-                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원</td>
+                <td class="subtotal"><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</td>
                 <td>
-                    <a href="/mycart/delete?userId=${item.userId}&itemId=${item.itemId}" class="btn btn-danger">삭제</a>
+			      <div class="qty-wrapper">
+				    <button type="button" class="qty-btn decrease">−</button>
+				    <input type="number" class="qty-input" value="${item.quantity}" min="1" />
+				    <button type="button" class="qty-btn increase">+</button>
+				  </div>
+			    </td>
+                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원?</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/mycart/delete?userId=${item.userId}&itemId=${item.itemId}" class="btn btn-danger">삭제</a>
                 </td>
             </tr>
         </c:forEach>
