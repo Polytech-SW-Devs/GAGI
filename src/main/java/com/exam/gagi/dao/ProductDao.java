@@ -3,12 +3,13 @@ package com.exam.gagi.dao;
 import java.util.List;
 
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.MyPagePager;
 
 public interface ProductDao {
 
 	void add(Items item);
 
-	List<Items> list(int userId);
+	List<Items> list(MyPagePager pager);
 
 	void delete(int id);
 
@@ -16,6 +17,6 @@ public interface ProductDao {
 
 	Items item(int id);
 
-	List<Items> totalList();
+	List<Items> totalList(MyPagePager pager);
 
 }

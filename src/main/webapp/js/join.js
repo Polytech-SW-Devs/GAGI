@@ -4,7 +4,7 @@ function checkId() {
 
     $.ajax({
         type: "GET",
-        url: "/checkid",   // 상대 경로 (http://localhost:포트 자동 적용됨)
+        url: contextPath+"/checkid",   // 상대 경로 (http://localhost:포트 자동 적용됨)
         data: { data: snd_data },
         dataType: "text",
         success: function (data) {
@@ -28,7 +28,7 @@ function checkNm() {
 	
 	$.ajax({
     	type: "GET",
-    	url: "/checknm",
+    	url: contextPath+"/checknm",
     	data: { data: snd_data },
     	dataType: "text",
     	success: function(data) {

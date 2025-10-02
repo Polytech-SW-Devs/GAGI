@@ -3,10 +3,11 @@ package com.exam.gagi.service;
 import java.util.List;
 
 import com.exam.gagi.model.Items;
+import com.exam.gagi.pager.MyPagePager;
 
 public interface ProductService {
 
-	List<Items> list(int userId);// 로그인한 유저가 등록한 상품만 조회
+	List<Items> list(MyPagePager pager);// 로그인한 유저가 등록한 상품만 조회
 
 	void add(Items item);
 
@@ -16,6 +17,6 @@ public interface ProductService {
 
 	void update(Items item);
 
-	List<Items> totalList();
+	List<Items> totalList(MyPagePager pager);
 
 }
