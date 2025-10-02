@@ -20,4 +20,7 @@ public interface ProductService {
 
 	// 재고 증감 메서드
 	void changeAmount(int itemId, int amountChange);
+
+	// 테스트용 상품+이미지 등록
+	void addWithImage(Items item);
 }
