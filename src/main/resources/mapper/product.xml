@@ -12,7 +12,17 @@
 	
 	<insert id="add">
 		INSERT INTO items(ID, USER_ID, CATEGORY_ID, TITLE, DESCRIPTION, DELIVERY, PRICE, AMOUNT, VIEWS, BANK_ACCOUNT_NUMBER,IS_DIRECT_DEAL)
-		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal})
+		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal, jdbcType=VARCHAR})
+		
+  		 <!-- 현재 시퀀스 값을 유지함 -> 트랜잭션 발동 -->
+  		 <selectKey keyProperty="id" resultType="int" order="AFTER">
+  		 	SELECT ITEMS_SEQ.currval FROM dual
+  		 </selectKey>
+	</insert>
+	
+	<insert id="addWithImage">
+		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
+		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
 	
 	<delete id="delete">
@@ -44,4 +54,12 @@
 		ORDER BY i.CREATED_AT DESC
 	</select>
 	
+	<update id="changeAmount">
+		UPDATE ITEMS
+		SET AMOUNT = AMOUNT + #{amount}
+		WHERE id = #{id}
+		<if test="amount &lt; 0">
+			AND AMOUNT >= -#{amount}
+		</if>
+	</update>
 </mapper>

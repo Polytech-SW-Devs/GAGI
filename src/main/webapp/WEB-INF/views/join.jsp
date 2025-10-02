@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+ <script>
+        const contextPath = "${pageContext.request.contextPath}";
+  </script>
 </head>
 <body>
 	<h1>회원가입</h1>

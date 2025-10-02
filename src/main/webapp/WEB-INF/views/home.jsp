@@ -17,6 +17,6 @@
 
 	
 <jsp:include page="../views/templete/footer.jsp"></jsp:include>
-
+<div><a href="./test/testUpload">이미지 업로드 테스트</a></div>
 </body>
 </html>
