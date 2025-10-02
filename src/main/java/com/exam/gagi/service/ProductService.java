@@ -2,6 +2,7 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
+import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.pager.MyPagePager;
 
@@ -25,4 +26,8 @@ public interface ProductService {
 
 	// 테스트용 상품+이미지 등록
 	void addWithImage(Items item);
+
+	List<Category> getCategory();
+
+
 }

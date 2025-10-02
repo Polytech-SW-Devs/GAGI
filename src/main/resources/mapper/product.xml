@@ -67,10 +67,11 @@
 			I.PRICE,
 			I.AMOUNT,
 			I.BANK_ACCOUNT_NUMBER,
-			I.SALES_STATUS
+			I.SALES_STATUS,
+			C.NAME CATEGORY_NAME
 		FROM USERS U RIGHT JOIN 
 		(<include refid="search"></include>) I
-		ON U.ID = I.USER_ID
+		ON U.ID = I.USER_ID JOIN CATEGORIES C ON I.CATEGORY_ID = C.CATEGORY_ID
 		ORDER BY I.CREATED_AT DESC
 	</select>
 
@@ -96,5 +97,12 @@
 			AND AMOUNT >= -#{amount}
 		</if>
 	</update>
+
+
+	<select id="selectCategory" resultType="Categories">
+		select *
+		from CATEGORIES
+		order by name
+	</select>
 
 </mapper>
