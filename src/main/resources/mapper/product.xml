@@ -97,11 +97,16 @@
 		</if>
 	</update>
 
-
 	<select id="selectCategory" resultType="Categories">
 		select *
 		from CATEGORIES
 		order by name
 	</select>
+	
+	<update id="updateViews" parameterType="int">
+		UPDATE ITEMS
+		SET VIEWS = views + 1
+		WHERE ID = #{id}
+	</update>
 
 </mapper>
