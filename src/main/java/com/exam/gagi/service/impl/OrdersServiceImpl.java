@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.gagi.dao.MemberDao;
 import com.exam.gagi.dao.OrdersDao;
+import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.MypageViewDto;
 import com.exam.gagi.model.OrderSaleViewDto;
+import com.exam.gagi.model.Orders;
 import com.exam.gagi.model.OrdersSaleDetailViewDto;
 import com.exam.gagi.model.RecentOrderDto;
 import com.exam.gagi.pager.MyPagePager;
@@ -24,6 +26,8 @@ public class OrdersServiceImpl implements OrdersService {
 	OrdersDao dao;
 	@Autowired
 	MemberDao memberDao;
+	@Autowired
+	ProductDao productDao;
 
 	// 구매내역
 	@Override
@@ -47,8 +51,33 @@ public class OrdersServiceImpl implements OrdersService {
 		return dao.datail(id);
 	}
 
+	@Transactional
 	@Override
 	public boolean updateOrderStatus(int id, String orderStatus) {
+		if ("취소".equals(orderStatus)) {
+			Orders item = dao.item(id);
+
+			if (item == null) {
+				// 주문이 존재하지 않을시 예외처리
+				throw new IllegalArgumentException("주문 ID " + id + "에 해당하는 주문을 찾을 수 없습니다.");
+			}
+
+			int itemId = item.getItemId();
+			int amount = item.getAmount();
+
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("id", itemId);
+			params.put("amount", amount);
+
+			int affectedRows = productDao.changeAmount(params);
+
+			if (affectedRows <= 0) {
+				// 재고 복구 실패 시 RuntimeException을 발생시켜 전체 트랜잭션을 롤백
+				throw new RuntimeException("재고 복구에 실패했습니다. 주문 ID: " + id);
+			}
+
+		}
+
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);
 		params.put("orderStatus", orderStatus);
@@ -60,10 +89,10 @@ public class OrdersServiceImpl implements OrdersService {
 		return affectedRows > 0;
 	}
 
+	@Transactional
 	@Override
 	public boolean cancelOrder(int id) {
-		// 주문 취소는 주문 상태를 '취소'로 업데이트하는 것과 동일하므로
-		// 기존의 updateOrderStatus 메소드를 재사용합니다.
+
 		return this.updateOrderStatus(id, "취소");
 	}
 
@@ -77,12 +106,18 @@ public class OrdersServiceImpl implements OrdersService {
 		// MyPagePager를 생성하여 최근 3개의 구매내역을 가져옵니다.
 		MyPagePager pager = new MyPagePager();
 		pager.setUserId(id); // 현재 마이페이지를 조회하는 사용자의 ID 설정
-		pager.setPage(1);    // 첫 번째 페이지
+		pager.setPage(1); // 첫 번째 페이지
 		pager.setPerPage(3); // 3개만 가져오기
 
 		dto.setRecentOrders(dao.orderList(pager)); // 새로운 orderList 메소드 사용
 
 		return dto;
+	}
+
+	// 주문번호로 Orders 조회
+	@Override
+	public Orders item(int id) {
+		return dao.item(id);
 	}
 
 }

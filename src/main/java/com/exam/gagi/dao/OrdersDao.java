@@ -28,5 +28,7 @@ public interface OrdersDao {
 	// 주문 상태 변경
 	int updateOrderStatus(Map<String, Object> params);
 
+	// 주문번호로 Orders 조회
+	Orders item(int id);
 
 }

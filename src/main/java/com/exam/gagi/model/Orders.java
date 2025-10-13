@@ -1,15 +1,16 @@
 package com.exam.gagi.model;
 
 public class Orders extends BaseEntity {
+
 	// 주문PK
 	private int id;
 	// 주문자 (FK)
 	private int userId;
 	// 상품 ID (FK)
 	private Integer itemId;
-	// 상품 단가
+	// 판매금액
 	private Integer price;
-	// 주문 수량
+	// 수량
 	private Integer amount;
 	// 총 주문 금액
 	private Integer totalPrice;
@@ -48,11 +49,11 @@ public class Orders extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public Integer getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(Integer itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 
@@ -151,5 +152,5 @@ public class Orders extends BaseEntity {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-
 }
+

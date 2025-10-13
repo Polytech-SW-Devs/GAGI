@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market </title>
 
 <style>
   table, th, td {
@@ -14,11 +14,9 @@
 
 </head>
 <body>
-
 	<div>
 		<div>
-			<div><h3>전체 게시판</h3></div>
-			
+			<div><h3>전체 게시판</h3></div>			
 			<div>
 				<table border="1">
 					<thead>
@@ -26,6 +24,7 @@
 							<th>가격</th>
 							<th>카테고리</th>
 							<th>제목</th>
+							<th>판매자</th>
 							<th>수량</th>							
 							<th>원산지</th>														
 							<th>직거래 여부</th>													
@@ -43,8 +42,9 @@
 						<c:forEach var="item" items="${totalList}">
 							<tr>
 								<td>${item.price}</td>
-								<td>${item.categoryId}</td>
+								<td>${item.categoryName}</td>
 								<td><a href="./product/detail/${item.id}">${item.title}</a></td>
+								<td>${item.nickname}</td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>
 								<td>${item.isDirectDeal}</td>

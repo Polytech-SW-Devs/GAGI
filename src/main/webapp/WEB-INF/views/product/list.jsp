@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market </title>
 
 <style>
   table, th, td {
@@ -46,8 +46,8 @@
 						<c:forEach var="item" items="${list}">
 							<tr>
 								<td>${item.price}</td>
-								<td>${item.categoryId}</td>
-								<td><a href="/product/detail/${item.id}">${item.title}</a></td>
+								<td>${item.categoryName}</td>
+								<td><a href="../product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.description}</td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>

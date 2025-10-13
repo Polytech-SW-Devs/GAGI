@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market </title>
 </head>
 <body>
 <jsp:include page="../templete/headerLogin.jsp"></jsp:include>
@@ -13,157 +13,162 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-11 col-md-12">
-    <!-- 상품 제목 및 기본 정보 -->
-    <div class="row mb-3">
-        <div class="col-12">
-            <h4 class="fw-bold">${item.title}</h4>
-        </div>
-    </div>
-    
-    <!-- 메인 상품 정보 -->
-    <div class="row">
-        <!-- 좌측 이미지 영역 -->
-        <div class="col-md-5">
-            <div class="border rounded p-0 text-center bg-light d-flex flex-column justify-content-center align-items-center" style="height: 450px; overflow: hidden;">
-                <img id="previewImage" src="#" alt="상품 이미지 미리보기" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; display: none;">
-                <div id="imagePlaceholder" class="d-flex flex-column justify-content-center align-items-center h-100 w-100">
-                    <i class="bi bi-image fs-1 text-muted"></i>
-                    <p class="text-muted mt-2 mb-0">이미지 준비중</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 우측 상품 상세 정보 -->
-        <div class="col-md-7">
-            <div class="ms-3">
-                <!-- 판매자 및 계좌 정보 -->
-                <div class="mb-4">
-                    <div class="p-3 bg-light rounded border">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="fs-5 text-muted">판매자 :</span>
-                                <span class="fs-5 fw-bold ms-2">${member.nickname}</span>	
-                            </div>
-                            <div class="col-6">
-                                <span class="fs-5 text-muted">계좌번호 :</span>
-                                <span class="fs-5 fw-bold ms-2">${item.bankAccountNumber}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 상품 설명 -->
-                <div class="mb-4">
-                    <h5 class="mb-3">상품 상세설명</h5>
-                    <p class="mb-2 fs-6">${fn:replace(item.description, '\\n', '<br>')}</p>
-                </div>
-                
-                <!-- 가격 정보 -->
-                <div class="mb-4">
-                    <div class="d-flex align-items-center mb-2">
-                        <span class="me-3 fs-5">판매가 :</span>
-                        <h3 class="text-danger fw-bold mb-0">${item.price}원</h3>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <span class="me-3 fs-6">남은 수량 :</span>
-                        <span class="fs-5 fw-bold text-primary">${item.amount}개</span>
-                        <small class="text-muted ms-4">등록일: ${item.createdAt}</small>
-                    </div>
-                </div>
-                
-                <!-- 수량 선택 -->
-                <div class="mb-4">
-                    <div class="row align-items-center">
-                        <div class="col-3">
-                            <label for="quantity" class="form-label mb-0 fs-5">수량선택 :</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" class="form-control form-control-lg" id="quantity" value="1" min="1" max="${item.amount}">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 총 상품 금액 -->
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center p-4 bg-light rounded border">
-                        <span class="fw-bold fs-5">총 상품 금액</span>
-                        <span class="fw-bold text-danger fs-4" id="totalPrice">${item.price}원</span>
-                    </div>
-                </div>
-                
-                <!-- 구매 버튼들 -->
-                <div class="row g-2">
-                    <div class="col-6">
-                        <button class="btn btn-outline-primary btn-lg w-100" type="button" id="addToCartBtn">
-                            장바구니
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button class="btn btn-dark btn-lg fw-bold w-100" type="button">
-                            바로구매
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+		    <!-- 상품 제목 및 기본 정보 -->
+		    <div class="row mb-3">
+		        <div class="col-12">
+		            <h4 class="fw-bold">${item.title}</h4>
+		        </div>
+		    </div>
+		    
+		    <!-- 메인 상품 정보 -->
+		    <div class="row">
+		        <!-- 좌측 이미지 영역 -->
+		        <div class="col-md-5">
+		            <div class="border rounded p-0 text-center bg-light d-flex flex-column justify-content-center align-items-center" style="height: 450px; overflow: hidden;">
+		                <img id="previewImage" src="#" alt="상품 이미지 미리보기" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; display: none;">
+		                <div id="imagePlaceholder" class="d-flex flex-column justify-content-center align-items-center h-100 w-100">
+		                    <i class="bi bi-image fs-1 text-muted"></i>
+		                    <p class="text-muted mt-2 mb-0">이미지 준비중</p>
+		                </div>
+		            </div>
+		        </div>
+		        
+		        <!-- 우측 상품 상세 정보 -->
+		        <div class="col-md-7">
+		            <div class="ms-3">
+		                <!-- 판매자 및 계좌 정보 -->
+		                <div class="mb-4">
+		                    <div class="p-3 bg-light rounded border">
+		                        <div class="row">
+		                            <div class="col-6">
+		                                <span class="fs-5 text-muted">판매자 :</span>
+		                                <span class="fs-5 fw-bold ms-2">${member.nickname}</span>	
+		                            </div>
+		                            <div class="col-6">
+		                                <span class="fs-5 text-muted">계좌번호 :</span>
+		                                <span class="fs-5 fw-bold ms-2">${item.bankAccountNumber}</span>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		                
+		                <!-- 상품 설명 -->
+		                <div class="mb-4">
+		                    <h5 class="mb-3">상품 상세설명</h5>
+		                    <p class="mb-2 fs-6">${fn:replace(item.description, '\\n', '<br>')}</p>
+		                </div>
+		                
+		                <!-- 가격 정보 -->
+		                <div class="mb-4">
+		                    <div class="d-flex align-items-center mb-2">
+		                        <span class="me-3 fs-5">판매가 :</span>
+		                        <h3 class="text-danger fw-bold mb-0">${item.price}원</h3>
+		                    </div>
+		                    <div class="d-flex align-items-center">
+		                        <span class="me-3 fs-6">남은 수량 :</span>
+		                        <span class="fs-5 fw-bold text-primary">${item.amount}개</span>
+		                        <small class="text-muted ms-4">등록일: ${item.createdAt}</small>
+		                    </div>
+		                </div>
+		                
+		                <!-- 수량 선택 -->
+		                <div class="mb-4">
+		                    <div class="row align-items-center">
+		                        <div class="col-3">
+		                            <label for="quantity" class="form-label mb-0 fs-5">수량선택 :</label>
+		                        </div>
+		                        <div class="col-3">
+		                            <input type="number" class="form-control form-control-lg" id="quantity" value="1" min="1" max="${item.amount}">
+		                        </div>
+		                    </div>
+		                </div>
+		                
+		                <!-- 총 상품 금액 -->
+		                <div class="mb-4">
+		                    <div class="d-flex justify-content-between align-items-center p-4 bg-light rounded border">
+		                        <span class="fw-bold fs-5">총 상품 금액</span>
+		                        <span class="fw-bold text-danger fs-4" id="totalPrice">${item.price}원</span>
+		                    </div>
+		                </div>
+		                
+		                <!-- 구매 버튼들 -->
+		                <div class="row g-2">
+		                    <div class="col-6">
+		                        <button class="btn btn-outline-primary btn-lg w-100" type="button">
+		                            장바구니
+		                        </button>
+		                    </div>
+		                    <div class="col-6">
+		                        <button class="btn btn-dark btn-lg fw-bold w-100" type="button">
+		                            바로구매
+		                        </button>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>	
+
 
 <!-- 댓글/문의 섹션 -->
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-11 col-md-12">
-    <div class="row">
-        <div class="col-12">
-        	<div class="btn btn-primary btn-sm" id="image_add">사진올리기</div>
-            <h5 class="mb-3">상품 문의</h5>
-            
-            <!-- 댓글 목록 (예시) -->
-            <div class="border rounded p-3 mb-3">
-                <div class="d-flex align-items-start mb-2">
-                    <i class="bi bi-person-circle fs-4 me-2"></i>
-                    <div class="flex-grow-1">
-                        <strong>구매자1</strong>
-                        <small class="text-muted ms-2">2일 전</small>
-                        <p class="mb-1 mt-1">배송은 어떻게 되나요?</p>
-                        
-                        <!-- 답글 -->
-                        <div class="ms-4 mt-2">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-arrow-return-right me-2 text-muted"></i>
-                                <div>
-                                    <strong class="text-primary">판매자</strong>
-                                    <small class="text-muted ms-2">1일 전</small>
-                                    <p class="mb-0 mt-1">입금 확인 후 택배로 발송됩니다.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border rounded p-3 mb-3">
-                <div class="d-flex align-items-start">
-                    <i class="bi bi-person-circle fs-4 me-2"></i>
-                    <div class="flex-grow-1">
-                        <strong>구매자2</strong>
-                        <small class="text-muted ms-2">3일 전</small>
-                        <p class="mb-0 mt-1">상품 상태는 어떤가요?</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 댓글 작성 폼 -->
-            <div class="border rounded p-3 bg-light">
-                <div class="mb-3">
-                    <textarea class="form-control" placeholder="궁금한 점을 문의해보세요" rows="3"></textarea>
-                </div>
-                <div class="text-end">
-                    <button class="btn btn-primary">문의하기</button>
-                </div>
-            </div>
-        </div>
-    </div>
+		    <div class="row">
+		        <div class="col-12">
+		        	<div class="btn btn-primary btn-sm" id="image_add">사진올리기</div>
+		            <h5 class="mb-3">상품 문의</h5>
+		            
+		            <!-- 댓글 목록 (예시) -->
+		            <div class="border rounded p-3 mb-3">
+		                <div class="d-flex align-items-start mb-2">
+		                    <i class="bi bi-person-circle fs-4 me-2"></i>
+		                    <div class="flex-grow-1">
+		                        <strong>구매자1</strong>
+		                        <small class="text-muted ms-2">2일 전</small>
+		                        <p class="mb-1 mt-1">배송은 어떻게 되나요?</p>
+		                        
+		                        <!-- 답글 -->
+		                        <div class="ms-4 mt-2">
+		                            <div class="d-flex align-items-start">
+		                                <i class="bi bi-arrow-return-right me-2 text-muted"></i>
+		                                <div>
+		                                    <strong class="text-primary">판매자</strong>
+		                                    <small class="text-muted ms-2">1일 전</small>
+		                                    <p class="mb-0 mt-1">입금 확인 후 택배로 발송됩니다.</p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		            
+		            <div class="border rounded p-3 mb-3">
+		                <div class="d-flex align-items-start">
+		                    <i class="bi bi-person-circle fs-4 me-2"></i>
+		                    <div class="flex-grow-1">
+		                        <strong>구매자2</strong>
+		                        <small class="text-muted ms-2">3일 전</small>
+		                        <p class="mb-0 mt-1">상품 상태는 어떤가요?</p>
+		                    </div>
+		                </div>
+		            </div>
+		            
+		            <!-- 댓글 작성 폼 -->
+		            <div class="border rounded p-3 bg-light">
+		                <div class="mb-3">
+		                    <textarea class="form-control" placeholder="궁금한 점을 문의해보세요" rows="3"></textarea>
+		                </div>
+		                <div class="text-end">
+		                    <button class="btn btn-primary">문의하기</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>  
+	</div>	    
 </div>
 
 <jsp:include page="../templete/footer.jsp"></jsp:include>
