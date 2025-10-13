@@ -8,7 +8,8 @@ public class MyPagePager extends Pager {
 
 	private int userId;
 	private String orderStatus; // 주문 상태 필터
-
+	
+	
 	@Override
 	public String getQuery() {
 		String query = super.getQuery();
@@ -39,5 +40,7 @@ public class MyPagePager extends Pager {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+
+	
 
 }
