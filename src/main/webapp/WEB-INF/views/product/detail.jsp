@@ -94,7 +94,7 @@
 		                <!-- 구매 버튼들 -->
 		                <div class="row g-2">
 		                    <div class="col-6">
-		                        <button class="btn btn-outline-primary btn-lg w-100" type="button">
+		                        <button class="btn btn-outline-primary btn-lg w-100" type="button" id="addToCartBtn">
 		                            장바구니
 		                        </button>
 		                    </div>
@@ -230,6 +230,45 @@ imageUploadInput.addEventListener('change', (event) => {
         previewImage.style.display = 'none'; // 이미지 숨김
         imagePlaceholder.style.display = 'flex'; // 플레이스홀더 표시
     }
+});
+
+
+
+const userId = parseInt('${loginUser != null ? loginUser.id : 0}', 10);
+const itemId = parseInt('${item.id}', 10);
+console.log("loginUser.id =", "${sessionScope.loginUser.id}");
+console.log("loginUser 객체 =", "${sessionScope.loginUser}");
+
+console.log("userId raw:", '${loginUser != null ? loginUser.id : 0}');
+const userIdInt = parseInt('${loginUser != null ? loginUser.id : 0}', 10);
+console.log("userIdInt:", userIdInt);
+
+document.getElementById('addToCartBtn').addEventListener('click', () => {
+    const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
+
+    if (userId === 0) {
+        alert('로그인이 필요합니다.');
+        return;
+    }
+
+    const formData = new URLSearchParams();
+    formData.append("userId", userIdInt);
+    formData.append("itemId", itemId);
+    formData.append("quantity", quantity);
+
+    fetch('${pageContext.request.contextPath}/mycart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(err => {
+        console.error('장바구니 Ajax 오류:', err);
+        alert('장바구니 담기 실패: ' + err.message);
+    });
 });
 </script>
 </body>

@@ -416,8 +416,8 @@ th {
 				style="display: inline;">
 				<button type="submit" class="btn btn-logout">로그아웃</button>
 			</form>
-			<button class="btn btn-cart"
-				onclick="location.href='${pageContext.request.contextPath}/mycart'">장바구니</button>
+			<button class="btn btn-cart"  
+				onclick="location.href=`${pageContext.request.contextPath}/mycart/view/${loginUser.id}`">장바구니</button>
 		</div>
 	</header>
 
