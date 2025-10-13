@@ -20,7 +20,9 @@ public class Items extends BaseEntity {
 	private String salesStatus; // 판매 상태
 	private int views; // 조회수
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
-	private List<ItemImage> itemImages;
+	private List<ItemImage> itemImages; //상품 이미지 목록
+	private String nickname;
+	
 	
 	private String categoryName;	// 카테고리 이름
 
@@ -125,5 +127,12 @@ public class Items extends BaseEntity {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
+	
 }

@@ -407,17 +407,17 @@ th {
 <body>
 	<header class="header">
 		<div class="logo"
-			onclick="location.href='${pageContext.request.contextPath}/main.jsp'">
+			onclick="location.href='${pageContext.request.contextPath}/'">
 			<div class="logo-icon"></div>
 			<div class="logo-text">가지 마켓</div>
 		</div>
 		<div class="header-buttons">
 			<form action="${pageContext.request.contextPath}/logout"
-				method="post" style="display: inline;">
+				style="display: inline;">
 				<button type="submit" class="btn btn-logout">로그아웃</button>
 			</form>
 			<button class="btn btn-cart"
-				onclick="location.href='${pageContext.request.contextPath}/cart.jsp'">장바구니</button>
+				onclick="location.href='${pageContext.request.contextPath}/mycart'">장바구니</button>
 		</div>
 	</header>
 

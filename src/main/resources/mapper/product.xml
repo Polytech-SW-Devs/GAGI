@@ -69,22 +69,21 @@
 			I.BANK_ACCOUNT_NUMBER,
 			I.SALES_STATUS,
 			C.NAME CATEGORY_NAME
-		FROM USERS U RIGHT JOIN 
-		(<include refid="search"></include>) I
-		ON U.ID = I.USER_ID JOIN CATEGORIES C ON I.CATEGORY_ID = C.CATEGORY_ID
+		FROM USERS U 
+		RIGHT JOIN ITEMS I ON (I.USER_ID = U.ID) 
+		JOIN CATEGORIES C ON (I.CATEGORY_ID = C.CATEGORY_ID)
+		<include refid="search" />
 		ORDER BY I.CREATED_AT DESC
 	</select>
 
 	<sql id="search">
-	    SELECT * FROM ITEMS
 	    <where>
 	        SALES_STATUS = 'available'
 	        	<if test="search == 1">
-					 AND (TITLE like '%' || #{keyword} || '%' 
-					or DESCRIPTION like '%' || #{keyword} || '%')		
+					 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
 				</if>
 				<if test="search == 2">
-					 AND NICKNAME like '%' || #{keyword} || '%'
+					 AND (NICKNAME like '%' || #{keyword} || '%')
 				</if>
 	    </where>
 	</sql>

@@ -178,6 +178,13 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<version>3.5.5</version>
 		</dependency>
+		
+		<!-- 멀티파트 프로세서 https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
 
 	</dependencies>
 	<build>

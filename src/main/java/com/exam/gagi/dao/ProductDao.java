@@ -6,7 +6,9 @@ import java.util.Map;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
+
 
 
 public interface ProductDao {
