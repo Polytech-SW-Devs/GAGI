@@ -1,5 +1,7 @@
 package com.exam.gagi.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +27,7 @@ import com.exam.gagi.service.ProductService;
 @Controller
 public class ProductController {
 	final String path = "product";
-	final String uploadImagePath = "d:/upoad";
+	final String uploadPath = "d:/upoad";
 	
 	@Autowired
 	ProductService service;
@@ -50,16 +52,7 @@ public class ProductController {
 
 	// 게시글 등록
 	@GetMapping("product/add")
-	String add(HttpSession session, Items item, Model model, MultipartFile[] uploadFile) {
-		if (uploadFile != null) {
-			List<ItemImage> itemImage = new ArrayList<ItemImage>();
-			for (MultipartFile file: uploadFile) {
-				String filename = file.getOriginalFilename();
-				String uuid = UUID.randomUUID().toString();
-				
-			}
-			
-		}
+	String add(HttpSession session, Items item, Model model) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			System.out.println("로그인 정보가 없습니다. 로그인하세요");
@@ -72,9 +65,27 @@ public class ProductController {
 		return path + "/add";
 	}
 	@PostMapping("product/add")
-	String add(HttpSession session, Items item) {
+	String add(HttpSession session, Items item, MultipartFile[] uploadFile) {
+		if (uploadFile != null) {
+			List<ItemImage> itemImage = new ArrayList<ItemImage>();
+			for (MultipartFile file: uploadFile) {
+				String filename = file.getOriginalFilename();
+				String uuid = UUID.randomUUID().toString();
+				
+				try {
+					file.transferTo(new File(uploadPath + uuid + "_" + filename));
+					
+					ItemImage image = new ItemImage();
+					image.setFileName(filename);
+					itemImage.add(image);
+				} catch (IllegalStateException | IOException e) {
+					System.out.println(e.getLocalizedMessage());
+				} 
+			}
+			item.setItemImages(itemImage);
+		}
 
-		System.out.println("title: " + item.getTitle());
+		System.out.println("title: " + item.getTitle()); //확인용 로그
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			System.out.println("로그인 정보가 없습니다. 로그인하세요");

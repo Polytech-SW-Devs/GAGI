@@ -48,4 +48,6 @@ public class ItemImage extends BaseEntity {
 		this.fileName = fileName;
 	}
 
+
+	
 }
