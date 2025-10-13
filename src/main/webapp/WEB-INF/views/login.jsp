@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market 로그인</title>
 </head>
 <body>
 	<h1>로그인</h1>

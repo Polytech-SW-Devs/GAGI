@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market</title>
 <jsp:include page="../templete/logo.jsp"></jsp:include>
 </head>
 <body>
@@ -26,17 +26,17 @@
 			</c:choose>
 		</div>
 		<div>
-			<form class="row">
-				<div>
+			<form class="row" action="${pageContext.request.contextPath}/">
+				<div class = "col-2">
 					<select name="search" class="form-select form-select-sm">
 						<option value="1">상품명 및 내용</option>
 						<option value="2">판매자</option>
 					</select>
 				</div>
-				<div class=col></div>
+				<div class="col-2"></div>
 				<div>
 					<input type="text" name="keyword" class="fomr-control form-control-smd d-grid">
-					<button class="btn btn-primary btn-sm ">검색</button>	
+					<button class="btn btn-primary btn-sm">검색</button>	
 				</div>
 			</form>
 		</div>

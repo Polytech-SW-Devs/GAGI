@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>GAGI Market </title>
 </head>
 <body>
 <jsp:include page="../templete/headerLogin.jsp"></jsp:include>
