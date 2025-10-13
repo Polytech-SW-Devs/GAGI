@@ -113,8 +113,10 @@ public class ProductController {
 		model.addAttribute("item", item);
 		return path + "/update";
 	}
+	
+	// 게시글 수정(post)
 	@PostMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Items item, Model model,
+	String update(@PathVariable("id") int id, Items item,
 					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
 					RedirectAttributes rttr) {
 		// 로그인 확인
@@ -124,7 +126,7 @@ public class ProductController {
 	    }
 		item.setId(id);
 		service.update(item);
-		return "redirect:./list";
+		return "redirect:/product/list";
 	}
 
 	// 상세페이지

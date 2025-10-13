@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.exam.gagi.model.Items;
-import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
 import com.exam.gagi.service.ProductService;
 
@@ -22,6 +21,7 @@ public class HomeController {
 	@GetMapping("/")
 
 	String totalList(Model model, MyPagePager pager) {
+		
 		List<Items> totalList = productService.totalList(pager);
 		model.addAttribute("totalList", totalList);
 		return "home";
