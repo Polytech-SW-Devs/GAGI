@@ -11,10 +11,7 @@ import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
-import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
-
-
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -72,6 +69,12 @@ public class ProductDaoImpl implements ProductDao {
 	public List<Category> getCategory() {
 		return sql.selectList("product.selectCategory");
 
+	}
+
+	//조회수 증가
+	@Override
+	public void updateViews(int id) {
+		sql.update("product.updateViews", id);
 	}
 
 }

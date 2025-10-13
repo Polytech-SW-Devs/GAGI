@@ -12,7 +12,6 @@ import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
-import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
 import com.exam.gagi.service.ProductService;
 
@@ -37,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 		dao.delete(id);
 
 	}
-
+	
 	@Override
 	public Items item(int id) {
 		return dao.item(id);
@@ -87,4 +86,10 @@ public class ProductServiceImpl implements ProductService {
 			dao.addWithImage(image);
 		}
 	}
+
+	@Override
+	public void increaseViews(int id) {
+		dao.updateViews(id);
+	}
+
 }
