@@ -19,6 +19,7 @@ public class Review {
 	private LocalDateTime createdAt;
 	// 수정일
 	private LocalDateTime updatedAt;
+	private String reviewerName; 
 	
 	public int getId() {
 		return id;
@@ -68,6 +69,12 @@ public class Review {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+	public String getReviewerName() {
+		return reviewerName;
+	}
+	public void setReviewerName(String reviewerName) {
+		this.reviewerName = reviewerName;
+	}
+
 	
 }

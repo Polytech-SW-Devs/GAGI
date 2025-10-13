@@ -17,13 +17,14 @@ public interface MemberService {
 
 	String findId(String username, String phone); // 유저아이디 찾기
 
-
 	String findPassword(String email, String phone); // 비밀번호 찾기
 
 	void passwordUpdate(String email, String newPassword); // 비밀번호 업데이트
 
 	//userId로 조회
 	Member findById(int id);
+	
+	String getNicknameById(int memberId);
 
 }
 
