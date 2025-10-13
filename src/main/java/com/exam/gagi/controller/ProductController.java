@@ -12,14 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
-import com.exam.gagi.service.MemberService;
 import com.exam.gagi.service.ProductService;
 
 @Controller
@@ -29,9 +30,6 @@ public class ProductController {
 	
 	@Autowired
 	ProductService service;
-
-	@Autowired
-	MemberService mService;
 
 	// 게시글 리스트
 	@GetMapping("product/list")
@@ -88,20 +86,42 @@ public class ProductController {
 
 	// 게시글 삭제
 	@GetMapping("product/delete/{id}")
-	String delete(@PathVariable("id") int id) {
+	String delete(@PathVariable("id") int id, 
+					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
+					RedirectAttributes rttr) {
+		// 로그인 확인
+	    if (loginUser == null) {
+	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+	        return "redirect:/login"; // 로그인 페이지로 이동
+	    }
 		service.delete(id);
 		return "redirect:./list";
 	}
 
 	// 게시글 수정
 	@GetMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Model model) {
+	String update(@PathVariable("id") int id, Model model,
+					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
+					RedirectAttributes rttr) {
+		// 로그인 확인
+	    if (loginUser == null) {
+	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+	        return "redirect:/login"; // 로그인 페이지로 이동
+	    }
+		
 		Items item = service.item(id);
 		model.addAttribute("item", item);
 		return path + "/update";
 	}
 	@PostMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Items item, Model model) {
+	String update(@PathVariable("id") int id, Items item, Model model,
+					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
+					RedirectAttributes rttr) {
+		// 로그인 확인
+	    if (loginUser == null) {
+	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+	        return "redirect:/login"; // 로그인 페이지로 이동
+	    }
 		item.setId(id);
 		service.update(item);
 		return "redirect:./list";
@@ -109,12 +129,18 @@ public class ProductController {
 
 	// 상세페이지
 	@GetMapping("/product/detail/{id}")
-	String detail(@PathVariable int id, Model model) {
+	String detail(@PathVariable int id, Model model, 
+					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
+					RedirectAttributes rttr) {
+		// 로그인 확인
+	    if (loginUser == null) {
+	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+	        return "redirect:/login"; // 로그인 페이지로 이동
+	    }
 		Items item = service.item(id);
-		Member member = mService.findById(item.getUserId());
-		model.addAttribute("item", item);  
-		model.addAttribute("member", member);
-		return path + "/detail";
+		model.addAttribute("item", item);
+		model.addAttribute("member", loginUser);
+		return "/product/detail";
 	}
 
 }

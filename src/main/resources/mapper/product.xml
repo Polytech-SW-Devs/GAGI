@@ -29,7 +29,7 @@
 	
 	<delete id="delete">
 		DELETE FROM items
-		WHERE id = #{id}
+		WHERE id = #{id} and USER_ID = #{userId}
 	</delete>
 	
 	<update id="update">
