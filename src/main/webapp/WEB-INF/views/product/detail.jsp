@@ -94,7 +94,7 @@
 		                <!-- 구매 버튼들 -->
 		                <div class="row g-2">
 		                    <div class="col-6">
-		                        <button class="btn btn-outline-primary btn-lg w-100" type="button">
+		                        <button class="btn btn-outline-primary btn-lg w-100" type="button" id="addToCartBtn">
 		                            장바구니
 		                        </button>
 		                    </div>

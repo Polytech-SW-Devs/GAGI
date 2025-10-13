@@ -74,23 +74,37 @@
             opacity: 0.9;
         }
         .qty-wrapper {
-		  display: flex;
-		  align-items: center;
-		}
-		
-		.qty-input {
-		  width: 50px;
-		  text-align: center;
-		  font-size: 16px;
-		  margin: 0 5px;
-		}
-		
-		.qty-btn {
-		  font-size: 20px; /* 화살표 키우기 */
-		  width: 35px;
-		  height: 35px;
-		  cursor: pointer;
-		}
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 중앙 정렬 */
+  gap: 6px; /* 버튼-인풋 사이 여백 균일하게 */
+}
+
+.qty-btn {
+  font-size: 22px; /* 버튼 내 화살표 크기 */
+  width: 28px;      /* 버튼 크기 약간 줄임 */
+  height: 28px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.qty-btn:hover {
+  background: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.qty-input {
+  width: 48px;
+  text-align: center;
+  font-size: 16px;
+  padding: 4px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
     </style>
 	<script>
 		const contextPath = "${pageContext.request.contextPath}";
