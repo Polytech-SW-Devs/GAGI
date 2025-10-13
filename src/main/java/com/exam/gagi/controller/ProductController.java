@@ -129,7 +129,8 @@ public class ProductController {
 
 	// 상세페이지
 	@GetMapping("/product/detail/{id}")
-	String detail(@PathVariable int id, Model model, 
+	String detail(@PathVariable int id, Model model,
+					HttpSession session,
 					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
 					RedirectAttributes rttr) {
 		// 로그인 확인
@@ -137,7 +138,19 @@ public class ProductController {
 	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
 	        return "redirect:/login"; // 로그인 페이지로 이동
 	    }
-		Items item = service.item(id);
+	    
+	    // 세션을 이용해 조회수 중복 방지
+	    String viewedKey = "viewed_" + id;
+	    Boolean viewed = (Boolean) session.getAttribute(viewedKey);
+
+	    if (viewed == null || !viewed) {
+	        // 처음 본 상품이면 조회수 증가
+	        service.increaseViews(id);
+	        session.setAttribute(viewedKey, true); // 조회 기록 저장
+	    }
+
+	    Items item = service.item(id);
+	    
 		model.addAttribute("item", item);
 		model.addAttribute("member", loginUser);
 		return "/product/detail";

@@ -6,10 +6,7 @@ import java.util.Map;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.Items;
-import com.exam.gagi.model.Member;
 import com.exam.gagi.pager.MyPagePager;
-
-
 
 public interface ProductDao {
 
@@ -23,7 +20,6 @@ public interface ProductDao {
 
 	Items item(int id);
 
-
 	List<Items> totalList(MyPagePager pager);
 
 	// 재고 증감 메서드
@@ -33,5 +29,7 @@ public interface ProductDao {
 	void addWithImage(ItemImage image);
 
 	List<Category> getCategory();
+
+	void updateViews(int id);
 
 }
