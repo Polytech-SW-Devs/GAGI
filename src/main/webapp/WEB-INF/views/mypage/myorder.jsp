@@ -53,16 +53,11 @@
 				<div class="bg-white rounded border p-3">
 					<h5 class="text-center mb-4 fw-bold">마이페이지</h5>
 					<nav class="nav flex-column gap-2">
-						<a href="<c:url value='/mypage/myorder'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">구매내역</a>
-						<a href="<c:url value='/mypage/mysale'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">판매내역</a>
-						<a href="<c:url value='/mypage/myUpdate'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보 수정</a> 
-						<a href="<c:url value='/product/list'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a> 
-						<a href="#"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
+						<a href="<c:url value='/mypage/myorder'/>" class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">구매내역</a>
+						<a href="<c:url value='/mypage/mysale'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">판매내역</a>
+						<a href="<c:url value='/mypage/delevery/addressList'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">배달자 관리</a>
+						<a href="<c:url value='/product/list'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a>
+						<a href="#" class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
 					</nav>
 				</div>
 			</div>
@@ -74,12 +69,18 @@
 
 					<!-- 주문 상태 필터 버튼 -->
 					<div class="d-flex justify-content-start gap-2 mb-3">
-						<a href="<c:url value='/mypage/myorder'/>" class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=입금준비'/>" class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=입금완료'/>" class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=배송중'/>" class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=배송완료'/>" class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=취소'/>" class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
+						<a href="<c:url value='/mypage/myorder'/>"
+							class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금준비'/>"
+							class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금완료'/>"
+							class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송중'/>"
+							class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송완료'/>"
+							class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=취소'/>"
+							class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
 					</div>
 
 					<div class="table-responsive">
@@ -127,8 +128,8 @@
 										<td class="text-center">
 											<div>
 												<span class="badge bg-primary">${order.orderStatus}</span>
-											</div> 
-											<c:if test="${order.orderStatus == '입금준비' || order.orderStatus == '입금완료'}">
+											</div> <c:if
+												test="${order.orderStatus == '입금준비' || order.orderStatus == '입금완료'}">
 												<button
 													class="btn btn-outline-secondary btn-sm py-0 px-1 cancel-order-btn"
 													data-order-id="${order.id}">주문취소</button>

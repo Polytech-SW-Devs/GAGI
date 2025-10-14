@@ -106,7 +106,8 @@ const contextPath = "${pageContext.request.contextPath}";
                     <nav class="nav flex-column gap-2">
                         <a href="<c:url value='/mypage/myorder'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">구매내역</a>
                         <a href="<c:url value='/mypage/mysale'/>" class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">판매내역</a>
-                        <a href="<c:url value='/mypage/myUpdate'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보 수정</a>
+                        <a href="<c:url value='/mypage/delevery/addressList'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">배달자 관리</a>
+
                         <a href="<c:url value='/product/list'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a>
                         <a href="#" class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
                     </nav>

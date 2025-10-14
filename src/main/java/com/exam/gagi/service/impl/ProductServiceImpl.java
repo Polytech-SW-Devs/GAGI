@@ -12,6 +12,7 @@ import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
 import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
 import com.exam.gagi.service.ProductService;
 
@@ -20,13 +21,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductDao dao;
-	
-	@Override//로그인한 유저가 등록한 리스트 조회
+
+	@Override // 로그인한 유저가 등록한 리스트 조회
 	public List<Items> list(MyPagePager pager) {
 		return dao.list(pager);
-	}	
-	
-	@Override//추가
+	}
+
+	@Override // 추가
 	public void add(Items item) {
 		dao.add(item);
 	}
@@ -36,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 		dao.delete(id);
 
 	}
-	
+
 	@Override
 	public Items item(int id) {
 		return dao.item(id);
@@ -51,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Items> totalList(MyPagePager pager) {
 		return dao.totalList(pager);
 	}
+
 	@Override
 	public List<Category> getCategory() {
 		return dao.getCategory();
@@ -90,6 +92,20 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void increaseViews(int id) {
 		dao.updateViews(id);
+	}
+
+	// 최신 상품 4개 조회
+	@Override
+	public List<MainItemDTO> getLatestItems() {
+
+		return dao.findLatestItems();
+	}
+
+	// 인기 상품 8개 조회
+	@Override
+	public List<MainItemDTO> getTopPurchasedItems() {
+
+		return dao.findTopPurchasedItems();
 	}
 
 }

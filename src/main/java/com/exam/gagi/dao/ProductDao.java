@@ -3,9 +3,10 @@ package com.exam.gagi.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
+import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
 
 public interface ProductDao {
@@ -31,5 +32,11 @@ public interface ProductDao {
 	List<Category> getCategory();
 
 	void updateViews(int id);
+
+	// 최신 상품 4개 조회
+	List<MainItemDTO> findLatestItems();
+
+	// 인기 상품 8개 조회
+	List<MainItemDTO> findTopPurchasedItems();
 
 }
