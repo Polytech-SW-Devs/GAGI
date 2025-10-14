@@ -109,4 +109,73 @@
 		WHERE ID = #{id}
 	</update>
 
+	<!-- 최신 등록 상품 4개 -->
+	<select id="findLatestItems" resultType="com.exam.gagi.model.MainItemDTO">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.image_url
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS imageUrl,
+            u.nickname AS sellerName
+        FROM
+            items i
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        ORDER BY i.created_at DESC
+    )
+    WHERE ROWNUM <= 4
+    ]]>
+</select>
+
+<!-- 구매순 상품 8개 -->
+<select id="findTopPurchasedItems" resultType="com.exam.gagi.model.MainItemDTO">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.image_url
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS imageUrl,
+            u.nickname AS sellerName
+        FROM
+            items i
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        ORDER BY NVL(ord_cnt.order_count, 0) DESC, i.created_at DESC
+    )
+    WHERE ROWNUM <= 8
+    ]]>
+</select>
+
+
 </mapper>
