@@ -41,10 +41,9 @@ public class ProductController {
 			System.out.println("로그인 정보가 없습니다. 로그인하세요");
 			return "redirect:/login";
 		}
-		int userId = loginUser.getId();
-		pager.setUserId(userId);
-		List<Items> list = service.list(pager);
+		List<Items> list = service.list(loginUser.getId(), pager);
 		model.addAttribute("list", list);
+		model.addAttribute("pager", pager);
 		return path + "/list";
 	}
 
@@ -139,8 +138,10 @@ public class ProductController {
 		model.addAttribute("item", item);
 		return path + "/update";
 	}
+	
+	// 게시글 수정(post)
 	@PostMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Items item, Model model,
+	String update(@PathVariable("id") int id, Items item,
 					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
 					RedirectAttributes rttr) {
 		// 로그인 확인
@@ -150,7 +151,7 @@ public class ProductController {
 	    }
 		item.setId(id);
 		service.update(item);
-		return "redirect:./list";
+		return "redirect:/product/list";
 	}
 
 	// 상세페이지

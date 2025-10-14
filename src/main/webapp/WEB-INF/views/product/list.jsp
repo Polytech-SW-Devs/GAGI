@@ -38,9 +38,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:if test="${list.size() < 1}">
+						<c:if test="${empty list}">
 							<tr>
-								<td colspan="5">준비된 물건이 없습니다.</td>
+								<td colspan="11">준비된 물건이 없습니다.</td>
 							</tr>
 						</c:if>
 					
@@ -62,7 +62,7 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
-									<a href="../product/update/${item.id}">변경</a>
+									<a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
 									<a href="./delete/${item.id}">삭제</a>
 								</td>
 								
@@ -70,6 +70,30 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div>
+					<div>
+						<ul class="pagination pagination-sm">
+							<li class="page-item">
+								<a href="?page=1${pager.query}" class="page-link">처음</a></li>
+							<li class="page-item">
+								<a href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
+							</li>
+
+							<c:forEach var="page" items="${pager.list}">
+								<li class="page-item ${pager.page == page ? 'active' : ''}">
+									<a href="?page=${page}${pager.query}" class="page-link">${page}</a>
+								</li>
+							</c:forEach>
+
+							<li class="page-item">
+								<a href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
+							</li>
+							<li class="page-item">
+								<a href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			<div>
 				<a href="../product/add">글쓰기</a>

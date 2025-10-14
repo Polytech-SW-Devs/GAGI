@@ -28,4 +28,6 @@ public interface MemberDao {
 	// 마이페이지 신상+ 집계함수
 	MypageViewDto myPageInfo(int id);
 
+	String selectNicknameById(int memberId);
+
 }

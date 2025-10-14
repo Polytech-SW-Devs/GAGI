@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.exam.gagi.dao.ProductDao;
-import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Category;
+import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
+import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
 
 @Repository
@@ -22,7 +23,11 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void add(Items item) {
 		sql.insert("product.add", item);
-
+	}
+	
+	@Override
+	public int countByUserId(int id) {
+		return sql.selectOne("product.countByUserId", id);
 	}
 
 	@Override
@@ -71,7 +76,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	}
 
-	//조회수 증가
+	// 조회수 증가
 	@Override
 	public void updateViews(int id) {
 		sql.update("product.updateViews", id);
@@ -80,7 +85,21 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void addItemImage(ItemImage image) {
 		sql.insert("product.add_image", image);
-		
+	}
+	
+	// 최신 상품 4개 조회
+	@Override
+	public List<MainItemDTO> findLatestItems() {
+
+		return sql.selectList("product.findLatestItems");
+	}
+
+	// 인기 상품 8개 조회
+	@Override
+	public List<MainItemDTO> findTopPurchasedItems() {
+
+		return sql.selectList("product.findTopPurchasedItems");
+
 	}
 
 }
