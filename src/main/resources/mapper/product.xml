@@ -121,12 +121,12 @@
             i.created_at,
             NVL(ord_cnt.order_count, 0) AS purchaseCount,
             (
-                SELECT ii.image_url
+                SELECT ii.filename
                 FROM item_images ii
                 WHERE ii.item_id = i.id
                   AND ii.sort_order = 1
                   AND ROWNUM = 1
-            ) AS imageUrl,
+            ) AS filename,
             u.nickname AS sellerName
         FROM
             items i
@@ -155,12 +155,12 @@
             i.created_at,
             NVL(ord_cnt.order_count, 0) AS purchaseCount,
             (
-                SELECT ii.image_url
+                SELECT ii.filename
                 FROM item_images ii
                 WHERE ii.item_id = i.id
                   AND ii.sort_order = 1
                   AND ROWNUM = 1
-            ) AS imageUrl,
+            ) AS filename,
             u.nickname AS sellerName
         FROM
             items i
