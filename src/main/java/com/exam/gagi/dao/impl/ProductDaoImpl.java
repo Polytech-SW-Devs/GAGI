@@ -77,4 +77,10 @@ public class ProductDaoImpl implements ProductDao {
 		sql.update("product.updateViews", id);
 	}
 
+	@Override
+	public void addItemImage(ItemImage image) {
+		sql.insert("product.add_image", image);
+		
+	}
+
 }

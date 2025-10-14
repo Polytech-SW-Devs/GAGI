@@ -25,10 +25,14 @@ public class ProductServiceImpl implements ProductService {
 	public List<Items> list(MyPagePager pager) {
 		return dao.list(pager);
 	}	
-	
+	@Transactional
 	@Override//추가
 	public void add(Items item) {
 		dao.add(item);
+		for(ItemImage itemImage : item.getItemImages()) {
+			itemImage.setItemId(item.getId());
+			dao.addItemImage(itemImage);
+		}
 	}
 
 	@Override
@@ -91,5 +95,7 @@ public class ProductServiceImpl implements ProductService {
 	public void increaseViews(int id) {
 		dao.updateViews(id);
 	}
+	
+	
 
 }

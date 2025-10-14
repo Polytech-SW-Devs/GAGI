@@ -24,7 +24,8 @@
 					<thead>
 						<tr>
 							<th>번호</th>
-							<th>카테고리</th>
+							<th>카테고리</th>						
+							<th>이미지</th>
 							<th>제목</th>
 							<th>상품설명</th>
 							<th>수량</th>							
@@ -47,6 +48,11 @@
 							<tr>
 								<td>${item.price}</td>
 								<td>${item.categoryName}</td>
+								<td>
+									<c:if test="${not empty item.fileName}">
+										<img alt="${item.title}" src="${pageContext.request.contextPath}/upload/${item.fileName}" width="30">
+									</c:if>
+								</td>
 								<td><a href="../product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.description}</td>
 								<td>${item.amount}</td>

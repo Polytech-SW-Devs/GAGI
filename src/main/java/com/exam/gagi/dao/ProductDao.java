@@ -32,4 +32,6 @@ public interface ProductDao {
 
 	void updateViews(int id);
 
+	void addItemImage(ItemImage itemImage); //이미지 저장
+
 }

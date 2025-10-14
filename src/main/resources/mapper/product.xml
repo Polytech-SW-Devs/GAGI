@@ -5,10 +5,10 @@
 	
 	
 	<select id="list" resultType="Items">
-		SELECT i.*, C.NAME CATEGORY_NAME
-		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
-		WHERE user_id = #{userId} 
-		ORDER BY CREATED_AT DESC
+		SELECT i.*, C.NAME CATEGORY_NAME, ii.IMAGE_URL,ii.SORT_ORDER,ii.FILENAME
+		FROM items i JOIN CATEGORIES c ON (i.CATEGORY_ID = c.CATEGORY_ID) LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
+		WHERE user_id = #{userId}
+		ORDER BY I.CREATED_AT DESC
 	</select>
 	
 	
@@ -22,7 +22,7 @@
   		 </selectKey>
 	</insert>
 	
-	<insert id="addWithImage">
+	<insert id="addWithImage"> <!-- 테스트용 -->
 		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
 		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
@@ -45,8 +45,9 @@
 		WHERE id=#{id}
 	</update>
 	
-	<select id="item" resultType="Items">
-		SELECT * FROM ITEMS
+	<select id="item" resultType="Items"><!-- detail -->
+		SELECT i.* ,(SELECT ii.FILENAME FROM ITEM_IMAGES ii WHERE ii.ITEM_ID = i.ID) as fileName
+		FROM ITEMS i 
 		WHERE ID = #{id}
 	</select>
 	
@@ -73,6 +74,7 @@
 		RIGHT JOIN ITEMS I ON (I.USER_ID = U.ID) 
 		JOIN CATEGORIES C ON (I.CATEGORY_ID = C.CATEGORY_ID)
 		<include refid="search" />
+		<include refid="category" />
 		ORDER BY I.CREATED_AT DESC
 	</select>
 
@@ -86,6 +88,13 @@
 					 AND (NICKNAME like '%' || #{keyword} || '%')
 				</if>
 	    </where>
+	</sql>
+	<sql id="category">
+			<if test="categoryId == null">				
+			</if>
+			<if test="categoryId != null">
+				AND i.CATEGORY_ID = ${categoryId}
+			</if>
 	</sql>
 
 	<update id="changeAmount">
@@ -108,5 +117,10 @@
 		SET VIEWS = views + 1
 		WHERE ID = #{id}
 	</update>
+	
+	<insert id="add_image">
+		INSERT INTO ITEM_IMAGES(ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME, uuid)
+		VALUES(ITEM_IMAGES_SEQ.nextval,#{itemId},#{imageUrl},#{sortOrder},#{fileName},#{uuid})
+	</insert>
 
 </mapper>

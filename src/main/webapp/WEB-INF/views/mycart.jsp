@@ -138,7 +138,7 @@
                 <td>
 			      <div class="qty-wrapper">
 				    <button type="button" class="qty-btn decrease">−</button>
-				    <input type="number" class="qty-input" value="${item.quantity}" min="1" />
+				    <input type="number" class="qty-input" value="${item.quantity}" min="0" />
 				    <button type="button" class="qty-btn increase">+</button>
 				  </div>
 			    </td>
