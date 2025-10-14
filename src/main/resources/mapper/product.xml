@@ -2,16 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
-	
-	
 	<select id="list" resultType="Items">
-		SELECT i.*, C.NAME CATEGORY_NAME
-		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
-		WHERE user_id = #{userId} 
-		ORDER BY CREATED_AT DESC
+	    SELECT i.*, ii.IMAGE_URL,ii.SORT_ORDER,ii.FILENAME
+	    FROM 
+	    	(SELECT i.*, c.name AS category_name, ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
+	        FROM items i JOIN categories c ON i.category_id = c.category_id LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
+	        WHERE i.user_id = #{userId}
+	    ) T
+	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
+	                     AND (#{page} * #{perPage})
+	    ORDER BY T.rnum
 	</select>
 	
-	
+	<select id="countByUserId" resultType="int">
+	    SELECT COUNT(*) FROM items WHERE user_id = #{id}
+	</select>
+
 	<insert id="add">
 		INSERT INTO items(ID, USER_ID, CATEGORY_ID, TITLE, DESCRIPTION, DELIVERY, PRICE, AMOUNT, VIEWS, BANK_ACCOUNT_NUMBER,IS_DIRECT_DEAL)
 		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal, jdbcType=VARCHAR})
@@ -22,14 +28,14 @@
   		 </selectKey>
 	</insert>
 	
-	<insert id="addWithImage">
+	<insert id="addWithImage"> <!-- 테스트용 -->
 		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
 		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
 	
 	<delete id="delete">
 		DELETE FROM items
-		WHERE id = #{id}
+		WHERE id = #{id} and USER_ID = #{userId}
 	</delete>
 	
 	<update id="update">
@@ -45,8 +51,9 @@
 		WHERE id=#{id}
 	</update>
 	
-	<select id="item" resultType="Items">
-		SELECT * FROM ITEMS
+	<select id="item" resultType="Items"><!-- detail -->
+		SELECT i.* ,(SELECT ii.FILENAME FROM ITEM_IMAGES ii WHERE ii.ITEM_ID = i.ID) as fileName
+		FROM ITEMS i 
 		WHERE ID = #{id}
 	</select>
 	
@@ -68,11 +75,13 @@
 			I.AMOUNT,
 			I.BANK_ACCOUNT_NUMBER,
 			I.SALES_STATUS,
+			I.VIEWS,
 			C.NAME CATEGORY_NAME
 		FROM USERS U 
 		RIGHT JOIN ITEMS I ON (I.USER_ID = U.ID) 
 		JOIN CATEGORIES C ON (I.CATEGORY_ID = C.CATEGORY_ID)
 		<include refid="search" />
+		<include refid="category" />
 		ORDER BY I.CREATED_AT DESC
 	</select>
 
@@ -87,6 +96,13 @@
 				</if>
 	    </where>
 	</sql>
+	<sql id="category">
+			<if test="categoryId == null">				
+			</if>
+			<if test="categoryId != null">
+				AND i.CATEGORY_ID = ${categoryId}
+			</if>
+	</sql>
 
 	<update id="changeAmount">
 		UPDATE ITEMS
@@ -97,11 +113,90 @@
 		</if>
 	</update>
 
-
 	<select id="selectCategory" resultType="Categories">
 		select *
 		from CATEGORIES
 		order by name
 	</select>
+	
+	<update id="updateViews" parameterType="int">
+		UPDATE ITEMS
+		SET VIEWS = views + 1
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="add_image">
+		INSERT INTO ITEM_IMAGES(ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME, uuid)
+		VALUES(ITEM_IMAGES_SEQ.nextval,#{itemId},#{imageUrl},#{sortOrder},#{fileName},#{uuid})
+	</insert>
+
+	<!-- 최신 등록 상품 4개 -->
+	<select id="findLatestItems" resultType="com.exam.gagi.model.MainItemDTO">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            u.nickname AS sellerName
+        FROM
+            items i
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        ORDER BY i.created_at DESC
+    )
+    WHERE ROWNUM <= 4
+    ]]>
+</select>
+
+<!-- 구매순 상품 8개 -->
+<select id="findTopPurchasedItems" resultType="com.exam.gagi.model.MainItemDTO">
+    <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            u.nickname AS sellerName
+        FROM
+            items i
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        ORDER BY NVL(ord_cnt.order_count, 0) DESC, i.created_at DESC
+    )
+    WHERE ROWNUM <= 8
+    ]]>
+</select>
+
 
 </mapper>

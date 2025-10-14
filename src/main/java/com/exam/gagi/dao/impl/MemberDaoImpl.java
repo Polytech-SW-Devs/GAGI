@@ -75,4 +75,9 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("member.myPageInfo", id);
 	}
 
+	@Override
+	public String selectNicknameById(int memberId) {
+		return sqlSession.selectOne("member.selectNicknameById", memberId);
+	}
+
 }

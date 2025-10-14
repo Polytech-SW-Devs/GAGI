@@ -20,8 +20,8 @@
 	<table border="1" cellpadding="5">
     	<tr>
         	<th>번호</th>
-        	<th>주문 아이템 ID</th>
-        	<th>대상 ID</th>
+        	<th>상품명</th>
+        	<th>작성자</th>
         	<th>평점</th>
         	<th>작성일</th>
     	</tr>
@@ -29,8 +29,8 @@
     	<c:forEach var="post" items="${list}">
         	<tr>
             	<td>${post.id}</td>
-            	<td>${post.order_item_id}</td>
-            	<td>${post.target_id}</td>
+            	<td>${post.title}</td>
+            	<td>${post.nickname}</td>
             	<td>${post.rating_number}</td>
             	<td>${post.created_at}</td>
         	</tr>

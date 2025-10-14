@@ -22,7 +22,25 @@ public class ReviewDaoImpl extends BaseBoardDaoImpl<Review> implements ReviewDao
 	}
 
 	@Override
+	public void insert(Review review) {
+		sqlSession.insert(namespace + "insert", review);
+	}
+	
+	@Override
+	public List<Review> selectListByTarget(int targetId) {
+		return sqlSession.selectList(namespace + "selectListByTarget", targetId);
+	}
+
+	@Override
 	public double getAverageRating(int targetId) {
 		return sqlSession.selectOne(namespace + ".getAverageRating", targetId);
+	}
+
+	@Override
+	public Map<String, Object> selectWriteInfo(int reviewerId, int targetId) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("reviewerId", reviewerId);
+        param.put("targetId", targetId);
+		return sqlSession.selectOne(namespace + "selectWriteInfo", param);
 	}
 }
