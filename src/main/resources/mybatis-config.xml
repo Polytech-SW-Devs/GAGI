@@ -33,7 +33,9 @@
 		<mapper resource="mapper/product.xml"/>
 		<mapper resource="mapper/orders.xml"/>
 		<mapper resource="mapper/delevery.xml"/>
-		<mapper resource="mapper/myUpdate.xml"/>		<mapper resource="mapper/mycart.xml"/>
+		<mapper resource="mapper/myUpdate.xml"/>
+		<mapper resource="mapper/item.xml"/>
+		<mapper resource="mapper/mycart.xml"/>
 	
 	</mappers>
 		
