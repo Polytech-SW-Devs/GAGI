@@ -2,16 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
-	
-	
 	<select id="list" resultType="Items">
-		SELECT i.*, C.NAME CATEGORY_NAME
-		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
-		WHERE user_id = #{userId} 
-		ORDER BY CREATED_AT DESC
+	    SELECT *
+	    FROM (
+	        SELECT 
+	            i.*, 
+	            c.name AS category_name, 
+	            ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
+	        FROM items i
+	        JOIN categories c ON i.category_id = c.category_id
+	        WHERE i.user_id = #{userId}
+	    ) T
+	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
+	                     AND (#{page} * #{perPage})
+	    ORDER BY T.rnum
 	</select>
 	
-	
+	<select id="countByUserId" resultType="int">
+	    SELECT COUNT(*) FROM items WHERE user_id = #{id}
+	</select>
+
 	<insert id="add">
 		INSERT INTO items(ID, USER_ID, CATEGORY_ID, TITLE, DESCRIPTION, DELIVERY, PRICE, AMOUNT, VIEWS, BANK_ACCOUNT_NUMBER,IS_DIRECT_DEAL)
 		values(items_seq.nextval, #{userId}, #{categoryId}, #{title}, #{description}, #{delivery}, #{price}, #{amount}, #{views},#{bankAccountNumber},#{isDirectDeal, jdbcType=VARCHAR})
