@@ -21,6 +21,7 @@ public class HomeController {
 	@GetMapping("/")
 
 	String totalList(Model model, MyPagePager pager) {
+		
 		List<Items> totalList = productService.totalList(pager);
 		model.addAttribute("totalList", totalList);
 		return "home";

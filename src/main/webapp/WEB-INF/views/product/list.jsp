@@ -37,9 +37,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:if test="${list.size() < 1}">
+						<c:if test="${empty list}">
 							<tr>
-								<td colspan="5">준비된 물건이 없습니다.</td>
+								<td colspan="11">준비된 물건이 없습니다.</td>
 							</tr>
 						</c:if>
 					
@@ -47,7 +47,7 @@
 							<tr>
 								<td>${item.price}</td>
 								<td>${item.categoryName}</td>
-								<td><a href="../product/detail/${item.id}">${item.title}</a></td>
+								<td><a href="${pageContext.request.contextPath}/product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.description}</td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>
@@ -56,7 +56,7 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
-									<a href="../product/update/${item.id}">변경</a>
+									<a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
 									<a href="./delete/${item.id}">삭제</a>
 								</td>
 								

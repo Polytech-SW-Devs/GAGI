@@ -68,4 +68,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.findById(id);
 	}
 
+	@Override
+	public String getNicknameById(int memberId) {
+		return memberDao.selectNicknameById(memberId);
+	}
+
 }
