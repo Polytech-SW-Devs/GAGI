@@ -64,6 +64,30 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div>
+					<div>
+						<ul class="pagination pagination-sm">
+							<li class="page-item">
+								<a href="?page=1${pager.query}" class="page-link">처음</a></li>
+							<li class="page-item">
+								<a href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
+							</li>
+
+							<c:forEach var="page" items="${pager.list}">
+								<li class="page-item ${pager.page == page ? 'active' : ''}">
+									<a href="?page=${page}${pager.query}" class="page-link">${page}</a>
+								</li>
+							</c:forEach>
+
+							<li class="page-item">
+								<a href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
+							</li>
+							<li class="page-item">
+								<a href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			<div>
 				<a href="../product/add">글쓰기</a>

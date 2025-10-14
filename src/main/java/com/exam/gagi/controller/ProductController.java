@@ -39,10 +39,9 @@ public class ProductController {
 			System.out.println("로그인 정보가 없습니다. 로그인하세요");
 			return "redirect:/login";
 		}
-		int userId = loginUser.getId();
-		pager.setUserId(userId);
-		List<Items> list = service.list(pager);
+		List<Items> list = service.list(loginUser.getId(), pager);
 		model.addAttribute("list", list);
+		model.addAttribute("pager", pager);
 		return path + "/list";
 	}
 

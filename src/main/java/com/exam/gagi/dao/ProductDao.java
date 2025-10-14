@@ -14,6 +14,8 @@ public interface ProductDao {
 	void add(Items item);
 
 	List<Items> list(MyPagePager pager);
+	
+	int countByUserId(int id);
 
 	void delete(int id);
 
@@ -38,5 +40,5 @@ public interface ProductDao {
 
 	// 인기 상품 8개 조회
 	List<MainItemDTO> findTopPurchasedItems();
-
+	
 }

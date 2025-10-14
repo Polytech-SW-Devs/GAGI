@@ -23,7 +23,11 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void add(Items item) {
 		sql.insert("product.add", item);
-
+	}
+	
+	@Override
+	public int countByUserId(int id) {
+		return sql.selectOne("product.countByUserId", id);
 	}
 
 	@Override

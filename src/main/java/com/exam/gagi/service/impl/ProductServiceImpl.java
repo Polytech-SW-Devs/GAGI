@@ -21,9 +21,15 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductDao dao;
-
-	@Override // 로그인한 유저가 등록한 리스트 조회
-	public List<Items> list(MyPagePager pager) {
+	
+	@Override//로그인한 유저가 등록한 리스트 조회
+	public List<Items> list(int id, MyPagePager pager) {
+		
+		int total = dao.countByUserId(id);
+		
+		pager.setTotal(total);
+		pager.setUserId(id);
+		
 		return dao.list(pager);
 	}
 
