@@ -19,9 +19,7 @@ public class HomeController {
 
 	// 홈페이지 호출 //전체게시글 리스트 호출
 	@GetMapping("/")
-
-	String totalList(Model model, MyPagePager pager) {
-		
+	String totalList(Model model, MyPagePager pager, Items items) {
 		List<Items> totalList = productService.totalList(pager);
 		model.addAttribute("totalList", totalList);
 		return "home";
