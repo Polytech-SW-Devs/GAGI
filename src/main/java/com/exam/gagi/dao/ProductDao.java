@@ -17,7 +17,7 @@ public interface ProductDao {
 	
 	int countByUserId(int id);
 
-	void delete(int id);
+	int delete(Map<String, Object> param);
 
 	void update(Items item);
 
@@ -43,6 +43,7 @@ public interface ProductDao {
 	// 인기 상품 8개 조회
 	List<MainItemDTO> findTopPurchasedItems();
 
+
 	List<ItemImage> ImageList(int itemId);
 
 	void unsetMainImage(int itemId);
@@ -53,5 +54,6 @@ public interface ProductDao {
 
 	
 	
+
 
 }

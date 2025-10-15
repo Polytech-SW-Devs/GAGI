@@ -36,9 +36,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void delete(int id) {
-		sql.selectOne("product.delete", id);
-
+	public int delete(Map<String, Object> param) {
+		//return sql.update("product.delete", param);
+		return sql.delete("product.delete", param);
 	}
 
 	@Override//상세페이지 상품 가져오기

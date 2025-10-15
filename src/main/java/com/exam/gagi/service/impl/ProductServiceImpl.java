@@ -1,12 +1,16 @@
 package com.exam.gagi.service.impl;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.gagi.dao.ProductDao;
 import com.exam.gagi.model.Category;
@@ -22,6 +26,10 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao dao;
 	
+	/**
+	 * 패이지네이션 추가 
+	 * by 한수원
+	 */
 	@Override//로그인한 유저가 등록한 리스트 조회
 	public List<Items> list(int id, MyPagePager pager) {
 		
@@ -42,10 +50,20 @@ public class ProductServiceImpl implements ProductService {
 			dao.addItemImage(itemImage);
 		}
 	}
-
+	
+	
 	@Override
-	public void delete(int id) {
-		dao.delete(id);
+	public int delete(int id, int userId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("userId", userId);
+		//param.put("deletedAt", new java.sql.Timestamp(System.currentTimeMillis()));
+		
+	    int affectedRows = dao.delete(param);
+	    if(affectedRows == 0) {
+	        throw new RuntimeException("삭제 권한이 없거나 이미 삭제된 상품입니다.");
+	    }
+	    return affectedRows;
 
 	}
 
@@ -63,26 +81,26 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Transactional
 	@Override
-	public void update(Items item, org.springframework.web.multipart.MultipartFile[] uploadFile, String mainImageIndex) {
+	public void update(Items item, MultipartFile[] uploadFile, String mainImageIndex) {
 		final String uploadPath = "d:/upload/";
 		
 		// 1. 상품 기본 정보 업데이트
 		dao.update(item);
 		
 		// 2. 새로운 이미지 파일 업로드 처리
-		List<ItemImage> newImages = new java.util.ArrayList<>();
+		List<ItemImage> newImages = new ArrayList<>();
 		if (uploadFile != null && uploadFile.length > 0) {
-			for (org.springframework.web.multipart.MultipartFile file : uploadFile) {
+			for (MultipartFile file : uploadFile) {
 				if (file.isEmpty()) {
 					continue;
 				}
 				
 				String filename = file.getOriginalFilename();
-				String uuid = java.util.UUID.randomUUID().toString();
+				String uuid = UUID.randomUUID().toString();
 				String savedName = uuid + "_" + filename;
 				
 				try {
-					file.transferTo(new java.io.File(uploadPath + savedName));
+					file.transferTo(new File(uploadPath + savedName));
 					
 					ItemImage image = new ItemImage();
 					image.setFileName(savedName);

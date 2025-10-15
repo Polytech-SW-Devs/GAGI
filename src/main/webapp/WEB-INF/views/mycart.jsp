@@ -117,6 +117,7 @@
     <table>
         <thead>
         <tr>
+        	<th><input type="checkbox" id="select-all" checked /></th> <!-- 전체 선택 체크박스 -->
             <th>상품이미지</th>
             <th>상품명</th>
             <th>가격</th>
@@ -128,6 +129,11 @@
         <tbody>
         <c:forEach var="item" items="${cartList}">
             <tr data-userid="${item.userId}" data-itemid="${item.itemId}" data-price="${item.price}">
+            	 <!-- 체크박스 -->
+                <td>
+                    <input type="checkbox" class="cart-checkbox" checked />
+                </td>
+                
                 <!-- 상품 이미지: DB에 없으면 placeholder -->
                 <td>
                     <img src="${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"

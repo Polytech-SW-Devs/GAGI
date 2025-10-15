@@ -34,6 +34,14 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 
+	/**
+	 * 페이지네이션 추가
+	 * @param session
+	 * @param model
+	 * @param pager
+	 * @return 리스트로 이동
+	 * by 한수원
+	 */
 	// 게시글 리스트
 	@GetMapping("product/list")
 	String list(HttpSession session, Model model, MyPagePager pager) {
@@ -110,7 +118,7 @@ public class ProductController {
 	}
 
 	// 게시글 삭제
-	@GetMapping("product/delete/{id}")
+	@PostMapping("product/delete/{id}")
 	String delete(@PathVariable("id") int id, 
 					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
 					RedirectAttributes rttr) {
@@ -119,8 +127,23 @@ public class ProductController {
 	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
 	        return "redirect:/login"; // 로그인 페이지로 이동
 	    }
-		service.delete(id);
-		return "redirect:./list";
+	    
+	    // 로그인 사용자 id
+	    int userId = loginUser.getId();
+
+	    try {
+	        int result = service.delete(id, userId); // Service 호출
+	        if (result == 0) {
+	            rttr.addFlashAttribute("msg", "삭제 권한이 없거나 이미 삭제된 상품입니다.");
+	        } else {
+	            rttr.addFlashAttribute("msg", "상품이 삭제되었습니다.");
+	        }
+	    } catch (Exception e) {
+            rttr.addFlashAttribute("msg", "삭제 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+	    
+		return "redirect:/product/list";
 	}
 
 	// 게시글 수정
