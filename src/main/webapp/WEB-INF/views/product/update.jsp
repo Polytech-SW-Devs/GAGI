@@ -20,7 +20,7 @@
 	                        <li class="existing-file">
 	                            <img src="${pageContext.request.contextPath}/upload/${image.fileName}" alt="상품 이미지 미리보기" width="300">
 	                            <label>
-	                                <input type="radio" name="mainImageIndex" value="${image.sortOrder}" 
+	                                <input type="radio" name="mainImageIndex" value="${image.id}" 
 	                                <c:if test="${image.sortOrder == 1}">checked</c:if>> 대표 이미지
 	                            </label>
 	                            <div class="deleteImage" data-code="${image.id}">삭제</div>
