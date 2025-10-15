@@ -12,6 +12,7 @@
 	        FROM items i
 	        JOIN categories c ON i.category_id = c.category_id
 	        WHERE i.user_id = #{userId}
+	        AND i.IS_DELETE = 'N'
 	    ) T
 	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
 	                     AND (#{page} * #{perPage})
@@ -36,12 +37,23 @@
 		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
 		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
-	
-	<delete id="delete">
+
+	<!-- 
+	<update id="delete" parameterType="map">
+		UPDATE items 
+		SET IS_DELETE = 'Y'
+		WHERE id = #{id}
+		and USER_ID = #{userId}
+		AND IS_DELETE = 'N'
+	</update>
+	-->
+
+	<delete id="delete" parameterType="map">
 		DELETE FROM items
-		WHERE id = #{id} and USER_ID = #{userId}
+	    WHERE ID = #{id}
+	      AND USER_ID = #{userId}
 	</delete>
-	
+
 	<update id="update">
 		UPDATE ITEMS
 		SET CATEGORY_ID = #{categoryId}
