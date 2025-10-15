@@ -74,6 +74,7 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
+
 								    <a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
 								
 								    <form action="${pageContext.request.contextPath}/product/delete/${item.id}"
