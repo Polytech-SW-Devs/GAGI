@@ -1,5 +1,6 @@
 package com.exam.gagi.controller;
 
+import com.exam.gagi.dao.MyCartDAO;
 import com.exam.gagi.model.MyCart;
 import com.exam.gagi.service.MyCartService;
 
@@ -51,34 +52,25 @@ public class MyCartController {
 
         Map<String, Object> response = new HashMap<>();
         try {
-            myCartService.updateCartQuantity(cart.getUserId(), cart.getItemId(), cart.getQuantity());
+            // 변경: boolean -> int 반환
+            int finalQty = myCartService.updateCartQuantityWithStockCheck(
+                    cart.getUserId(), cart.getItemId(), cart.getQuantity()
+            );
+
             response.put("status", "success");
+            response.put("finalQuantity", finalQty); // 실제 반영된 수량 전달
+
+            if (finalQty < cart.getQuantity()) {
+                response.put("message", "재고가 부족하여 최대 수량(" + finalQty + ")으로 조정되었습니다.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response.put("status", "fail");
+            response.put("message", "수량 업데이트 실패");
         }
         return response;
     }
 
-    @GetMapping("/delete")
-    public String deleteCart(@RequestParam int userId,
-                             @RequestParam int itemId) {
-        System.out.println("🛒 deleteCart 호출됨 - userId=" + userId + ", itemId=" + itemId);
-
-        myCartService.removeCartItem(userId, itemId);
-
-        System.out.println("✅ 장바구니 삭제 완료, redirect 실행");
-
-        return "redirect:/mycart/view/" + userId;
-    }
-
-    @DeleteMapping("/clear/{userId}")
-    public String clearCart(@PathVariable int userId) {
-        myCartService.clearCart(userId);
-        return "장바구니가 비워졌습니다.";
-    }
-    
-    // 장바구니 추가 (AJAX 용)
     @PostMapping("/add")
     @ResponseBody
     public Map<String, Object> addCartAjax(@RequestParam Integer userId,
@@ -87,19 +79,23 @@ public class MyCartController {
         Map<String, Object> response = new HashMap<>();
         try {
             MyCart existing = myCartService.getCartItem(userId, itemId);
+            int finalQty;
             if (existing != null) {
-                int newQuantity = existing.getQuantity() + quantity;
-                myCartService.updateCartQuantity(userId, itemId, newQuantity);
+                int requestedQty = existing.getQuantity() + quantity;
+                finalQty = myCartService.updateCartQuantityWithStockCheck(userId, itemId, requestedQty);
             } else {
-                MyCart cart = new MyCart();
-                cart.setUserId(userId);
-                cart.setItemId(itemId);
-                cart.setQuantity(quantity);
-                myCartService.addCart(cart);
+                finalQty = myCartService.addCartWithStockCheck(userId, itemId, quantity);
             }
 
             response.put("status", "success");
-            response.put("message", "장바구니에 담겼습니다.");
+            response.put("finalQuantity", finalQty);
+
+            if (finalQty < quantity) {
+                response.put("message", "재고가 부족하여 일부만 장바구니에 담겼습니다. (" + finalQty + ")");
+            } else {
+                response.put("message", "장바구니에 담겼습니다.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.put("status", "fail");

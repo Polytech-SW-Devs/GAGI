@@ -25,7 +25,11 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void add(Items item) {
 		sql.insert("product.add", item);
+	}
 
+	@Override
+	public int countByUserId(int id) {
+		return sql.selectOne("product.countByUserId", id);
 	}
 
 	@Override
@@ -34,14 +38,19 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void delete(int id) {
-		sql.selectOne("product.delete", id);
-
+	public int delete(Map<String, Object> param) {
+		// return sql.update("product.delete", param);
+		return sql.delete("product.delete", param);
 	}
 
-	@Override
+	@Override // 상세페이지 상품 가져오기
 	public Items item(int id) {
 		return sql.selectOne("product.item", id);
+	}
+
+	@Override // 이미지 리스트
+	public List<ItemImage> ImageList(int itemId) {
+		return sql.selectList("product.imageList", itemId);
 	}
 
 	@Override
@@ -80,6 +89,11 @@ public class ProductDaoImpl implements ProductDao {
 		sql.update("product.updateViews", id);
 	}
 
+	@Override
+	public void addItemImage(ItemImage image) {
+		sql.insert("product.add_image", image);
+	}
+
 	// 최신 상품 4개 조회
 	@Override
 	public List<MainItemDTO> findLatestItems() {
@@ -92,6 +106,7 @@ public class ProductDaoImpl implements ProductDao {
 	public List<MainItemDTO> findTopPurchasedItems() {
 
 		return sql.selectList("product.findTopPurchasedItems");
+
 	}
 
 	// 카테고리별 상품 개수
@@ -133,6 +148,16 @@ public class ProductDaoImpl implements ProductDao {
 		params.put("search", pager.getSearch()); // search 조건 추가
 		params.put("keyword", pager.getKeyword()); // keyword 조건 추가
 		return sql.selectList("product.searchItems", params);
+	}
+
+	@Override
+	public void unsetMainImage(int itemId) {
+		sql.update("product.unsetMainImage", itemId);
+	}
+
+	@Override
+	public void setMainImage(int imageId) {
+		sql.update("product.setMainImage", imageId);
 	}
 
 }

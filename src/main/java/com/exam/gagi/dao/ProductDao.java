@@ -16,7 +16,9 @@ public interface ProductDao {
 
 	List<Items> list(MyPagePager pager);
 
-	void delete(int id);
+	int countByUserId(int id);
+
+	int delete(Map<String, Object> param);
 
 	void update(Items item);
 
@@ -33,6 +35,8 @@ public interface ProductDao {
 	List<Category> getCategory();
 
 	void updateViews(int id);
+
+	void addItemImage(ItemImage image); // 이미지 저장
 
 	// 최신 상품 4개 조회
 	List<MainItemDTO> findLatestItems();
@@ -53,5 +57,11 @@ public interface ProductDao {
 	Category getCategoryById(int categoryId);
 
 	List<MainItemDTO> searchItems(SearchPager pager);
+
+	List<ItemImage> ImageList(int itemId);
+
+	void unsetMainImage(int itemId);
+
+	void setMainImage(int imageId);
 
 }

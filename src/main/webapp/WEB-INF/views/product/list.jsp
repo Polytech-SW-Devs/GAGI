@@ -17,14 +17,27 @@
 <jsp:include page="../templete/headerLogin.jsp"></jsp:include>
 	<div>
 		<div>
-			<div><h3>나의 게시판</h3></div>
-			
+			<div>
+				<h3>나의 게시판</h3>
+			</div>
+			<div class="search-bar">
+				<form method="get">
+					<select name="search">
+						<option value="1" ${pager.search == 1 ? 'selected' : ''}>카테고리</option>
+						<option value="2" ${pager.search == 2 ? 'selected' : ''}>제목</option>
+						<option value="3" ${pager.search == 3 ? 'selected' : ''}>원산지</option>
+					</select>
+					<input type="text" name="keyword" value="${pager.keyword}" placeholder="검색어를 입력해주세요">
+					<button class="search-btn">검색</button>
+				</form>
+			</div>
 			<div>
 				<table border="1">
 					<thead>
 						<tr>
 							<th>번호</th>
 							<th>카테고리</th>
+							<th>이미지</th>
 							<th>제목</th>
 							<th>상품설명</th>
 							<th>수량</th>							
@@ -47,7 +60,12 @@
 							<tr>
 								<td>${item.price}</td>
 								<td>${item.categoryName}</td>
-								<td><a href="${pageContext.request.contextPath}/product/detail/${item.id}">${item.title}</a></td>
+								<td>
+									<c:if test="${not empty item.fileName}">
+										<img alt="${item.title}" src="${pageContext.request.contextPath}/upload/${item.fileName}" width="30">
+									</c:if>
+								</td>
+								<td><a href="../product/detail/${item.id}">${item.title}</a></td>
 								<td>${item.description}</td>
 								<td>${item.amount}</td>
 								<td>${item.delivery}</td>
@@ -56,16 +74,45 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
-									<form action="${pageContext.request.contextPath}/product/delete/${item.id}" method="post" style="display:inline;">
-										<button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
-									</form>
+
+								    <a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
+								
+								    <form action="${pageContext.request.contextPath}/product/delete/${item.id}"
+								          method="post"
+								          onsubmit="return confirm('정말 삭제하시겠습니까?');"
+								          style="display:inline;">
+								        <button type="submit">삭제</button>
+								    </form>
 								</td>
 								
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				<div>
+					<div>
+						<ul class="pagination pagination-sm">
+							<li class="page-item">
+								<a href="?page=1${pager.query}" class="page-link">처음</a></li>
+							<li class="page-item">
+								<a href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
+							</li>
+
+							<c:forEach var="page" items="${pager.list}">
+								<li class="page-item ${pager.page == page ? 'active' : ''}">
+									<a href="?page=${page}${pager.query}" class="page-link">${page}</a>
+								</li>
+							</c:forEach>
+
+							<li class="page-item">
+								<a href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
+							</li>
+							<li class="page-item">
+								<a href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			<div>
 				<a href="../product/add">글쓰기</a>

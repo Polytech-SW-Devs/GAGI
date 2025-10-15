@@ -22,9 +22,12 @@ public class Items extends BaseEntity {
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 	private List<ItemImage> itemImages; //상품 이미지 목록
 	private String nickname;
-	
+
+	private char isDelete = 'N';
+
 	
 	private String categoryName;	// 카테고리 이름
+	private String fileName;
 
 	public int getId() {
 		return id;
@@ -114,7 +117,17 @@ public class Items extends BaseEntity {
 	public void setItemImages(List<ItemImage> itemImages) {
 		this.itemImages = itemImages;
 	}
-
+	
+	
+	
+	public char getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(char isDelete) {
+		this.isDelete = isDelete;
+	}
+	
+	
 	// JSP용 getter
 	public Date getDeletedAtDate() {
 		return deletedAt == null ? null : Date.valueOf(deletedAt.toLocalDate());
@@ -133,6 +146,12 @@ public class Items extends BaseEntity {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
-	
+
 }

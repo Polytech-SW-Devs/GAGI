@@ -56,5 +56,11 @@ public class MyCartDAOImpl implements MyCartDAO {
     public void deleteAllByUserId(int userId) {
         sqlSession.delete(NAMESPACE + "deleteAllByUserId", userId);
     }
+    
+    @Override
+    public int findItemStock(int itemId) {
+        return sqlSession.selectOne(NAMESPACE + "findItemStock", itemId);
+    }
+    
 }
 
