@@ -8,6 +8,20 @@
 	    	(SELECT i.*, c.name AS category_name, ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
 	        FROM items i JOIN categories c ON i.category_id = c.category_id LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
 	        WHERE i.user_id = #{userId}
+	        AND i.IS_DELETE = 'N'
+	        <if test="keyword != null and keyword != ''">
+		    	<choose>
+		    		<when test="search == 1">
+		    			AND c.name LIKE '%' || #{keyword} || '%'
+		    		</when>
+		    		<when test="search == 2">
+		    			AND i.TITLE LIKE '%' || #{keyword} || '%'
+		    		</when>
+		    		<when test="search == 3">
+		    			AND i.DELIVERY LIKE '%' || #{keyword} || '%'
+		    		</when>
+		    	</choose>
+		    </if>
 	    ) T
 	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
 	                     AND (#{page} * #{perPage})
@@ -15,7 +29,23 @@
 	</select>
 	
 	<select id="countByUserId" resultType="int">
-	    SELECT COUNT(*) FROM items WHERE user_id = #{id}
+	    SELECT COUNT(*) 
+	    FROM items i
+	    JOIN categories c on i.category_id = c.category_id
+	    WHERE user_id = #{id}
+	    <if test="keyword != null and keyword != ''">
+	    	<choose>
+	    		<when test="search == 1">
+	    			AND c.name LIKE '%' || #{keyword} || '%'
+	    		</when>
+	    		<when test="search == 2">
+	    			AND i.TITLE LIKE '%' || #{keyword} || '%'
+	    		</when>
+	    		<when test="search == 3">
+	    			AND i.DELIVERY LIKE '%' || #{keyword} || '%'
+	    		</when>
+	    	</choose>
+	    </if>
 	</select>
 
 	<insert id="add">
@@ -32,12 +62,23 @@
 		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
 		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
-	
-	<delete id="delete">
+
+	<!-- 
+	<update id="delete" parameterType="map">
+		UPDATE items 
+		SET IS_DELETE = 'Y'
+		WHERE id = #{id}
+		and USER_ID = #{userId}
+		AND IS_DELETE = 'N'
+	</update>
+	-->
+
+	<delete id="delete" parameterType="map">
 		DELETE FROM items
-		WHERE id = #{id} and USER_ID = #{userId}
+	    WHERE ID = #{id}
+	      AND USER_ID = #{userId}
 	</delete>
-	
+
 	<update id="update">
 		UPDATE ITEMS
 		SET CATEGORY_ID = #{categoryId}

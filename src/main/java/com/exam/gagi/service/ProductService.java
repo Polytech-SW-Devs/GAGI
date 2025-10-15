@@ -13,7 +13,7 @@ public interface ProductService {
 
 	void add(Items item);
 
-	void delete(int id);
+	int delete(int id, int loginUser);
 
 	Items item(int id);
 
