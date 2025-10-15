@@ -16,5 +16,7 @@ public interface MyCartDAO {
     void deleteCartItem(int userId, int itemId);
 
     void deleteAllByUserId(int userId);
+
+	int findItemStock(int itemId);
 }
 

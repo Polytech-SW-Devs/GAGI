@@ -74,5 +74,11 @@
         WHERE user_id = #{userId}
     </delete>
 
+	<select id="findItemStock" parameterType="int" resultType="int">
+	    SELECT AMOUNT
+	    FROM ITEMS
+	    WHERE id = #{itemId}
+	</select>
+
 </mapper>
 
