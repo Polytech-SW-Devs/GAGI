@@ -17,8 +17,20 @@
 <jsp:include page="../templete/headerLogin.jsp"></jsp:include>
 	<div>
 		<div>
-			<div><h3>나의 게시판</h3></div>
-			
+			<div>
+				<h3>나의 게시판</h3>
+			</div>
+			<div class="search-bar">
+				<form method="get">
+					<select name="search">
+						<option value="1" ${pager.search == 1 ? 'selected' : ''}>카테고리</option>
+						<option value="2" ${pager.search == 2 ? 'selected' : ''}>제목</option>
+						<option value="3" ${pager.search == 3 ? 'selected' : ''}>원산지</option>
+					</select>
+					<input type="text" name="keyword" value="${pager.keyword}" placeholder="검색어를 입력해주세요">
+					<button class="search-btn">검색</button>
+				</form>
+			</div>
 			<div>
 				<table border="1">
 					<thead>
@@ -56,8 +68,14 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
-									<a href="./delete/${item.id}">삭제</a>
+								    <a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
+								
+								    <form action="${pageContext.request.contextPath}/product/delete/${item.id}"
+								          method="post"
+								          onsubmit="return confirm('정말 삭제하시겠습니까?');"
+								          style="display:inline;">
+								        <button type="submit">삭제</button>
+								    </form>
 								</td>
 								
 							</tr>
