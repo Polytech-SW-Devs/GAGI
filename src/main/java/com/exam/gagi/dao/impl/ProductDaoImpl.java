@@ -1,5 +1,6 @@
 package com.exam.gagi.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
+import com.exam.gagi.pager.SearchPager;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -90,6 +92,47 @@ public class ProductDaoImpl implements ProductDao {
 	public List<MainItemDTO> findTopPurchasedItems() {
 
 		return sql.selectList("product.findTopPurchasedItems");
+	}
+
+	// 카테고리별 상품 개수
+	@Override
+	public int countItemsByCategory(int categoryId) {
+		return sql.selectOne("product.countItemsByCategory", categoryId);
+	}
+
+	// 검색별 상품 개수
+	@Override
+	public int countSearchItems(String searchKeyword) {
+		return sql.selectOne("product.countSearchItems", searchKeyword);
+	}
+
+	@Override
+	public Category getCategoryById(int categoryId) {
+		return sql.selectOne("product.getCategoryById", categoryId);
+	}
+
+	// 카테고리별 상품 리스트
+	@Override
+	public List<MainItemDTO> getItemsByCategory(int categoryId, SearchPager pager) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("categoryId", categoryId);
+		params.put("page", pager.getPage());
+		params.put("perPage", pager.getPerPage());
+		params.put("sort", pager.getSort()); // ADDED THIS LINE
+		return sql.selectList("product.getItemsByCategory", params);
+	}
+
+	// 검색별 상품 리스트
+	@Override
+	public List<MainItemDTO> searchItems(SearchPager pager) {
+		System.out.println("DAO searchItems sort: " + pager.getSort());
+		Map<String, Object> params = new HashMap<>();
+		params.put("page", pager.getPage());
+		params.put("perPage", pager.getPerPage());
+		params.put("sort", pager.getSort()); // ADDED THIS LINE
+		params.put("search", pager.getSearch()); // search 조건 추가
+		params.put("keyword", pager.getKeyword()); // keyword 조건 추가
+		return sql.selectList("product.searchItems", params);
 	}
 
 }

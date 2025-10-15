@@ -14,6 +14,7 @@ import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
+import com.exam.gagi.pager.SearchPager;
 import com.exam.gagi.service.ProductService;
 
 @Service
@@ -106,6 +107,35 @@ public class ProductServiceImpl implements ProductService {
 	public List<MainItemDTO> getTopPurchasedItems() {
 
 		return dao.findTopPurchasedItems();
+	}
+
+	// 카테고리별 상품 개수
+	@Override
+	public int countItemsByCategory(int categoryId) {
+		return dao.countItemsByCategory(categoryId);
+	}
+
+	// 검색별 상품 개수
+	@Override
+	public int countSearchItems(String searchKeyword) {
+		return dao.countSearchItems(searchKeyword);
+	}
+
+	// 카테고리별 상품 리스트
+	@Override
+	public List<MainItemDTO> getItemsByCategory(int categoryId, SearchPager pager) {
+		return dao.getItemsByCategory(categoryId, pager);
+	}
+
+	// 검색별 상품 리스트
+	@Override
+	public Category getCategoryById(int categoryId) {
+		return dao.getCategoryById(categoryId);
+	}
+
+	@Override
+	public List<MainItemDTO> searchItems(SearchPager pager) {
+		return dao.searchItems(pager);
 	}
 
 }

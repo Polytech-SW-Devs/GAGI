@@ -79,12 +79,18 @@
 	<sql id="search">
 	    <where>
 	        SALES_STATUS = 'available'
-	        	<if test="search == 1">
+	        	<if test="search == 1 and keyword != null and keyword != ''">
 					 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
 				</if>
-				<if test="search == 2">
-					 AND (NICKNAME like '%' || #{keyword} || '%')
-				</if>
+	    </where>
+	</sql>
+
+	<sql id="keyword_search">
+	    <where>
+	        SALES_STATUS = 'available'
+	        <if test="keyword != null and keyword != ''">
+				 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
+			</if>
 	    </where>
 	</sql>
 
@@ -100,7 +106,7 @@
 	<select id="selectCategory" resultType="Categories">
 		select *
 		from CATEGORIES
-		order by name
+		order by CATEGORY_ID
 	</select>
 	
 	<update id="updateViews" parameterType="int">
@@ -108,6 +114,10 @@
 		SET VIEWS = views + 1
 		WHERE ID = #{id}
 	</update>
+
+	<select id="getCategoryById" resultType="com.exam.gagi.model.Category">
+		SELECT * FROM CATEGORIES WHERE CATEGORY_ID = #{categoryId}
+	</select>
 
 	<!-- 최신 등록 상품 4개 -->
 	<select id="findLatestItems" resultType="com.exam.gagi.model.MainItemDTO">
@@ -177,5 +187,116 @@
     ]]>
 </select>
 
+
+<!-- 카테고리별 아이템 개수 조회 -->
+	<select id="countItemsByCategory" resultType="int">
+		SELECT COUNT(*)
+		FROM ITEMS
+		WHERE CATEGORY_ID = #{categoryId} AND SALES_STATUS = 'available'
+	</select>
+
+	<!-- 검색 키워드별 아이템 개수 조회 -->
+	<select id="countSearchItems" resultType="int">
+		SELECT COUNT(*)
+		FROM ITEMS I
+	    <where>
+	        SALES_STATUS = 'available'
+	        <if test="_parameter != null and _parameter != ''">
+	            AND (TITLE like '%' || #{_parameter} || '%' or DESCRIPTION like '%' || #{_parameter} || '%')
+	        </if>
+	    </where>
+	</select>
+
+	<!-- 카테고리별 아이템 페이징 조회 -->
+	<select id="getItemsByCategory" resultType="com.exam.gagi.model.MainItemDTO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS rn,
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            (SELECT u.nickname FROM users u WHERE u.id = i.user_id) AS sellerName
+        FROM
+            items i
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        WHERE i.CATEGORY_ID = #{categoryId}
+          AND i.SALES_STATUS = 'available'
+        ORDER BY
+        <choose>
+            <when test="sort == 'name'">
+                i.title ASC
+            </when>
+            <when test="sort == 'popular'">
+                purchaseCount DESC, i.created_at DESC
+            </when>
+            <otherwise>
+                i.created_at DESC
+            </otherwise>
+        </choose>
+    )
+    WHERE rn BETWEEN (#{page} - 1) * #{perPage} + 1 AND #{page} * #{perPage}
+</select>
+
+
+	<!-- 검색 키워드별 아이템 페이징 조회 -->
+	<select id="searchItems" resultType="com.exam.gagi.model.MainItemDTO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS rn,
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            (SELECT u.nickname FROM users u WHERE u.id = i.user_id) AS sellerName
+        FROM
+            items i
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+            JOIN CATEGORIES C ON (i.CATEGORY_ID = C.CATEGORY_ID)
+        <include refid="keyword_search" />
+        	        ORDER BY
+        	        <choose>
+        	            <when test="sort == 'name'">
+        	                i.title ASC
+        	            </when>
+        	            <when test="sort == 'popular'">
+        	                purchaseCount DESC, i.created_at DESC
+        	            </when>
+        	            <otherwise>
+        	                i.created_at DESC
+        	            </otherwise>
+        	        </choose>
+        	    )
+        	    WHERE rn BETWEEN #{page} * #{perPage} - (#{perPage} - 1)
+        	                AND #{page} * #{perPage}
+        </select>
 
 </mapper>

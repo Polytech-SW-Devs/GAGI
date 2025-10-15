@@ -8,6 +8,7 @@ import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
+import com.exam.gagi.pager.SearchPager;
 
 public interface ProductDao {
 
@@ -38,5 +39,19 @@ public interface ProductDao {
 
 	// 인기 상품 8개 조회
 	List<MainItemDTO> findTopPurchasedItems();
+
+	// 카테고리별 상품 개수
+	int countItemsByCategory(int categoryId);
+
+	// 검색별 상품 개수
+	int countSearchItems(String searchKeyword);
+
+	// 카테고리별 상품 리스트
+	List<MainItemDTO> getItemsByCategory(int categoryId, SearchPager pager);
+
+	// 검색별 상품 리스트
+	Category getCategoryById(int categoryId);
+
+	List<MainItemDTO> searchItems(SearchPager pager);
 
 }

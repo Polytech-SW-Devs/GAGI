@@ -37,7 +37,7 @@
             	o.AMOUNT,
             	o.TOTAL_PRICE,
             	o.ORDER_STATUS,
-            	img.IMAGE_URL AS imageUrl,
+            	img.filename AS filename,
             	ROW_NUMBER() OVER(ORDER BY o.CREATED_AT DESC) AS rnum
         	FROM ORDERS o
         	LEFT JOIN ITEMS i ON o.ITEM_ID = i.ID
