@@ -22,6 +22,10 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductDao dao;
 	
+	/**
+	 * 패이지네이션 추가 
+	 * by 한수원
+	 */
 	@Override//로그인한 유저가 등록한 리스트 조회
 	public List<Items> list(int id, MyPagePager pager) {
 		
@@ -37,10 +41,20 @@ public class ProductServiceImpl implements ProductService {
 	public void add(Items item) {
 		dao.add(item);
 	}
-
+	
+	
 	@Override
-	public void delete(int id) {
-		dao.delete(id);
+	public int delete(int id, int userId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("id", id);
+		param.put("userId", userId);
+		//param.put("deletedAt", new java.sql.Timestamp(System.currentTimeMillis()));
+		
+	    int affectedRows = dao.delete(param);
+	    if(affectedRows == 0) {
+	        throw new RuntimeException("삭제 권한이 없거나 이미 삭제된 상품입니다.");
+	    }
+	    return affectedRows;
 
 	}
 

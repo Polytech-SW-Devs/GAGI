@@ -56,8 +56,14 @@
 								<td>${item.createdAt}</td>
 								<td>${item.views}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
-									<a href="./delete/${item.id}">삭제</a>
+								    <a href="${pageContext.request.contextPath}/product/update/${item.id}">변경</a>
+								
+								    <form action="${pageContext.request.contextPath}/product/delete/${item.id}"
+								          method="post"
+								          onsubmit="return confirm('정말 삭제하시겠습니까?');"
+								          style="display:inline;">
+								        <button type="submit">삭제</button>
+								    </form>
 								</td>
 								
 							</tr>
