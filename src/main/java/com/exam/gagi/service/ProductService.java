@@ -2,7 +2,10 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.exam.gagi.model.Category;
+import com.exam.gagi.model.ItemImage;
 import com.exam.gagi.model.Items;
 import com.exam.gagi.model.MainItemDTO;
 import com.exam.gagi.pager.MyPagePager;
@@ -17,7 +20,9 @@ public interface ProductService {
 
 	Items item(int id);
 
-	void update(Items item);
+	void update(Items item, MultipartFile[] uploadFile, String mainImageIndex);
+	
+	void add(ItemImage image);
 
 	List<Items> totalList(MyPagePager pager);
 
@@ -36,5 +41,9 @@ public interface ProductService {
 
 	// 인기 상품 8개 조회
 	List<MainItemDTO> getTopPurchasedItems();
+
+	void updateItemImage(int id, List<ItemImage> itemImage);
+	
+	
 
 }

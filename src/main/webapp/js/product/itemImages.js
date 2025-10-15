@@ -12,7 +12,7 @@ const appendFile = e =>{
     radio.setAttribute("type", "radio");
     radio.setAttribute("name", "mainImageIndex");
     radio.setAttribute("value", index);
-    if (index === 1) radio.checked = true;
+    if (index === 0) radio.checked = true;
 
     label.appendChild(radio);
     label.append("대표 이미지");

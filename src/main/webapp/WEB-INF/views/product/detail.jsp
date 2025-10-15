@@ -23,14 +23,23 @@
 		    
 		    <!-- 메인 상품 정보 -->
 		    <div>
-		        <!-- 좌측 이미지 영역 -->
+		        <!-- 이미지 영역 -->
 		        <div >
 		            <div>
-		                <img src="${pageContext.request.contextPath}/upload/${item.fileName}" alt="상품 이미지 미리보기" >
-		                <div id="imagePlaceholder">
-		                    <i></i>
-		                    <p>이미지 준비중</p>
-		                </div>
+		            	<div>
+		            		<c:set var="imageList" value="false" />
+			            	<c:forEach var="image" items="${item.itemImages}">
+			            		<img src="${pageContext.request.contextPath}/upload/${image.fileName}" alt="상품 이미지 미리보기" width="300" >	
+			            	</c:forEach>
+			            	
+			            	<!-- 이미지가 하나도 없을 경우 '이미지 준비중' 표시 -->
+							<c:if test="${empty item.itemImages}">
+								<div id="imagePlaceholder">
+									<i></i>
+									<p>이미지 준비중</p>
+								</div>
+							</c:if>
+		            	</div>
 		            </div>
 		        </div>
 		        

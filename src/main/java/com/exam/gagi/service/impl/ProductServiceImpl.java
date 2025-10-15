@@ -51,12 +51,81 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Items item(int id) {
-		return dao.item(id);
+		Items item = dao.item(id);
+		if(item != null) {
+			List<ItemImage> image = dao.ImageList(id);
+			item.setItemImages(image);
+		}
+		
+		return item;
+		
 	}
-
+	
+	@Transactional
 	@Override
-	public void update(Items item) {
+	public void update(Items item, org.springframework.web.multipart.MultipartFile[] uploadFile, String mainImageIndex) {
+		final String uploadPath = "d:/upload/";
+		
+		// 1. 상품 기본 정보 업데이트
 		dao.update(item);
+		
+		// 2. 새로운 이미지 파일 업로드 처리
+		List<ItemImage> newImages = new java.util.ArrayList<>();
+		if (uploadFile != null && uploadFile.length > 0) {
+			for (org.springframework.web.multipart.MultipartFile file : uploadFile) {
+				if (file.isEmpty()) {
+					continue;
+				}
+				
+				String filename = file.getOriginalFilename();
+				String uuid = java.util.UUID.randomUUID().toString();
+				String savedName = uuid + "_" + filename;
+				
+				try {
+					file.transferTo(new java.io.File(uploadPath + savedName));
+					
+					ItemImage image = new ItemImage();
+					image.setFileName(savedName);
+					image.setUuid(uuid);
+					image.setItemId(item.getId());
+					image.setImageUrl(uploadPath + savedName);
+					image.setSortOrder(2); // 기본값은 대표 이미지 아님
+					
+					dao.addItemImage(image);
+					newImages.add(image);
+					
+				} catch (IllegalStateException | java.io.IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// 3. 대표 이미지 설정
+		if (mainImageIndex != null && !mainImageIndex.isEmpty()) {
+			// 먼저 해당 상품의 모든 이미지를 일반 이미지로 설정
+			dao.unsetMainImage(item.getId());
+			
+			if (mainImageIndex.startsWith("new_")) {
+				// 새로 업로드된 이미지 중 하나를 대표 이미지로 설정
+				try {
+					int newImageIdx = Integer.parseInt(mainImageIndex.substring(4));
+					if (newImageIdx >= 0 && newImageIdx < newImages.size()) {
+						int newImageId = newImages.get(newImageIdx).getId();
+						dao.setMainImage(newImageId);
+					}
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// 기존 이미지를 대표 이미지로 설정
+				try {
+					int existingImageId = Integer.parseInt(mainImageIndex);
+					dao.setMainImage(existingImageId);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -119,6 +188,18 @@ public class ProductServiceImpl implements ProductService {
 	public List<MainItemDTO> getTopPurchasedItems() {
 
 		return dao.findTopPurchasedItems();
+	}
+
+	@Override
+	public void add(ItemImage image) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateItemImage(int id, List<ItemImage> itemImage) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

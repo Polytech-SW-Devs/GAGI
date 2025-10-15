@@ -64,7 +64,7 @@ public class ProductController {
 		return path + "/add";
 	}
 	@PostMapping("product/add")
-	String add(HttpSession session, Items item, @RequestParam("uploadFile") MultipartFile[] uploadFile, @RequestParam(value = "mainImageIndex", required = false, defaultValue="0")int mainImageIndex) {
+	String add(HttpSession session, Items item, MultipartFile[] uploadFile, @RequestParam(value = "mainImageIndex", required = false, defaultValue="0")int mainImageIndex) {
 		System.out.println("title: " + item.getTitle()); //확인용 로그
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		if (loginUser == null) {
@@ -75,7 +75,7 @@ public class ProductController {
 		
 		if (uploadFile != null && uploadFile.length > 0) {
 			List<ItemImage> itemImage = new ArrayList<ItemImage>();
-			int mainImage = 1;
+			int nowIndex = 0; //현재 파일 순서를 기억할 변수
 			for (MultipartFile file: uploadFile) {
 				if(file.isEmpty())continue;
 				String filename = file.getOriginalFilename();
@@ -89,13 +89,14 @@ public class ProductController {
 					image.setUuid(uuid);
 					image.setImageUrl("d:/upload/" + uuid + filename);
 					
-					if(mainImage == mainImageIndex) {
+					if(nowIndex == mainImageIndex) {
 						image.setSortOrder(1);
 					}else {
 						image.setSortOrder(2);
 					}
 					
 					itemImage.add(image);
+					nowIndex++;
 				} catch (IllegalStateException | java.io.IOException e) {
 					System.out.println(e.getLocalizedMessage());
 				} 	
@@ -134,24 +135,29 @@ public class ProductController {
 	    }
 		
 		Items item = service.item(id);
+		List<ItemImage> itemImages = item.getItemImages();
+		for(ItemImage single : itemImages) {
+			System.out.println("이미지번호 : "+single.getId() + "/" + "대표이미지:"+single.getSortOrder());
+		}
+		
 		model.addAttribute("item", item);
 		return path + "/update";
 	}
 	
 	// 게시글 수정(post)
-	@PostMapping("product/update/{id}")
-	String update(@PathVariable("id") int id, Items item,
-					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
-					RedirectAttributes rttr) {
-		// 로그인 확인
-	    if (loginUser == null) {
-	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
-	        return "redirect:/login"; // 로그인 페이지로 이동
-	    }
-		item.setId(id);
-		service.update(item);
-		return "redirect:/product/list";
-	}
+		@PostMapping("product/update/{id}")
+		String update(@PathVariable("id") int id, Items item, MultipartFile[] uploadFile, @RequestParam(value = "mainImageIndex", required = false) String mainImageIndex, @SessionAttribute(name = "loginUser", required = false) Member loginUser, RedirectAttributes rttr) {
+			// 로그인 확인
+		    if (loginUser == null) {
+		    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+		        return "redirect:/login"; // 로그인 페이지로 이동
+		    }
+		    item.setId(id);
+		    
+		    service.update(item, uploadFile, mainImageIndex);
+		    
+			return "redirect:/product/list";
+		}
 
 	// 상세페이지
 	@GetMapping("/product/detail/{id}")
@@ -159,11 +165,11 @@ public class ProductController {
 					HttpSession session,
 					@SessionAttribute(name = "loginUser", required = false) Member loginUser,
 					RedirectAttributes rttr) {
-		// 로그인 확인
-	    if (loginUser == null) {
-	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
-	        return "redirect:/login"; // 로그인 페이지로 이동
-	    }
+//		// 로그인 확인
+//	    if (loginUser == null) {
+//	    	rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+//	        return "redirect:/login"; // 로그인 페이지로 이동
+//	    }
 	    
 	    // 세션을 이용해 조회수 중복 방지
 	    String viewedKey = "viewed_" + id;
@@ -174,14 +180,10 @@ public class ProductController {
 	        service.increaseViews(id);
 	        session.setAttribute(viewedKey, true); // 조회 기록 저장
 	    }
-
-	    
-	    
-	    Items item = service.item(id);
-	    
+	    Items item = service.item(id); 
 		model.addAttribute("item", item);
 		model.addAttribute("member", loginUser);
-		return "/product/detail";
+		return path + "/detail";
 	}
 	
 

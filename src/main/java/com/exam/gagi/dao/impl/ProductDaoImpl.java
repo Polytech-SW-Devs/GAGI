@@ -41,9 +41,14 @@ public class ProductDaoImpl implements ProductDao {
 
 	}
 
-	@Override
+	@Override//상세페이지 상품 가져오기
 	public Items item(int id) {
 		return sql.selectOne("product.item", id);
+	}
+	
+	@Override//이미지 리스트
+	public List<ItemImage> ImageList(int itemId) {
+		return sql.selectList("product.imageList", itemId);
 	}
 
 	@Override
@@ -101,5 +106,17 @@ public class ProductDaoImpl implements ProductDao {
 		return sql.selectList("product.findTopPurchasedItems");
 
 	}
+
+	@Override
+	public void unsetMainImage(int itemId) {
+		sql.update("product.unsetMainImage", itemId);
+	}
+
+	@Override
+	public void setMainImage(int imageId) {
+		sql.update("product.setMainImage", imageId);
+	}
+
+	
 
 }
