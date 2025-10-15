@@ -118,12 +118,8 @@ public class Items extends BaseEntity {
 		this.itemImages = itemImages;
 	}
 	
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+	
+	
 	public char getIsDelete() {
 		return isDelete;
 	}
@@ -144,7 +140,6 @@ public class Items extends BaseEntity {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-<<<<<<< HEAD
 	public String getNickname() {
 		return nickname;
 	}
@@ -157,9 +152,6 @@ public class Items extends BaseEntity {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	
-=======
->>>>>>> 22da71e24bf5486e60709a316e29f13ae5cae711
+
 
 }
