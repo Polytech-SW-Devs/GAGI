@@ -7,13 +7,14 @@
 <meta charset="UTF-8">
 <title>GAGI Market </title>
 <jsp:include page="../templete/headerLogin.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/js/product/itemImages.js"></script>
 </head>
 <body>
 	<div>
 		<div>
 		<div> <h3>상품 등록</h3> </div>
 			<div>
-			<form method="post">
+			<form method="post" enctype="multipart/form-data">
 			    <!-- 카테고리 선택 -->
 			    <div class="mb-3">
 			        <label for="selectBox" class="form-label">카테고리 선택</label>
@@ -31,6 +32,16 @@
 			        </select>
 			    </div>
 
+				<!-- 상품이미지 등록 -->
+				<div >
+					<ul id="files">
+					
+					</ul>
+				</div>
+				<div>
+					<div> <label>이미지:</label> </div>
+					<button type="button" id="image_add"> 이미지추가 </button>
+				</div>
 				<!-- 상품명 등록 -->
 				<div>
 					<div> <label>상품명:</label> </div>
@@ -64,18 +75,7 @@
 				<div>
 					<div> <label>판매 수량:</label> </div>
 					<div> <input type="number" name="amount"> </div>
-				</div>
-				<!-- <div> 
-					<div><label>이미지:</label></div> 
-					<div><div class="btn btn-primary btn-sm" id="image_add">추가</div></div> 
-				</div> -->
-				<!-- <div>
-					<div></div>
-					<ul id="files">
-						<li><input type="file" name="uploadFile"></li>
-					</ul>
-				</div> -->
-				
+				</div>	
 				<div>
 					<div> <button>등록</button> </div>
 					<div> <a href="../product/list" type="button">취소</a> </div>

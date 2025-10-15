@@ -35,10 +35,25 @@ public interface ProductDao {
 
 	void updateViews(int id);
 
+	void addItemImage(ItemImage image); //이미지 저장
+
 	// 최신 상품 4개 조회
 	List<MainItemDTO> findLatestItems();
 
 	// 인기 상품 8개 조회
 	List<MainItemDTO> findTopPurchasedItems();
+
+
+	List<ItemImage> ImageList(int itemId);
+
+	void unsetMainImage(int itemId);
+
+	void setMainImage(int imageId);
+
+	
+
+	
+	
+
 
 }
