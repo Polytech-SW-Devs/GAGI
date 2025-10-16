@@ -16,7 +16,7 @@ const appendFile = e =>{
     radio.setAttribute("name", "mainImageIndex");
     radio.setAttribute("value", "new_" + newFileIndex);// add.js와 다른부분 
 
-    // If there are no images at all (existing or new), check the first one by default.
+    
     if (index === 0) {
         radio.checked = true;
     }
