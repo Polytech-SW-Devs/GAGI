@@ -23,7 +23,6 @@ public interface ProductService {
 
 	void update(Items item, MultipartFile[] uploadFile, String mainImageIndex);
 
-	void add(ItemImage image);
 
 	List<Items> totalList(MyPagePager pager);
 
