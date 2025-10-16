@@ -13,7 +13,7 @@
 	<update id="myUpdate" parameterType="Member">
 		UPDATE USERS
 		SET NICKNAME = #{nickname},
-			PASSWORD = #{password},
+			PASSWORD = #{newPassword},
 			EMAIL = #{email},
 			PHONE = #{phone}
 		WHERE ID = #{id}
