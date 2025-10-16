@@ -37,4 +37,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!-- BCryptPasswordEncoder Bean 등록 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
 </beans>

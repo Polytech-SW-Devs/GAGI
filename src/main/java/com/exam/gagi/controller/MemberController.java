@@ -3,6 +3,7 @@ package com.exam.gagi.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ import com.exam.gagi.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	// 회원가입 페이지 요청
 	@GetMapping("/join")
@@ -44,13 +48,10 @@ public class MemberController {
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(Member member, HttpSession session, Model model) {
-		Member loginUser = memberService.findByEmail(member.getEmail());
-		if (loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
-			session.setAttribute("loginUser", loginUser);
-			System.out.println("로그인 유저:" + loginUser);// 로그 확인용(삭제해도됨)
-			int id1 = loginUser.getId();// 로그 확인용(삭제해도됨)
-			System.out.println("아이디번호는:" + id1);// 로그 확인용(삭제해도됨)
+		Member loginUser = memberService.login(member.getEmail(), member.getPassword());
 
+		if (loginUser != null) {
+			session.setAttribute("loginUser", loginUser);
 			return "redirect:/";
 		} else {
 			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
@@ -133,7 +134,7 @@ public class MemberController {
 			return "findPw";
 		}
 
-		if (existingUser.getPassword().equals(member.getNewPassword())) {
+		if (encoder.matches(member.getNewPassword(), existingUser.getPassword())) {
 			model.addAttribute("error", "기존 비밀번호와 동일합니다. 다른 비밀번호를 설정해주세요.");
 			model.addAttribute("email", member.getEmail()); // Pass the email back
 			return "findPwSuccess";
