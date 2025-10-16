@@ -131,3 +131,64 @@ function validatePhone() {
         msgBox.hide();
     }
 }
+
+$(document).ready(function() {
+    $('#joinForm').on('submit', function(e) {
+        e.preventDefault(); // 기본 폼 제출 방지
+
+        // 폼 제출 전 유효성 검사
+        let hasError = false;
+        $('.error-msg').each(function() {
+            if ($(this).is(':visible')) {
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            alert('입력 양식에 오류가 있습니다. 내용을 다시 확인해주세요.');
+            return;
+        }
+        
+        if ($('#id-area').text().indexOf('사용 가능한') < 0) {
+            alert('아이디 중복 확인을 해주세요.');
+            return;
+        }
+        
+        if ($('#id-area-nickname').text().indexOf('사용 가능한') < 0) {
+            alert('닉네임 중복 확인을 해주세요.');
+            return;
+        }
+
+        if ($('#pw-msg').text().indexOf('일치합니다') < 0) {
+            alert('비밀번호가 일치하는지 확인해주세요.');
+            return;
+        }
+
+        let allChecked = true;
+        $('.checklist input[type="checkbox"][required]').each(function() {
+            if (!this.checked) {
+                allChecked = false;
+            }
+        });
+
+        if (!allChecked) {
+            alert('필수 이용약관에 모두 동의해주세요.');
+            return;
+        }
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: "POST",
+            url: contextPath + "/join", // 'contextPath' 변수 사용
+            data: formData,
+            success: function(response) {
+                alert("회원가입 성공! 가지마켓에 오신걸 환영합니다.");
+                window.location.href = contextPath + "/login"; // 'contextPath' 변수 사용
+            },
+            error: function(xhr, status, error) {
+                alert("회원가입 중 오류가 발생했습니다. 서버 로그를 확인해주세요.");
+            }
+        });
+    });
+});

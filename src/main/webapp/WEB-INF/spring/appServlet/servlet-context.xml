@@ -32,29 +32,37 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.exam.gagi" />
-	<!-- 
-	<interceptors>
-	
-		<interceptor>
-			<mapping path="/book/**"/>	
-			<mapping path="/customer/**"/>	
-			<mapping path="/orders/**"/>
-			
-			<beans:bean class="kr.ac.kopo.bookshop.interceptor.UserInterceptor"></beans:bean>
-			
-			 <exclude-mapping path="/book/list"/> 	
-		</interceptor>
-		
-		<interceptor>
-		
-		 
-			<mapping path="/member/**"/>
-			
-			<beans:bean class="kr.ac.kopo.bookshop.interceptor.AdminInterceptor"></beans:bean>
-		</interceptor>
-	
-	</interceptors>
-	
-	 -->
+	    <!-- 💤 인터셉터 전체 비활성화 -->
+    <!--
+    <interceptors>
+        <interceptor>
+            <mapping path="/mypage/**"/>
+            <mapping path="/mycart/**"/>
+            <mapping path="/product/add"/>
+            <mapping path="/inquiry/write"/>
+            <mapping path="/report/write"/>
+            <mapping path="/report/writeWithFile"/>
+            <mapping path="/review/write"/>
+            <mapping path="/reply/add"/>
+            <mapping path="/product/update"/>
+            <mapping path="/inquiry/edit/**"/>
+            <mapping path="/report/edit/**"/>
+            <mapping path="/review/edit/**"/>
+            <mapping path="/reply/delete/**"/>
+            <mapping path="/logout"/>
+            <mapping path="/report/user/**"/>
+            <mapping path="/inquiry/user/**"/>
+            <beans:bean class="com.exam.gagi.interceptor.LoginInterceptor" />
+        </interceptor>
+
+        <interceptor>
+            <mapping path="/report/admin/**"/>
+            <mapping path="/notice/write"/>
+            <mapping path="/notice/edit/**"/>
+            <mapping path="/notice/delete/**"/>
+            <beans:bean class="com.exam.gagi.interceptor.AdminInterceptor" />
+        </interceptor>
+    </interceptors>
+    -->
 	 <tx:annotation-driven/>
 </beans:beans>
