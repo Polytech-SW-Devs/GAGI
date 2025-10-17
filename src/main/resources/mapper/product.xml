@@ -3,30 +3,14 @@
 <mapper namespace="product">
 
 	<select id="list" resultType="Items">
-	    SELECT *
-	    FROM (
-	        SELECT 
-	            i.*, 
-	            c.name AS category_name, 
-	            ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
-	        FROM items i
-	        JOIN categories c ON i.category_id = c.category_id
-	        WHERE i.user_id = #{userId}
-	        AND i.IS_DELETE = 'N'
-	        <if test="keyword != null and keyword != ''">
-		    	<choose>
-		    		<when test="search == 1">
-		    			AND c.name LIKE '%' || #{keyword} || '%'
-		    		</when>
-		    		<when test="search == 2">
-		    			AND i.TITLE LIKE '%' || #{keyword} || '%'
-		    		</when>
-		    		<when test="search == 3">
-		    			AND i.DELIVERY LIKE '%' || #{keyword} || '%'
-		    		</when>
-		    	</choose>
-		    </if>
-	    ) T
+
+	    SELECT T.*
+		FROM 
+			(SELECT i.*, ii.IMAGE_URL, ii.SORT_ORDER, ii.FILENAME, c.name AS category_name, ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
+			 FROM items i JOIN categories c ON i.category_id = c.category_id LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
+			 WHERE i.user_id = #{userId} AND SORT_ORDER = 1
+	   		) T
+
 	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
 	                     AND (#{page} * #{perPage})
 	    ORDER BY T.rnum
@@ -62,7 +46,7 @@
   		 </selectKey>
 	</insert>
 	
-	<insert id="addWithImage">
+	<insert id="addWithImage"> <!-- 테스트용 -->
 		INSERT INTO ITEM_IMAGES (ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME)
 		VALUES (ITEM_IMAGES_SEQ.NEXTVAL, #{itemId}, #{imageUrl}, #{sortOrder}, #{fileName})
 	</insert>
@@ -96,9 +80,16 @@
 		WHERE id=#{id}
 	</update>
 	
-	<select id="item" resultType="Items">
-		SELECT * FROM ITEMS
+	<select id="item" resultType="Items"> <!-- detail -->
+		SELECT *
+		FROM ITEMS
 		WHERE ID = #{id}
+	</select>
+	
+	<select id="imageList" resultType="ItemImage">  <!-- detail 이미지 리스트 가져오기 -->
+		SELECT * FROM ITEM_IMAGES
+		WHERE ITEM_ID = #{itemId}
+		ORDER BY SORT_ORDER
 	</select>
 	
 	<select id="totalList" resultType="Items">
@@ -125,19 +116,33 @@
 		RIGHT JOIN ITEMS I ON (I.USER_ID = U.ID) 
 		JOIN CATEGORIES C ON (I.CATEGORY_ID = C.CATEGORY_ID)
 		<include refid="search" />
+		<include refid="category" />
 		ORDER BY I.CREATED_AT DESC
 	</select>
 
-	<sql id="search">
+	<sql id="search"> <!-- 검색기능 -->
 	    <where>
 	        SALES_STATUS = 'available'
-	        	<if test="search == 1">
+	        	<if test="search == 1 and keyword != null and keyword != ''">
 					 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
 				</if>
-				<if test="search == 2">
-					 AND (NICKNAME like '%' || #{keyword} || '%')
-				</if>
 	    </where>
+	</sql>
+
+	<sql id="keyword_search">
+	    <where>
+	        SALES_STATUS = 'available'
+	        <if test="keyword != null and keyword != ''">
+				 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
+			</if>
+	    </where>
+	</sql>
+	<sql id="category">
+			<if test="categoryId == null">				
+			</if>
+			<if test="categoryId != null">
+				AND i.CATEGORY_ID = ${categoryId}
+			</if>
 	</sql>
 
 	<update id="changeAmount">
@@ -152,7 +157,7 @@
 	<select id="selectCategory" resultType="Categories">
 		select *
 		from CATEGORIES
-		order by name
+		order by CATEGORY_ID
 	</select>
 	
 	<update id="updateViews" parameterType="int">
@@ -160,6 +165,54 @@
 		SET VIEWS = views + 1
 		WHERE ID = #{id}
 	</update>
+	
+	<update id="unsetMainImage" parameterType="int">
+		UPDATE ITEM_IMAGES
+		SET SORT_ORDER = 2
+		WHERE ITEM_ID = #{itemId}
+	</update>
+	
+	<update id="setMainImage" parameterType="int">
+		UPDATE ITEM_IMAGES
+		SET SORT_ORDER = 1
+		WHERE ID = #{imageId}
+	</update>
+	
+	<insert id="add_image"> <!-- 이미지 첨부 -->
+		INSERT INTO ITEM_IMAGES(ID, ITEM_ID, IMAGE_URL, SORT_ORDER, FILENAME, uuid)
+		VALUES(ITEM_IMAGES_SEQ.nextval,#{itemId},#{imageUrl},#{sortOrder},#{fileName},#{uuid})
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+  		 	SELECT ITEM_IMAGES_SEQ.currval FROM dual
+  		 </selectKey>
+	</insert>
+	
+	<delete id="delete_image">
+  		DELETE FROM attach
+  		WHERE code=#{code}
+  	</delete>
+  	
+  	<resultMap type="Items" id="ItemMap" autoMapping="true" >
+  		<id column="Item_Id" property="itemId" />
+  		
+  		<collection property="ItemImage" column="Item_Id" javaType="ArrayList" ofType="ItemImage" autoMapping="true">
+  			<id column="itemimage_id" property="id" />
+  		</collection>
+  		
+  	</resultMap>
+  	
+  	<select id="items" resultMap="ItemMap">
+  		SELECT 
+  			i.*,
+  			ii.*,
+  			ii.id itemimage_id
+  		FROM items i
+  		LEFT JOIN itemImages ii ON i.id = ii.item_id
+  		WHERE i.id=#{id}
+  	</select>
+
+	<select id="getCategoryById" resultType="com.exam.gagi.model.Category">
+		SELECT * FROM CATEGORIES WHERE CATEGORY_ID = #{categoryId}
+	</select>
 
 	<!-- 최신 등록 상품 4개 -->
 	<select id="findLatestItems" resultType="com.exam.gagi.model.MainItemDTO">
@@ -229,5 +282,116 @@
     ]]>
 </select>
 
+
+<!-- 카테고리별 아이템 개수 조회 -->
+	<select id="countItemsByCategory" resultType="int">
+		SELECT COUNT(*)
+		FROM ITEMS
+		WHERE CATEGORY_ID = #{categoryId} AND SALES_STATUS = 'available'
+	</select>
+
+	<!-- 검색 키워드별 아이템 개수 조회 -->
+	<select id="countSearchItems" resultType="int">
+		SELECT COUNT(*)
+		FROM ITEMS I
+	    <where>
+	        SALES_STATUS = 'available'
+	        <if test="_parameter != null and _parameter != ''">
+	            AND (TITLE like '%' || #{_parameter} || '%' or DESCRIPTION like '%' || #{_parameter} || '%')
+	        </if>
+	    </where>
+	</select>
+
+	<!-- 카테고리별 아이템 페이징 조회 -->
+	<select id="getItemsByCategory" resultType="com.exam.gagi.model.MainItemDTO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS rn,
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            (SELECT u.nickname FROM users u WHERE u.id = i.user_id) AS sellerName
+        FROM
+            items i
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+        WHERE i.CATEGORY_ID = #{categoryId}
+          AND i.SALES_STATUS = 'available'
+        ORDER BY
+        <choose>
+            <when test="sort == 'name'">
+                i.title ASC
+            </when>
+            <when test="sort == 'popular'">
+                purchaseCount DESC, i.created_at DESC
+            </when>
+            <otherwise>
+                i.created_at DESC
+            </otherwise>
+        </choose>
+    )
+    WHERE rn BETWEEN (#{page} - 1) * #{perPage} + 1 AND #{page} * #{perPage}
+</select>
+
+
+	<!-- 검색 키워드별 아이템 페이징 조회 -->
+	<select id="searchItems" resultType="com.exam.gagi.model.MainItemDTO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS rn,
+            i.id,
+            i.title,
+            i.price,
+            i.created_at,
+            NVL(ord_cnt.order_count, 0) AS purchaseCount,
+            (
+                SELECT ii.filename
+                FROM item_images ii
+                WHERE ii.item_id = i.id
+                  AND ii.sort_order = 1
+                  AND ROWNUM = 1
+            ) AS filename,
+            (SELECT u.nickname FROM users u WHERE u.id = i.user_id) AS sellerName
+        FROM
+            items i
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) AS order_count
+                FROM orders
+                WHERE order_status != '취소'
+                GROUP BY item_id
+            ) ord_cnt ON i.id = ord_cnt.item_id
+            JOIN CATEGORIES C ON (i.CATEGORY_ID = C.CATEGORY_ID)
+        <include refid="keyword_search" />
+        	        ORDER BY
+        	        <choose>
+        	            <when test="sort == 'name'">
+        	                i.title ASC
+        	            </when>
+        	            <when test="sort == 'popular'">
+        	                purchaseCount DESC, i.created_at DESC
+        	            </when>
+        	            <otherwise>
+        	                i.created_at DESC
+        	            </otherwise>
+        	        </choose>
+        	    )
+        	    WHERE rn BETWEEN #{page} * #{perPage} - (#{perPage} - 1)
+        	                AND #{page} * #{perPage}
+        </select>
 
 </mapper>

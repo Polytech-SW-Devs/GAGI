@@ -10,7 +10,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>가지 마켓 - 마이페이지</title>
+<title>가지마켓 - 마이페이지</title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+	rel="stylesheet">
 <style>
 * {
 	margin: 0;
@@ -19,94 +22,34 @@
 }
 
 body {
-	font-family: 'Inter', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	background: white;
 	min-height: 100vh;
 }
 
-.header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 20px 40px;
-	border-bottom: 1px solid #ddd;
-}
-
-.logo {
-	display: flex;
-	align-items: center;
-	gap: 15px;
-}
-
-.logo-icon {
-	width: 60px;
-	height: 60px;
-	background: #61852D;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-}
-
-.logo-icon::before {
-	content: '';
-	width: 35px;
-	height: 40px;
-	background: #61852D;
-	border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
-}
-
-.logo-text {
-	font-size: 48px;
-	font-weight: 400;
-	color: #501845;
-}
-
-.header-buttons {
-	display: flex;
-	gap: 15px;
-}
-
-.btn {
-	padding: 12px 25px;
-	border: none;
-	border-radius: 25px;
-	font-size: 14px;
-	cursor: pointer;
-	transition: all 0.3s ease;
-}
-
-.btn-logout {
-	background: #61852D;
-	color: white;
-}
-
-.btn-cart {
-	background: #501845;
-	color: white;
-}
-
-.btn:hover {
-	opacity: 0.8;
-	transform: translateY(-1px);
+/* ===== MAIN ===== */
+main {
+	max-width: 1920px;
+	margin: 0 auto;
+	padding: 50px 360px 80px;
 }
 
 .container {
-	max-width: 1400px;
+	max-width: 1200px;
 	margin: 0 auto;
-	padding: 40px 20px;
+	display: flex;
+	gap: 30px;
 }
 
 .sidebar {
-	position: fixed;
-	left: 300px;
-	top: 50%;
-	transform: translateY(-50%);
 	background: white;
 	padding: 30px;
 	border-radius: 15px;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	width: 250px;
+	height: fit-content;
+	position: sticky;
+	top: 20px;
 }
 
 .sidebar h2 {
@@ -142,8 +85,13 @@ body {
 	transform: translateX(5px);
 }
 
+.sidebar-menu a.active {
+	background: #f5f5f5;
+	color: #501845;
+}
+
 .main-content {
-	margin-left: 300px;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
@@ -164,6 +112,12 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .user-info h3 {
@@ -241,6 +195,12 @@ body {
 	border: 2px solid #ddd;
 	border-radius: 15px;
 	padding: 30px;
+	transition: all 0.3s ease;
+}
+
+.purchase-history:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .history-header {
@@ -290,6 +250,18 @@ th {
 	border-bottom: 2px solid #ddd;
 }
 
+td a {
+	text-decoration: none;
+	color: #333;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+td a:hover {
+	color: #501845;
+}
+
 .empty-state {
 	text-align: center;
 	padding: 60px 20px;
@@ -297,19 +269,43 @@ th {
 	font-size: 16px;
 }
 
-@media ( max-width : 1400px) {
+@media (max-width: 1600px) {
+	main {
+		padding: 50px 100px 80px;
+	}
+}
+
+@media (max-width: 1400px) {
+	main {
+		padding: 50px 50px 80px;
+	}
+	
+	.container {
+		flex-direction: column;
+	}
+	
 	.sidebar {
-		position: static;
-		transform: none;
-		margin-bottom: 30px;
 		width: 100%;
-		left: auto;
+		margin-bottom: 30px;
 	}
-	.main-content {
-		margin-left: 0;
-	}
+	
 	.profile-section {
 		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	main {
+		padding: 30px 20px 50px;
+	}
+	
+	.user-profile {
+		flex-direction: column;
+		text-align: center;
+	}
+	
+	.edit-section {
+		margin-top: 20px;
 	}
 }
 
@@ -405,111 +401,110 @@ th {
 </style>
 </head>
 <body>
-	<header class="header">
-		<div class="logo"
-			onclick="location.href='${pageContext.request.contextPath}/'">
-			<div class="logo-icon"></div>
-			<div class="logo-text">가지 마켓</div>
-		</div>
-		<div class="header-buttons">
-			<form action="${pageContext.request.contextPath}/logout"
-				style="display: inline;">
-				<button type="submit" class="btn btn-logout">로그아웃</button>
-			</form>
-			<button class="btn btn-cart"  
-				onclick="location.href=`${pageContext.request.contextPath}/mycart/view/${loginUser.id}`">장바구니</button>
-		</div>
-	</header>
+	<%@ include file="../templete/header.jsp" %>
 
-	<div class="container">
-		<aside class="sidebar">
-			<h2>마이페이지</h2>
-			<ul class="sidebar-menu">
-				<li><a href="<c:url value='/mypage/myorder'/>">구매내역</a></li>
-				<li><a href="<c:url value='/mypage/mysale'/>" class="active">판매내역</a></li>
-				<li><a href="<c:url value='/mypage/delevery/addressList'/>">배달자 관리</a></li>
-				<li><a href="<c:url value='/product/list'/>">내 게시글 보기</a></li>
-				<li><a href="#">회원탈퇴</a></li>
-			</ul>
-		</aside>
+	<main>
+		<div class="container">
+			<aside class="sidebar">
+				<h2>마이페이지</h2>
+				<ul class="sidebar-menu">
+					<li><a href="<c:url value='/mypage/myorder'/>">구매내역</a></li>
+					<li><a href="<c:url value='/mypage/mysale'/>">판매내역</a></li>
+					<li><a href="<c:url value='/mypage/delevery/addressList'/>">배달자 관리</a></li>
+					<li><a href="<c:url value='/product/list'/>">내 게시글 보기</a></li>
+					<li><a href="#">회원탈퇴</a></li>
+				</ul>
+			</aside>
 
-		<main class="main-content">
-			<section class="profile-section">
-				<div class="user-profile">
-					<div class="user-info">
-						<h3>${view.username}</h3>
-						<h2>${view.nickname}님 환영합니다</h2>
-						<div class="user-details">
-							<p>전화: ${view.phone}</p>
-							<p>이메일: ${view.email}</p>
+			<div class="main-content">
+				<section class="profile-section">
+					<div class="user-profile">
+						<div class="user-info">
+							<h3>${view.username}</h3>
+							<h2>${view.nickname}님 환영합니다</h2>
+							<div class="user-details">
+								<p>전화: ${view.phone}</p>
+								<p>이메일: ${view.email}</p>
+							</div>
+						</div>
+						<div class="edit-section">
+							<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">수정 ></a>
 						</div>
 					</div>
-					<div class="edit-section">
-						<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">수정 ></a>
+
+					<div class="stats-card">
+						<h3>총 구매 금액</h3>
+						<span class="stats-amount"><fmt:formatNumber value="${view.totalPurchase}" pattern="#,##0" /></span> 
+						<span class="stats-currency">원</span>
 					</div>
-				</div>
+				</section>
 
-				<div class="stats-card">
-					<h3>총 구매 금액</h3>
-					<span class="stats-amount"><fmt:formatNumber value="${view.totalPurchase}" pattern="#,##0" /></span> <span
-						class="stats-currency">원</span>
-				</div>
-			</section>
+				<section class="stats-card">
+					<h3>총 판매 금액</h3>
+					<span class="stats-amount"><fmt:formatNumber value="${view.totalSales}" pattern="#,##0" /></span> 
+					<span class="stats-currency">원</span>
+				</section>
 
-			<section class="stats-card">
-				<h3>총 판매 금액</h3>
-				<span class="stats-amount"><fmt:formatNumber value="${view.totalSales}" pattern="#,##0" /></span> <span
-					class="stats-currency">원</span>
-			</section>
+				<section class="purchase-history">
+					<div class="history-header">
+						<h3>최근 구매내역</h3>
+						<a href="<c:url value='/mypage/myorder'/>" class="more-link">+more</a>
+					</div>
 
-			<section class="purchase-history">
-				<div class="history-header">
-					<h3>최근 구매내역</h3>
-					<a href="<c:url value='/mypage/myorder'/>" class="more-link">+more</a>
-				</div>
-
-				<div class="table-container">
-					<table>
-						<thead>
-							<tr>
-								<th>주문일자</th>
-								<th>상품정보</th>
-								<th>수량</th>
-								<th>총 가격</th>
-								<th>주문상태</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty view.recentOrders}">
+					<div class="table-container">
+						<table>
+							<thead>
 								<tr>
-									<td colspan="5" class="empty-state">최근 구매 내역이 없습니다.</td>
+									<th>주문일자</th>
+									<th>상품정보</th>
+									<th>수량</th>
+									<th>총 가격</th>
+									<th>주문상태</th>
 								</tr>
-							</c:if>
-							<c:forEach var="order" items="${view.recentOrders}">
-                                    <tr>
-                                        <td><fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd" /></td>
-                                        <td>
-                                            <a href="<c:url value='/items/${order.itemId}'/>">
-                                                <img src="<c:url value='${order.imageUrl}'/>"
-                                                alt="${order.title}"
-                                                style="width: 80px; height: 80px; vertical-align: middle;">
-                                                <span>${order.title}</span>
-                                            </a>
-                                        </td>
-                                        <td>${order.amount}개</td>
-                                        <td><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
-                                        <td>${order.orderStatus}</td>
-                                    </tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</section>
-		</main>
-	</div>
+							</thead>
+							<tbody>
+								<c:if test="${empty view.recentOrders}">
+									<tr>
+										<td colspan="5" class="empty-state">최근 구매 내역이 없습니다.</td>
+									</tr>
+								</c:if>
+								<c:forEach var="order" items="${view.recentOrders}">
+									<tr>
+										<td><fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd" /></td>
+										<td>
+											<a href="<c:url value='/product/detail/${order.itemId}'/>">
+												<c:choose>
+													<c:when test="${not empty order.filename}">
+														<img src="${pageContext.request.contextPath}/upload/${order.filename}"
+														alt="${order.title}"
+														style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; vertical-align: middle;">
+													</c:when>
+													<c:otherwise>
+														<div style="width: 80px; height: 80px; background-color: #f5f5f5; border: 1px solid #DDDDDD; border-radius: 8px; display: inline-block; vertical-align: middle;"></div>
+													</c:otherwise>
+												</c:choose>
+												<span>${order.title}</span>
+											</a>
+										</td>
+										<td>${order.amount}개</td>
+										<td><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
+										<td>${order.orderStatus}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	</main>
 
+<c:if test="${not empty msg}">
 	<script>
-		
+		alert("${msg}")
 	</script>
+</c:if>
+
+	<%@ include file="../templete/footer.jsp" %>
 </body>
 </html>

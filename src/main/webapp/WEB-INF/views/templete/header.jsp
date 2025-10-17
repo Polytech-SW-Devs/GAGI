@@ -164,10 +164,10 @@ header {
 				alt="가지 마켓 로고" class="logo-svg">
 			</a>
 
-			<div class="search-bar">
-				<input type="text" placeholder="검색어를 입력해주세요">
-				<button class="search-btn">검색</button>
-			</div>
+			<form action="${pageContext.request.contextPath}/search" method="get" class="search-bar">
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요">
+				<button type="submit" class="search-btn">검색</button>
+			</form>
 
 			<div class="top-menu">
 				<c:choose>

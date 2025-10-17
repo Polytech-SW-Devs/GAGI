@@ -22,9 +22,12 @@ public class Items extends BaseEntity {
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 	private List<ItemImage> itemImages; //상품 이미지 목록
 	private String nickname;
+
 	private char isDelete = 'N';
+
 	
 	private String categoryName;	// 카테고리 이름
+	private String fileName;
 
 	public int getId() {
 		return id;
@@ -115,12 +118,8 @@ public class Items extends BaseEntity {
 		this.itemImages = itemImages;
 	}
 	
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+	
+	
 	public char getIsDelete() {
 		return isDelete;
 	}
@@ -141,5 +140,18 @@ public class Items extends BaseEntity {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 
 }

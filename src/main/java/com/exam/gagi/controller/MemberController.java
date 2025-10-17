@@ -120,12 +120,12 @@ public class MemberController {
 	@PostMapping("/updatePw")
 	public String updatePassword(@ModelAttribute Member member, RedirectAttributes redirectAttributes, Model model) {
 
-		if (!member.getPassword().equals(member.getPassword())) {
+		if (!member.getConfirmPassword().equals(member.getNewPassword())) {
 			model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
 			return "updatePw";
 		}
 
-		memberService.passwordUpdate(member.getEmail(), member.getPassword());
+		memberService.passwordUpdate(member.getEmail(), member.getNewPassword());
 		redirectAttributes.addFlashAttribute("success", "비밀번호가 성공적으로 변경되었습니다. 로그인해주세요.");
 		return "redirect:/login";
 	}
