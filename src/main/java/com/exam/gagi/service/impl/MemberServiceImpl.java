@@ -1,6 +1,7 @@
 package com.exam.gagi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -10,33 +11,36 @@ import com.exam.gagi.service.MemberService;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	
+
 	@Autowired
 	private MemberDao memberDao;
-	
+	// 비밀번호 암호화
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	@Override
 	public Member login(String email, String password) {
 		Member member = memberDao.findByEmail(email);
-//		if(member != null && BCrypt.checkpw(password, member.getPassword())) {
-			return member;			
-//		}
-//		return null;
+		if (member != null || encoder.matches(password, member.getPassword())) {
+			return member;
+		}
+		return null;
 	}
-	
 
 	@Override
-	public boolean checkId(String userid) {	
-		return memberDao.checkId(userid) == 0; // 0�̸� ��� ����
+	public boolean checkId(String userid) {
+		return memberDao.checkId(userid) == 0;
 	}
 
 	@Override
 	public boolean checkNm(String nickname) {
-		return memberDao.checkNm(nickname) == 0; // 0�̸� ��� ����
+		return memberDao.checkNm(nickname) == 0;
 	}
-
 
 	@Override
 	public void insertMember(Member member) {
+		String encodedPassword = encoder.encode(member.getPassword());
+		member.setPassword(encodedPassword);
 		memberDao.insertMember(member);
 	}
 
@@ -48,21 +52,22 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public String findId(String username, String phone) {
-		 return memberDao.findId(username, phone);
+		return memberDao.findId(username, phone);
 	}
 
 	@Override
 	public String findPassword(String email, String phone) {
-		 return memberDao.findPassword(email, phone);
+		return memberDao.findPassword(email, phone);
 	}
 
 	@Override
 	public void passwordUpdate(String email, String newPassword) {
-		memberDao.updatePassword(email, newPassword);
-		
+		String encodedPassword = encoder.encode(newPassword);
+		memberDao.updatePassword(email, encodedPassword);
+
 	}
 
-	//userId로 조회
+	// userId로 조회
 	@Override
 	public Member findById(int id) {
 		return memberDao.findById(id);

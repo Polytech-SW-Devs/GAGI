@@ -19,6 +19,7 @@ body {
    font-family: 'Noto Sans KR', sans-serif;
    background: white;
    min-height: 100vh;
+
 }
 
 /* ===== MAIN ===== */
