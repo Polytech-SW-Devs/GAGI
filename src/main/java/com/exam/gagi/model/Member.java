@@ -32,7 +32,7 @@ public class Member {
 
 	// 비밀번호 확인용
 	private String confirmPassword;
-	
+
 	private String newPassword;
 
 	public int getId() {
@@ -155,7 +155,4 @@ public class Member {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-	
-	
-
 }

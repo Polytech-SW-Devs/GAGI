@@ -3,6 +3,7 @@ package com.exam.gagi.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,45 +20,45 @@ import com.exam.gagi.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	// 회원가입 페이지 요청
 	@GetMapping("/join")
 	public String joinPage() {
 		// 게시판 메뉴 취득
 		return "join";
 	}
-	
+
 	// 회원가입 요청
 	@PostMapping("/join")
 	public String joinAply(Member member) {
 		memberService.insertMember(member);
-	    return "redirect:/login";	
+		return "redirect:/login";
 	}
-	
+
 	// 로그인 페이지 요청
 	@GetMapping("/login")
 	public String loginPage() {
 		// 게시판 메뉴 취득
 		return "login";
 	}
-	
+
 	// 로그인 처리
 	@PostMapping("/login")
 	public String login(Member member, HttpSession session, Model model) {
-		Member loginUser = memberService.findByEmail(member.getEmail());
-		if(loginUser != null && loginUser.getPassword().equals(member.getPassword())) {
+		Member loginUser = memberService.login(member.getEmail(), member.getPassword());
+
+		if (loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
-			System.out.println("로그인 유저:" + loginUser);//로그 확인용(삭제해도됨)
-			int id1 =loginUser.getId();//로그 확인용(삭제해도됨)
-			System.out.println("아이디번호는:" + id1);//로그 확인용(삭제해도됨)
-			
-			
 			return "redirect:/";
 		} else {
 			model.addAttribute("error", "이메일 또는 비밀번호가 올바르지 않습니다.");
 			return "login";
 		}
 	}
+
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -120,12 +121,27 @@ public class MemberController {
 	@PostMapping("/updatePw")
 	public String updatePassword(@ModelAttribute Member member, RedirectAttributes redirectAttributes, Model model) {
 
-		if (!member.getConfirmPassword().equals(member.getNewPassword())) {
+		if (!member.getNewPassword().equals(member.getConfirmPassword())) {
 			model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-			return "updatePw";
+			model.addAttribute("email", member.getEmail()); // Pass the email back
+			return "findPwSuccess";
+		}
+
+		Member existingUser = memberService.findByEmail(member.getEmail());
+
+		if (existingUser == null) {
+			model.addAttribute("error", "사용자 정보를 찾을 수 없습니다. 다시 시도해주세요.");
+			return "findPw";
+		}
+
+		if (encoder.matches(member.getNewPassword(), existingUser.getPassword())) {
+			model.addAttribute("error", "기존 비밀번호와 동일합니다. 다른 비밀번호를 설정해주세요.");
+			model.addAttribute("email", member.getEmail()); // Pass the email back
+			return "findPwSuccess";
 		}
 
 		memberService.passwordUpdate(member.getEmail(), member.getNewPassword());
+
 		redirectAttributes.addFlashAttribute("success", "비밀번호가 성공적으로 변경되었습니다. 로그인해주세요.");
 		return "redirect:/login";
 	}
