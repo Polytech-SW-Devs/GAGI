@@ -19,14 +19,14 @@ public class HomeController {
 	ProductService productService;
 
 	// 홈페이지 호출 //전체게시글 리스트 호출
-	@GetMapping("/")
+	@GetMapping("/proto")
 	String totalList(Model model, MyPagePager pager) {
 		List<Items> totalList = productService.totalList(pager);
 		model.addAttribute("totalList", totalList);
 		return "home";
 	}
 
-	@GetMapping("/home")
+	@GetMapping("/")
 	String home(Model model) {
 		// 최신 상품 4개 조회
 		List<MainItemDTO> latestItems = productService.getLatestItems();

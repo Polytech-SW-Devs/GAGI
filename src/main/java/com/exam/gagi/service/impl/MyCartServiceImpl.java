@@ -29,7 +29,33 @@ public class MyCartServiceImpl implements MyCartService {
 
     @Override
     public List<MyCart> getCartByUserId(int userId) {
-        return myCartDAO.findByUserId(userId);
+        // 장바구니 목록 조회
+        List<MyCart> cartList = myCartDAO.findByUserId(userId);
+
+        // 존재하지 않는 상품 제거
+        if (cartList != null && !cartList.isEmpty()) {
+            cartList.removeIf(cart -> {
+                // item_id로 상품 존재 여부 확인
+                Integer stock = null;
+                try {
+                    stock = myCartDAO.findItemStock(cart.getItemId());
+                } catch (Exception e) {
+                    // 쿼리 오류나 null 반환 대비
+                    stock = null;
+                }
+
+                // 상품이 존재하지 않으면 장바구니에서도 삭제
+                if (stock == null) {
+                    myCartDAO.deleteCartItem(userId, cart.getItemId());
+                    System.out.println("🧹 삭제된 상품 자동 정리됨: item_id=" + cart.getItemId());
+                    return true; // 리스트에서도 제거
+                }
+
+                return false; // 유지
+            });
+        }
+
+        return cartList;
     }
 
     @Override

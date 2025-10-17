@@ -53,6 +53,7 @@ public class MyUpdateController {
 			@SessionAttribute(name = "loginUser", required = false) Member loginUser, RedirectAttributes rttr) {
 
 		// 로그인 확인
+
 		if (loginUser == null) {
 			rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
 			return "redirect:/login"; // 로그인 페이지로 이동
