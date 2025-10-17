@@ -112,6 +112,7 @@
     <script src="${pageContext.request.contextPath}/js/mycart.js"></script>
 </head>
 <body>
+<jsp:include page="templete/header.jsp" />
 <div class="container">
     <h1>🛒 장바구니</h1>
     <table>
