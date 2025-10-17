@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>GAGI Market </title>
 <script src="${pageContext.request.contextPath}/js/product/ImageUpdate.js"></script>
+<jsp:include page="../templete/header.jsp"></jsp:include>
 </head>
 <body>
 	<div> <h3>상품 등록</h3> </div>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>GAGI Market </title>
-<jsp:include page="../templete/headerLogin.jsp"></jsp:include>
+<jsp:include page="../templete/header.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/js/product/itemImages.js"></script>
 </head>
 <body>

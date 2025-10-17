@@ -14,7 +14,7 @@
 
 </head>
 <body>
-<jsp:include page="../templete/headerLogin.jsp"></jsp:include>
+<jsp:include page="../templete/header.jsp"></jsp:include>
 	<div>
 		<div>
 			<div>
