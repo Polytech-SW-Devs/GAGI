@@ -235,10 +235,6 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	@Override
-	public void add(ItemImage image) {
-		// TODO Auto-generated method stub
 
-	}
 }
-	
+

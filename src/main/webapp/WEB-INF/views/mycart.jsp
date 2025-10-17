@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<!-- 로그인 세션에서 user 객체 가져오기 -->
+<c:set var="user" value="${sessionScope.loginUser}" />
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -112,6 +117,7 @@
     <script src="${pageContext.request.contextPath}/js/mycart.js"></script>
 </head>
 <body>
+<jsp:include page="templete/header.jsp" />
 <div class="container">
     <h1>🛒 장바구니</h1>
     <table>
@@ -148,7 +154,7 @@
 				    <button type="button" class="qty-btn increase">+</button>
 				  </div>
 			    </td>
-                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원?</td>
+                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/mycart/delete?userId=${item.userId}&itemId=${item.itemId}" class="btn btn-danger">삭제</a>
                 </td>
@@ -163,7 +169,7 @@
                 <fmt:formatNumber value="${totalPrice}" pattern="#,###"/>원
             </span>
         </p>
-        <a href="#" class="btn btn-primary">결제하기</a>
+        <a href="${pageContext.request.contextPath}/order/checkout?userId=${user.id}" class="btn btn-primary">결제하기</a>
     </div>
 </div>
 </body>

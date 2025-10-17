@@ -171,6 +171,8 @@ public class ProductController {
 	}
 
 	// 게시글 수정(post)
+
+
 	@PostMapping("product/update/{id}")
 	String update(@PathVariable("id") int id, Items item, MultipartFile[] uploadFile,
 			@RequestParam(value = "mainImageIndex", required = false) String mainImageIndex,
