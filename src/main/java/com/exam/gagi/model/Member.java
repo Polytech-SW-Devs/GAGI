@@ -154,6 +154,8 @@ public class Member {
 
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
-	}
+	}<<<<<<<HEAD
 
-}
+}=======
+
+}>>>>>>>main

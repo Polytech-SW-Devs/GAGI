@@ -444,10 +444,12 @@ td a:hover {
 		</div>
 	</main>
 
+<c:if test="${not empty msg}">
 	<script>
-		
+		alert("${msg}")
 	</script>
-	
+</c:if>
+
 	<%@ include file="../templete/footer.jsp" %>
 </body>
 </html>
