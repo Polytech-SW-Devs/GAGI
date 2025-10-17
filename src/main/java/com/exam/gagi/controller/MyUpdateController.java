@@ -76,9 +76,8 @@ public class MyUpdateController {
 	    	rttr.addFlashAttribute("phoneError", "'-'를 포함하여 전화번호를 입력하세요");
 	    	return "redirect:./myUpdate";
 	    }
-	    memberService.passwordUpdate(member.getEmail(), member.getNewPassword());
 	    service.myFetch(member);
-		rttr.addFlashAttribute("msg", "개인정보가 수정되었습니다.");
+		rttr.addFlashAttribute("msg", "회원님의 정보가 수정되었습니다.");
 	    return "redirect:/mypage";
 	}	
 	@ResponseBody
