@@ -1,6 +1,32 @@
 let check_nickname = false;
 
 window.addEventListener("load",() =>{
+    // 비밀번호 입력란 초기 숨김
+    document.querySelectorAll(".password").forEach(item => {
+        item.style.display = "none";
+    });
+
+    // 비밀번호 변경 버튼 클릭 이벤트
+    document.getElementById("viewPassowrdChange").addEventListener("click", e => {
+        const button = e.target;
+        const passwordFields = document.querySelectorAll(".password");
+        
+        if(passwordFields[0].style.display === "none") {
+            // 비밀번호 입력란 보이기
+            passwordFields.forEach(item => {
+                item.style.display = "flex";
+            });
+            button.textContent = "비밀번호 변경 취소";
+        } else {
+            // 비밀번호 입력란 숨기기
+            passwordFields.forEach(item => {
+                item.style.display = "none";
+                item.querySelector("input").value = ""; // 입력값 초기화
+            });
+            button.textContent = "비밀번호 변경";
+        }
+    });
+    //비밀번호 보이기/숨기기
     document.querySelectorAll(".password").forEach(item => {
         const input = item.querySelector("input[type='password']");
         const button = item.querySelector(".view");
@@ -16,11 +42,12 @@ window.addEventListener("load",() =>{
             }     
         });
     });
+
     document.querySelector("input[name='nickname']").addEventListener("change",e => {
         check_nickname = false;
     });
 
-    //promise 비동기 확인
+    //닉네임 중복 확인
     document.getElementById("check_nickname").addEventListener("click",e =>{
         const button = e.target;
         const nickname = document.querySelector("input[name='nickname']").value;

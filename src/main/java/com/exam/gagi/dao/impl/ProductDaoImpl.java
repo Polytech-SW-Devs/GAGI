@@ -52,14 +52,18 @@ public class ProductDaoImpl implements ProductDao {
 	public List<ItemImage> ImageList(int itemId) {
 		return sql.selectList("product.imageList", itemId);
 	}
-
+	
+	@Override // 이미지 삭제
+	public int deleteImage(int id) {
+		return sql.delete("product.deleteImage", id);
+	}
+	
 	@Override
 	public void update(Items item) {
 		sql.update("product.update", item);
 	}
 
 	@Override
-
 	public List<Items> totalList(MyPagePager pager) {
 		return sql.selectList("product.totalList", pager);
 	}
@@ -159,5 +163,7 @@ public class ProductDaoImpl implements ProductDao {
 	public void setMainImage(int imageId) {
 		sql.update("product.setMainImage", imageId);
 	}
+
+	
 
 }

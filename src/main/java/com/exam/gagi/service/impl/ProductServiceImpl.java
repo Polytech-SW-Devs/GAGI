@@ -235,4 +235,11 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
+	@Override
+	public boolean deleteImage(int id) {
+		if(dao.deleteImage(id)==1)
+			return true;
+		return false;
+	}
+
 }

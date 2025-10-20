@@ -56,4 +56,6 @@ public interface ProductService {
 
 	public List<MainItemDTO> searchItems(SearchPager pager);
 
+	boolean deleteImage(int id);
+
 }

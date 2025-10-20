@@ -278,13 +278,20 @@ main {
                </c:if>
 
              <form method="post" class="edit-form" name="updateInfo_form">
+             
+             	  <input type="hidden" name="id" value="${member.id}">
                   <div class="form-group">
+                  
                      <label for="nickname">닉네임</label>
                      <input type="text" id="nickname" name="nickname" value="${member.nickname}" required/>
                      <button type="button" id="check_nickname">[비동기]중복확인</button>
                   </div>
 
-                  <div class="form-group password">
+				  <div class="form-group">
+    			  	<button type="button" id="viewPassowrdChange" class="btn btn-secondary">비밀번호 변경</button>
+			 	  </div>	
+			 	  
+				  <div class="form-group password">
                      <label for="newPassword">새 비밀번호</label>
                      <input type="password" id="newPassword" name="newPassword" placeholder="변경하려면 새 비밀번호를 입력하세요"/>
                      <button type="button" class="view">비밀번호 보기</button>
@@ -296,7 +303,8 @@ main {
                      <button type="button" class="view">비밀번호 보기</button>
                   </div>
                   
-                  <div>
+                  
+                  <div class="error">
 					<c:if test="${not empty passwordError}">
 			 			<p class="text-danger small">${passwordError}</p>
 			    	</c:if>
@@ -312,7 +320,7 @@ main {
                      <input type="tel" id="phone" name="phone" value="${member.phone}" required/>
                   </div>
 					
-				<div>
+				<div class="error">
 					<c:if test="${not empty phoneError}">
 			 			<p class="text-danger small">${phoneError}</p>
 			    	</c:if>		
