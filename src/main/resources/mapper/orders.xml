@@ -119,4 +119,41 @@ WHERE
 		FROM ORDERS o 
 		WHERE id=#{id}
 	</select>
+	
+	<!-- 주문 저장 song -->
+	<insert id="insertOrder" parameterType="com.exam.gagi.model.Orders">
+    INSERT INTO ORDERS (
+        USER_ID,
+        ITEM_ID,
+        PRICE,
+        AMOUNT,
+        TOTAL_PRICE,
+        TRANSACTION_TYPE,
+        PAYMENT_METHOD,
+        RECIPIENT_NAME,
+        RECIPIENT_PHONE,
+        DELIVERY_ZIPCODE,
+        DELIVERY_ADDRESS_MAIN,
+        DELIVERY_ADDRESS_DETAIL,
+        ORDER_STATUS,
+        CREATED_AT,
+        UPDATED_AT
+    ) VALUES (
+        #{userId},
+        #{itemId},
+        #{price},
+        #{amount},
+        #{totalPrice},
+        #{transactionType},
+        #{paymentMethod},
+        #{recipientName},
+        #{recipientPhone},
+        #{deliveryZipcode},
+        #{deliveryAddressMain},
+        #{deliveryAddressDetail},
+        #{orderStatus},
+        SYSTIMESTAMP,
+        SYSTIMESTAMP
+    )
+</insert>
 </mapper>

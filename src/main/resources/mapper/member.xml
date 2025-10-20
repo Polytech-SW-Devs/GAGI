@@ -65,7 +65,7 @@
 	</update>
 	
 	<select id="findById" resultType="Member">
-		SELECT ID, EMAIL, NICKNAME, PHONE
+		SELECT ID, EMAIL, USERNAME, NICKNAME, PHONE
 		FROM USERS
 		WHERE ID = #{id}
 	</select>

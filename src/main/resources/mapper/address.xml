@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="address">
+
+    <resultMap id="AddressResultMap" type="com.exam.gagi.model.Address">
+        <id property="addressId" column="ADDRESS_ID"/>
+        <result property="zipCode" column="ZIP_CODE"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="addressDetail" column="ADDRESS_DETAIL"/>
+        <result property="isDefault" column="IS_DEFAULT"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="deleveryName" column="DELEVERY_NAME"/>
+        <result property="deleveryPickup" column="DELEVERY_PICKUP"/>
+        <result property="phone" column="PHONE"/>
+    </resultMap>
+
+    <!-- 기본 배송지 1개 조회 -->
+    <select id="findDefaultAddressByUserId" parameterType="int" resultMap="AddressResultMap">
+        SELECT *
+        FROM ADDRESS
+        WHERE USER_ID = #{userId}
+          AND IS_DEFAULT = 'Y'
+    </select>
+
+</mapper>
