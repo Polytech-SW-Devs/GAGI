@@ -140,7 +140,7 @@ table {
 }
 
 th, td {
-	padding: 12px 8px;
+	padding: 10px 4px;
 	text-align: center;
 	font-size: 14px;
 	border-bottom: 1px solid #eee;
@@ -403,12 +403,12 @@ td a:hover {
 											<img alt="${item.title}" src="${pageContext.request.contextPath}/upload/${item.fileName}" width="50" height="50">
 										</c:if>
 									</td>
-									<td><a href="../product/detail/${item.id}">${item.title}</a></td>
+									<td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="../product/detail/${item.id}">${item.title}</a></td>
 									<td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.description}</td>
 									<td>${item.amount}개</td>
 									<td>${item.delivery}</td>
 									<td>${item.isDirectDeal}</td>
-									<td>${item.createdAt}</td>
+									<td>${item.createdAt.toLocalDate()}</td>
 									<td>${item.views}</td>
 									<td>
 										<div class="action-buttons">
