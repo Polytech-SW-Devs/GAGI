@@ -373,7 +373,7 @@ td a:hover {
 							</div>
 						</div>
 						<div class="edit-section">
-							<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">수정 ></a>
+							<a href="<c:url value='/mypage/myUpdate'/>" class="edit-btn">회원정보수정></a>
 						</div>
 					</div>
 

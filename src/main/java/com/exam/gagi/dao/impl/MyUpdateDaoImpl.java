@@ -22,7 +22,6 @@ public class MyUpdateDaoImpl implements MyUpdateDao {
 
 	@Override
 	public void MyUpdate(Member member) {
-		// TODO Auto-generated method stub
 		sql.update(path + "myUpdate", member);
 	}
 

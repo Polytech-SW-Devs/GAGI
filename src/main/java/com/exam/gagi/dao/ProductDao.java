@@ -64,4 +64,6 @@ public interface ProductDao {
 
 	void setMainImage(int imageId);
 
+	int deleteImage(int id);
+
 }

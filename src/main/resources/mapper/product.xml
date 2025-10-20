@@ -186,9 +186,9 @@
   		 </selectKey>
 	</insert>
 	
-	<delete id="delete_image">
-  		DELETE FROM attach
-  		WHERE code=#{code}
+	<delete id="deleteImage">
+  		DELETE FROM ITEM_IMAGES
+  		WHERE ID=#{id}
   	</delete>
   	
   	<resultMap type="Items" id="ItemMap" autoMapping="true" >

@@ -13,9 +13,11 @@
 	<update id="myUpdate" parameterType="Member">
 		UPDATE USERS
 		SET NICKNAME = #{nickname},
-			PASSWORD = #{password},
 			EMAIL = #{email},
-			PHONE = #{phone}
+			PHONE = #{phone},
+			<if test="password != null">
+				PASSWORD = #{password}
+			</if>
 		WHERE ID = #{id}
 	</update>
 </mapper>

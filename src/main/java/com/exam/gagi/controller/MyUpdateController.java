@@ -58,14 +58,19 @@ public class MyUpdateController {
 			rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
 			return "redirect:/login"; // 로그인 페이지로 이동
 		}
-
-		if (member.getConfirmPassword() == null || member.getNewPassword().isEmpty()) {
-			rttr.addFlashAttribute("passwordError", "비밀번호를 입력해주세요.");
-			return "redirect:./myUpdate";
-		} else if (!member.getConfirmPassword().equals(member.getNewPassword())) {
-			rttr.addFlashAttribute("passwordError", "비밀번호가 일치하지 않습니다.");
-			return "redirect:./myUpdate";
+		
+		boolean passwordChange = member.getNewPassword() != null && !member.getNewPassword().isEmpty();
+		if(passwordChange = true) {
+			if(member.getNewPassword() != null && !member.getNewPassword().isEmpty()) {
+				rttr.addFlashAttribute("passwordError", "새 비밀번호확인란을 입력하세요.");
+			}else if(!member.getConfirmPassword().equals(member.getNewPassword())){
+				rttr.addFlashAttribute("passwordError", "새 비밀번호가 일치하지 않습니다.");
+				return "redirect:./myUpdate";
+			}
+			member.setPassword(null);
 		}
+		System.out.println("user id = " + loginUser.getId());
+		
 		if (member.getPhone() == null) {
 			rttr.addFlashAttribute("phoneError", "휴대폰전호를 입력하세요.");
 			return "redirect:./myUpdate";
