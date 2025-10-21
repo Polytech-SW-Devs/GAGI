@@ -33,6 +33,7 @@
     					   created_at, updated_at, nickname)
   		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, SYSTIMESTAMP, 
     			SYSTIMESTAMP, #{nickname})
+
 	</insert>
   	
   	<select id="checkId" parameterType="String" resultType="int">
@@ -65,7 +66,7 @@
 	</update>
 	
 	<select id="findById" resultType="Member">
-		SELECT ID, EMAIL, NICKNAME, PHONE
+		SELECT ID, EMAIL, USERNAME, NICKNAME, PHONE
 		FROM USERS
 		WHERE ID = #{id}
 	</select>

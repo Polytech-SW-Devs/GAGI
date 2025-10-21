@@ -7,9 +7,12 @@
   <meta charset="UTF-8">
   <title>주문서 작성</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <script src="${pageContext.request.contextPath}/resources/js/order.js" defer></script>
+  <script>
+	const contextPath = "${pageContext.request.contextPath}";
+</script>
 </head>
 <body>
+<%@ include file="../templete/header.jsp" %>
 <div class="container mt-5 mb-5">
 
   <h2 class="mb-4">🧾 주문서 작성</h2>
@@ -34,24 +37,60 @@
       </div>
     </section>
 
-    <!-- 배송지 정보 -->
-    <section class="mb-4">
-      <h4>배송지 정보</h4>
-      <div class="mb-2">
-        <label>수령인</label>
-        <input type="text" name="receiverName" class="form-control" required>
-      </div>
-      <div class="mb-2">
-        <label>주소</label>
-        <input type="text" name="address" class="form-control" required>
-      </div>
-      <div class="mb-2">
-        <label>전화번호</label>
-        <input type="text" name="receiverPhone" class="form-control" required>
-      </div>
-    </section>
+	<!-- 수령자 주소 선택 -->
+	
 
-    <!-- 주문 상품 -->
+   <h3>배송지 선택</h3>
+	<select id="addressSelect" class="form-select">
+  	<option value="">배송지를 선택하세요</option>
+  	<c:forEach var="addr" items="${addressList}">
+    <option 
+      value="${addr.addressId}"
+      data-name="${addr.deleveryName}"
+      data-phone="${addr.phone}"
+      data-zipcode="${addr.zipCode}"
+      data-address="${addr.address}"
+      data-detail="${addr.addressDetail}">
+      ${addr.deleveryName} (${addr.phone}) - ${addr.address} ${addr.addressDetail}
+      <c:if test="${addr.isDefault == 'Y'}">(기본)</c:if>
+    </option>
+  </c:forEach>
+</select>
+
+<!-- 선택된 배송지 정보 표시 -->
+<div id="selectedAddressBox" class="mt-3">
+  <div class="mb-2">
+    <label>수령자 이름</label>
+    <input type="text" id="receiverName" name="receiverName" class="form-control" >
+  </div>
+  <div class="mb-2">
+    <label>수령자 전화번호</label>
+    <input type="text" id="receiverPhone" name="receiverPhone" class="form-control" >
+  </div>
+  <div class="mb-2">
+    <label>우편번호</label>
+    <input type="text" id="zipCode" name="zipCode" class="form-control" >
+  </div>
+  <div class="mb-2">
+    <label>주소</label>
+    <input type="text" id="address" name="address" class="form-control" >
+  </div>
+  <div class="mb-2">
+    <label>상세주소</label>
+    <input type="text" id="addressDetail" name="addressDetail" class="form-control" >
+  </div>
+</div>
+
+
+<!-- 배송 요청사항 -->
+<div class="mb-3">
+  <label>배송 요청사항</label>
+  <textarea id="deliveryMemo" name="deliveryMemo" class="form-control" rows="3"
+            placeholder="예: 문 앞에 놔주세요."></textarea>
+</div>
+
+
+<!-- 주문 상품 -->
     <section class="mb-4">
       <h4>주문 상품</h4>
       <table class="table table-bordered text-center align-middle">
@@ -75,7 +114,6 @@
         </tbody>
       </table>
     </section>
-
     <!-- 총 결제 금액 -->
     <section class="text-end mb-4">
       <h4>총 결제 금액: <strong><fmt:formatNumber value="${totalPrice}" pattern="#,###"/>원</strong></h4>
@@ -86,5 +124,7 @@
     </div>
   </form>
 </div>
+<%@ include file="../templete/footer.jsp" %>
+<script src="${pageContext.request.contextPath}/js/order.js" defer></script>
 </body>
 </html>
