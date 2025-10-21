@@ -21,11 +21,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member login(String email, String password) {
 		Member member = memberDao.findByEmail(email);
-		if (member != null || encoder.matches(password, member.getPassword())) {
+		if (member != null && encoder.matches(password, member.getPassword())) {
+			System.out.println("비밀번호 가져오기" + member.getPassword());
 			return member;
 		}
 		return null;
+		
+		
 	}
+	
 
 	@Override
 	public boolean checkId(String userid) {
