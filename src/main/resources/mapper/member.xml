@@ -31,8 +31,8 @@
   	<insert id="insertMember" parameterType="Member">
   		INSERT INTO USERS (id, username, email, password, phone,
     					   created_at, updated_at, nickname)
-  		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, NOW(), 
-    			NOW(), #{nickname})
+  		VALUES (USERS_SEQ.NEXTVAL, #{username}, #{email}, #{password}, #{phone}, SYSTIMESTAMP, 
+    			SYSTIMESTAMP, #{nickname})
 	</insert>
   	
   	<select id="checkId" parameterType="String" resultType="int">
