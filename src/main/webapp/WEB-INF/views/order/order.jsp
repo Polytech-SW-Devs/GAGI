@@ -81,6 +81,15 @@
   </div>
 </div>
 
+
+<!-- 배송 요청사항 -->
+<div class="mb-3">
+  <label>배송 요청사항</label>
+  <textarea id="deliveryMemo" name="deliveryMemo" class="form-control" rows="3"
+            placeholder="예: 문 앞에 놔주세요."></textarea>
+</div>
+
+
 <!-- 주문 상품 -->
     <section class="mb-4">
       <h4>주문 상품</h4>

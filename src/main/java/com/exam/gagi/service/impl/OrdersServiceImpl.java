@@ -22,6 +22,7 @@ import com.exam.gagi.service.MyCartService;
 import com.exam.gagi.service.OrdersService;
 
 @Service
+@Transactional
 public class OrdersServiceImpl implements OrdersService {
 
 	@Autowired
@@ -158,8 +159,8 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
 	@Override
+	@Transactional
 	public void saveOrder(Orders order) {
-		// TODO Auto-generated method stub
-		
+	    dao.insertOrder(order); // DAO 호출
 	}
 }
