@@ -33,10 +33,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override // 로그인한 유저가 등록한 리스트 조회
 	public List<Items> list(int id, MyPagePager pager) {
 
-		int total = dao.countByUserId(id);
-
-		pager.setTotal(total);
 		pager.setUserId(id);
+		
+		int total = dao.countByUserId(pager);
+		pager.setTotal(total);
 
 		return dao.list(pager);
 	}
