@@ -356,16 +356,18 @@ td a:hover {
 				</div>
 
 				<div class="board-search-bar">
-					<form method="get">
-						<select name="search">
-							<option value="1" ${pager.search == 1 ? 'selected' : ''}>카테고리</option>
-							<option value="2" ${pager.search == 2 ? 'selected' : ''}>제목</option>
-							<option value="3" ${pager.search == 3 ? 'selected' : ''}>원산지</option>
-						</select>
-						<input type="text" name="keyword" value="${pager.keyword}" placeholder="검색어를 입력해주세요">
-						<button class="board-search-btn">검색</button>
-					</form>
+				    <form method="get">
+				        <select name="search">
+				            <option value="1" <c:if test="${pager.search == 1}">selected</c:if>>카테고리</option>
+				            <option value="2" <c:if test="${pager.search == 2}">selected</c:if>>제목</option>
+				            <option value="3" <c:if test="${pager.search == 3}">selected</c:if>>원산지</option>
+				        </select>
+				
+				        <input type="text" name="keyword" value="${pager.keyword}" placeholder="검색어를 입력해주세요">
+				        <button class="board-search-btn" type="submit">검색</button>
+				    </form>
 				</div>
+
 
 				<div class="table-container">
 					<table>

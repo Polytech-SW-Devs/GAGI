@@ -22,6 +22,7 @@
 		<typeAlias type="com.exam.gagi.model.OrderSaleViewDto" alias="OrderSaleViewDto"/>
 		<typeAlias type="com.exam.gagi.model.OrdersSaleDetailViewDto" alias="OrdersSaleDetailViewDto"/>
 		
+		<typeAlias type="com.exam.gagi.pager.MyPagePager" alias="MyPagePager"/>
 	</typeAliases>
 	
 	<mappers>

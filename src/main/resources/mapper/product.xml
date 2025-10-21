@@ -3,24 +3,32 @@
 <mapper namespace="product">
 
 	<select id="list" resultType="Items">
-
 	    SELECT T.*
-		FROM 
-			(SELECT i.*, ii.IMAGE_URL, ii.SORT_ORDER, ii.FILENAME, c.name AS category_name, ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
-			 FROM items i JOIN categories c ON i.category_id = c.category_id LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
-			 WHERE i.user_id = #{userId} AND SORT_ORDER = 1
-	   		) T
-
-	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1
-	                     AND (#{page} * #{perPage})
+	    FROM 
+	        (SELECT i.*, ii.IMAGE_URL, ii.SORT_ORDER, ii.FILENAME, c.name AS category_name, ROW_NUMBER() OVER (ORDER BY i.created_at DESC) AS rnum
+	         FROM items i JOIN categories c ON i.category_id = c.category_id LEFT JOIN ITEM_IMAGES ii ON (i.ID = ii.ITEM_ID) 
+	         WHERE i.user_id = #{userId} AND SORT_ORDER = 1
+	         
+	         <if test="keyword != null and keyword != ''">
+	             <choose>
+	                 <when test="search == 1">
+	                     AND c.name LIKE '%' || #{keyword} || '%'  </when>
+	                 <when test="search == 2">
+	                     AND i.TITLE LIKE '%' || #{keyword} || '%'  </when>
+	                 <when test="search == 3">
+	                     AND i.DELIVERY LIKE '%' || #{keyword} || '%'  </when>
+	             </choose>
+	         </if>
+	    ) T
+	    WHERE T.rnum BETWEEN ((#{page}-1) * #{perPage}) + 1 AND (#{page} * #{perPage})
 	    ORDER BY T.rnum
 	</select>
 	
-	<select id="countByUserId" resultType="int">
+	<select id="countByUserId" parameterType="com.exam.gagi.pager.MyPagePager" resultType="int">
 	    SELECT COUNT(*) 
 	    FROM items i
 	    JOIN categories c on i.category_id = c.category_id
-	    WHERE user_id = #{id}
+	    WHERE user_id = #{userId}
 	    <if test="keyword != null and keyword != ''">
 	    	<choose>
 	    		<when test="search == 1">
