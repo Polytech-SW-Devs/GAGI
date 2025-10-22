@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member login(String email, String password) {
 		Member member = memberDao.findByEmail(email);
-		if (member != null || encoder.matches(password, member.getPassword())) {
+		if (member != null && encoder.matches(password, member.getPassword())) {
 			return member;
 		}
 		return null;
