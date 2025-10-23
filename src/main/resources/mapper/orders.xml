@@ -119,4 +119,35 @@ WHERE
 		FROM ORDERS o 
 		WHERE id=#{id}
 	</select>
+	
+	<!-- 주문 저장 song -->
+<insert id="insertOrder" parameterType="com.exam.gagi.model.Orders">
+  INSERT INTO ORDERS (
+    ID, USER_ID, ITEM_ID, PRICE, AMOUNT, TOTAL_PRICE,
+    TRANSACTION_TYPE, PAYMENT_METHOD,
+    RECIPIENT_NAME, RECIPIENT_PHONE,
+    DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN, DELIVERY_ADDRESS_DETAIL,
+    DELIVERY_MEMO,
+    CREATED_AT, UPDATED_AT, ORDER_STATUS
+  ) VALUES (
+    ORDERS_SEQ.NEXTVAL,
+    #{userId, jdbcType=NUMERIC},
+    #{itemId, jdbcType=NUMERIC},
+    #{price, jdbcType=NUMERIC},
+    #{amount, jdbcType=NUMERIC},
+    #{totalPrice, jdbcType=NUMERIC},
+    #{transactionType, jdbcType=VARCHAR},
+    #{paymentMethod, jdbcType=VARCHAR},
+    #{recipientName, jdbcType=VARCHAR},
+    #{recipientPhone, jdbcType=VARCHAR},
+    #{deliveryZipcode, jdbcType=VARCHAR},
+    #{deliveryAddressMain, jdbcType=VARCHAR},
+    #{deliveryAddressDetail, jdbcType=VARCHAR},
+    #{deliveryMemo, jdbcType=VARCHAR},
+    SYSDATE,
+    SYSDATE,
+    #{orderStatus, jdbcType=VARCHAR}
+  )
+</insert>
+
 </mapper>

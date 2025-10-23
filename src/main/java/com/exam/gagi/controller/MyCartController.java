@@ -1,6 +1,7 @@
 package com.exam.gagi.controller;
 
 import com.exam.gagi.dao.MyCartDAO;
+import com.exam.gagi.model.Member;
 import com.exam.gagi.model.MyCart;
 import com.exam.gagi.service.MyCartService;
 
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/mycart")
 public class MyCartController {
@@ -26,7 +29,12 @@ public class MyCartController {
     }
     
     @GetMapping("/view/{userId}")
-    public String viewCart(@PathVariable int userId, Model model) {
+    public String viewCart(@PathVariable int userId, Model model,HttpSession session) {
+    	Member loginUser = (Member) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			System.out.println("로그인 정보가 없습니다. 로그인하세요");
+			return "redirect:/login";
+		}
         List<MyCart> cartList = myCartService.getCartByUserId(userId);
 
         int totalPrice = cartList.stream()

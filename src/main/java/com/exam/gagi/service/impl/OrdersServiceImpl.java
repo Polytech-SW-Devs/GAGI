@@ -11,15 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.exam.gagi.dao.MemberDao;
 import com.exam.gagi.dao.OrdersDao;
 import com.exam.gagi.dao.ProductDao;
+import com.exam.gagi.model.MyCart;
 import com.exam.gagi.model.MypageViewDto;
 import com.exam.gagi.model.OrderSaleViewDto;
 import com.exam.gagi.model.Orders;
 import com.exam.gagi.model.OrdersSaleDetailViewDto;
 import com.exam.gagi.model.RecentOrderDto;
 import com.exam.gagi.pager.MyPagePager;
+import com.exam.gagi.service.MyCartService;
 import com.exam.gagi.service.OrdersService;
 
 @Service
+@Transactional
 public class OrdersServiceImpl implements OrdersService {
 
 	@Autowired
@@ -28,7 +31,8 @@ public class OrdersServiceImpl implements OrdersService {
 	MemberDao memberDao;
 	@Autowired
 	ProductDao productDao;
-
+	@Autowired
+	MyCartService myCartService;
 	// 구매내역
 	@Override
 	public List<RecentOrderDto> orderList(MyPagePager pager) {
@@ -119,5 +123,44 @@ public class OrdersServiceImpl implements OrdersService {
 	public Orders item(int id) {
 		return dao.item(id);
 	}
+	
+	// Song 주문완료처리
+	@Override
+    @Transactional
+    public void completeOrder(int userId, String receiverName, String receiverPhone,
+                              String zipCode, String addressMain, String addressDetail,
+                              List<MyCart> cartList) {
 
+        if(cartList == null || cartList.isEmpty()) {
+            throw new IllegalArgumentException("주문할 상품이 없습니다.");
+        }
+
+        for(MyCart cart : cartList) {
+            Orders order = new Orders();
+            order.setUserId(userId);
+            order.setItemId(cart.getItemId());
+            order.setPrice(cart.getPrice());
+            order.setAmount(cart.getQuantity());
+            order.setTotalPrice(cart.getPrice() * cart.getQuantity());
+            order.setTransactionType("배송");
+            order.setPaymentMethod("간편결제"); // 임시
+            order.setRecipientName(receiverName);
+            order.setRecipientPhone(receiverPhone);
+            order.setDeliveryZipcode(zipCode);
+            order.setDeliveryAddressMain(addressMain);
+            order.setDeliveryAddressDetail(addressDetail);
+            order.setOrderStatus("입금완료");
+
+            dao.insertOrder(order); // OrdersDao에 insertOrder() 구현 필요
+        }
+
+        // 장바구니 비우기
+        myCartService.clearCart(userId);
+    }
+
+	@Override
+	@Transactional
+	public void saveOrder(Orders order) {
+	    dao.insertOrder(order); // DAO 호출
+	}
 }

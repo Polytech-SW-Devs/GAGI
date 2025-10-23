@@ -140,7 +140,7 @@ table {
 }
 
 th, td {
-	padding: 10px 4px;
+	padding: 8px 2px;
 	text-align: center;
 	font-size: 14px;
 	border-bottom: 1px solid #eee;
@@ -400,7 +400,7 @@ td a:hover {
 								<tr>
 									<td><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</td>
 									<td>${item.categoryName}</td>
-									<td>
+									<td width="50">
 										<c:if test="${not empty item.fileName}">
 											<img alt="${item.title}" src="${pageContext.request.contextPath}/upload/${item.fileName}" width="50" height="50">
 										</c:if>

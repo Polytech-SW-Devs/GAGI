@@ -17,8 +17,12 @@
 
   <h2 class="mb-4">🧾 주문서 작성</h2>
 
-  <form id="orderForm" action="${pageContext.request.contextPath}/order/complete" method="post">
+  <form id="orderForm" action="${pageContext.request.contextPath}/order/buynowcomplete" method="post">  	
     <input type="hidden" name="userId" value="${user.id}" />
+	<input type="hidden" name="id" value="${item.id}">
+	<input type="hidden" name="price" value="${item.price}">
+	<input type="hidden" name="amount" value="${quantity}">
+	<input type="hidden" name="title" value="${item.title}">
 
     <!-- 주문자 정보 -->
     <section class="mb-4">
@@ -102,16 +106,14 @@
             <th>합계</th>
           </tr>
         </thead>
-        <tbody>
-          <c:forEach var="item" items="${cartList}">
-            <tr>
-              <td>${item.itemName}</td>
-              <td>${item.quantity}</td>
-              <td><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</td>
-              <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원</td>
-            </tr>
-          </c:forEach>
-        </tbody>
+		<tbody>
+			<tr>
+				<td>${item.title}</td>
+				<td>${quantity}</td>
+				<td><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</td>
+				<td><fmt:formatNumber value="${item.price * quantity}" pattern="#,###"/>원</td>
+			</tr>
+		</tbody>
       </table>
     </section>
     <!-- 총 결제 금액 -->
