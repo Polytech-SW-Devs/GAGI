@@ -21,6 +21,11 @@
 		<typeAlias type="com.exam.gagi.model.ItemImage" alias="ItemImage"/>
 		<typeAlias type="com.exam.gagi.model.OrderSaleViewDto" alias="OrderSaleViewDto"/>
 		<typeAlias type="com.exam.gagi.model.OrdersSaleDetailViewDto" alias="OrdersSaleDetailViewDto"/>
+		<typeAlias type="com.exam.gagi.model.Buy" alias="Buy"/>
+		<typeAlias type="com.exam.gagi.model.AdminProductDto" alias="AdminProductDto"/>
+		<typeAlias type="com.exam.gagi.model.AdminUserDto" alias="AdminUserDto"/>
+		<typeAlias type="com.exam.gagi.model.AdminOrderDto" alias="AdminOrderDto"/>
+
 		
 		<typeAlias type="com.exam.gagi.pager.MyPagePager" alias="MyPagePager"/>
 	</typeAliases>
@@ -36,6 +41,9 @@
 		<mapper resource="mapper/myUpdate.xml"/>
 		<mapper resource="mapper/item.xml"/>
 		<mapper resource="mapper/mycart.xml"/>
+		<mapper resource="mapper/buy.xml"/>
+		<mapper resource="mapper/admin.xml"/>
+
 	
 	</mappers>
 		

@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.List;
 
 
-public class Items extends BaseEntity {
+public class Buy extends BaseEntity {
 
 	private int id; // 상품 번호
 	private int userId; // 등록한 회원 번호 (FK)
@@ -22,13 +22,12 @@ public class Items extends BaseEntity {
 	private LocalDateTime deletedAt; // 삭제일 (soft delete)
 	private List<ItemImage> itemImages; //상품 이미지 목록
 	private String nickname;
-
 	private char isDelete = 'N';
-
-	
 	private String categoryName;	// 카테고리 이름
 	private String fileName;
 	private int quantity;
+	
+	
 
 	public int getId() {
 		return id;

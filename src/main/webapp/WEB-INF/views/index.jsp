@@ -309,8 +309,10 @@ main {
 			                        <span>Q&A</span>
 			                    </a>
 			                    <div class="menu-item">
+			                    <a href="${pageContext.request.contextPath}/report/list" class="menu-item">
 			                        <i class="fa-solid fa-triangle-exclamation menu-icon"></i>
 			                        <span>신고</span>
+			                     </a>
 			                    </div>
 			                </div>
 			            </div>
@@ -353,29 +355,29 @@ main {
 		<!-- Trust Section -->
 		<div class="trust-section">
 			<h2 class="trust-title">
-				가지마켓에서 직접 보내드리는<br> <span class="bold">신선케어 보증 상품을 만나보세요</span>
+				가지마켓에서 신선선한 상품을<br> <span class="bold"> 보다 저렴하게 만나보세요</span>
 			</h2>
 			<div class="trust-features">
 				<div class="trust-item">
 					<div class="trust-card">
 						<img src="${pageContext.request.contextPath}/images/apple.png"
-							alt="공식 브랜드 판매 상품" class="trust-icon">
+							alt="제철 상품" class="trust-icon">
 					</div>
-					<div class="trust-text">공식 브랜드 판매 상품</div>
+					<div class="trust-text">제철 상품</div>
 				</div>
 				<div class="trust-item">
 					<div class="trust-card">
 						<img src="${pageContext.request.contextPath}/images/banana.png"
-							alt="주문 시 1:1 채팅 문의" class="trust-icon">
+							alt="마트보다 저렴한 상품" class="trust-icon">
 					</div>
-					<div class="trust-text">주문 시 1:1 채팅 문의</div>
+					<div class="trust-text">마트보다 저렴한 상품</div>
 				</div>
 				<div class="trust-item">
 					<div class="trust-card">
 						<img src="${pageContext.request.contextPath}/images/meat.png"
-							alt="100% 신뢰할 수 있는 상품" class="trust-icon">
+							alt="중간 유통과정 없는 상품" class="trust-icon">
 					</div>
-					<div class="trust-text">100% 신뢰할 수 있는 상품</div>
+					<div class="trust-text">중간 유통과정 없는 상품</div>
 				</div>
 			</div>
 		</div>

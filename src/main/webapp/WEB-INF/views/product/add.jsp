@@ -412,12 +412,12 @@ input[type="number"]::-webkit-inner-spin-button {
 				<label for="selectBox">카테고리 <span class="required">*</span></label>
 				<select id="selectBox" name="category.categoryId" class="form-select" required>
 					<option value="" disabled 
-						<c:if test="${item.category == null || item.category.categoryId == null}">selected</c:if>>
+						<c:if test="${item.categoryId == null}">selected</c:if>>
 						카테고리를 선택하세요
 					</option>
 					<c:forEach var="c" items="${categories}">
 						<option value="${c.categoryId}" 
-							<c:if test="${item.category != null && c.categoryId == item.category.categoryId}">selected</c:if>>
+							<c:if test="${item.categoryId == null}">selected</c:if>>
 							${c.name}
 						</option>
 					</c:forEach>

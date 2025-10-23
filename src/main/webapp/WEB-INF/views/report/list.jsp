@@ -6,8 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>가지마켓 - 리뷰 목록</title>
+<title>가지마켓 - 문의 관리</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
 * {
 	margin: 0;
@@ -21,12 +22,14 @@ body {
 	min-height: 100vh;
 }
 
+/* 메인 */
 main {
 	max-width: 1600px;
 	margin: 0 auto;
 	padding: 60px 100px 100px;
 }
 
+/* 문의 목록 섹션 */
 .board-section {
 	background: white;
 	border: 2px solid #ddd;
@@ -55,6 +58,7 @@ main {
 	color: #333;
 }
 
+/* 검색 바 */
 .board-search-bar {
 	margin-bottom: 30px;
 	display: flex;
@@ -94,6 +98,7 @@ main {
 	transform: translateY(-2px);
 }
 
+/* 테이블 */
 .table-container {
 	overflow-x: auto;
 }
@@ -128,6 +133,7 @@ td a:hover {
 	color: #6a1f5a;
 }
 
+/* 페이지네이션 */
 .pagination-container {
 	display: flex;
 	justify-content: center;
@@ -170,43 +176,20 @@ td a:hover {
 	font-weight: 600;
 	border-color: #501845;
 }
-
-.write-btn-container {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 20px;
-}
-
-.write-btn {
-	padding: 12px 30px;
-	background: linear-gradient(135deg, #501845 0%, #6a1f5a 100%);
-	color: white;
-	text-decoration: none;
-	border-radius: 10px;
-	font-size: 15px;
-	font-weight: 600;
-	transition: all 0.3s ease;
-	box-shadow: 0 2px 8px rgba(80, 24, 69, 0.3);
-}
-
-.write-btn:hover {
-	background: linear-gradient(135deg, #6a1f5a 0%, #501845 100%);
-	transform: translateY(-2px);
-}
 </style>
 </head>
-<body>
 
+<body>
 <jsp:include page="../templete/header.jsp"></jsp:include>
 
 <main>
 	<section class="board-section">
 		<div class="board-header">
-			<h1>리뷰 목록</h1>
+			<h1>신고 관리 목록</h1>
 		</div>
 
 		<div class="board-search-bar">
-			<form method="get" action="${pageContext.request.contextPath}/review/list">
+			<form method="get" action="${pageContext.request.contextPath}/admin/inquiry">
 				<input type="text" name="search" value="${search}" placeholder="검색어를 입력해주세요">
 				<button type="submit">검색</button>
 			</form>
@@ -216,26 +199,29 @@ td a:hover {
 			<table>
 				<tr>
 					<th>번호</th>
-					<th>리뷰 내용</th>
+					<th>제목</th>
+					<th>문의 상품명</th>
+					<th>상품카테고리</th>
 					<th>작성자</th>
-					<th>평점</th>
 					<th>작성일</th>
 					<th>상태</th>
 				</tr>
 
-				<c:forEach var="post" items="${list}">
+				<c:forEach var="q" items="${list}">
 					<tr>
-						<td>${post.id}</td>
-						<td><a href="${pageContext.request.contextPath}/review/view/${post.id}">${post.commentText}</a></td>
-						<td>${post.reviewerName}</td>
-						<td>${post.ratingNumber}</td>
-						<td>${post.createdAt}</td>
-						<td>활성</td> <!-- 필요 시 조건에 따라 변경 가능 -->
+						<td>${q.id}</td>
+						<td><a href="${pageContext.request.contextPath}/admin/inquiry/${q.id}">${q.subject}</a></td>
+						<td>${q.product_name}</td>
+						<td>${q.product_category}</td>
+						<td>${q.writer}</td>
+						<td>${q.created_at}</td>
+						<td>${q.status}</td>
 					</tr>
 				</c:forEach>
 			</table>
 		</div>
 
+		<!-- 페이지네이션 -->
 		<div class="pagination-container">
 			<ul class="pagination">
 				<c:if test="${page > 1}">
@@ -253,13 +239,10 @@ td a:hover {
 				</c:if>
 			</ul>
 		</div>
-
-		<div class="write-btn-container">
-			<a href="${pageContext.request.contextPath}/review/write" class="write-btn">리뷰 작성</a>
-		</div>
 	</section>
 </main>
 
 <%@ include file="../templete/footer.jsp" %>
 </body>
 </html>
+

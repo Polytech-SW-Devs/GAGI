@@ -89,7 +89,7 @@ header {
 	color: white;
 	border: none;
 	border-radius: 20px;
-	padding: 9px 15px;
+	padding: 6px 15px;
 	font-size: 16px;
 	cursor: pointer;
 }
@@ -126,7 +126,8 @@ header {
 
         .category-menu a.category-link { /* 새로운 클래스명 사용 */
             text-decoration: none;
-            color: #555555; /* 텍스트 색상 지정 */
+            color: #0000000; /* 텍스트 색상 지정 */
+
             display: flex; /* 아이콘과 텍스트를 정렬하기 위해 */
             flex-direction: row; /* 가로 정렬 */
             align-items: center; /* 세로 중앙 정렬 */

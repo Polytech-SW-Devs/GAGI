@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
     const trustItems = document.querySelectorAll(".trust-item");
     trustItems.forEach(item => {
         item.addEventListener("click", () => {
-            window.location.href = contextPath + "/home";
+            window.location.href = contextPath + "/";
         });
     });
 

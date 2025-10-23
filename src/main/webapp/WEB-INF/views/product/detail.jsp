@@ -517,6 +517,11 @@ main {
 	}
 }
 </style>
+
+<script>
+	const contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/js/mycart.js"></script>
 </head>
 <body>
 
@@ -525,96 +530,99 @@ main {
 <main>
 	<!-- 상품 상세 정보 -->
 	<div class="product-detail-container">
-		<div class="product-main">
-			<!-- 이미지 영역 -->
-			<div class="image-section">
-				<div class="image-gallery">
-					<div class="main-image" id="mainImage">
-						<c:choose>
-							<c:when test="${not empty item.itemImages}">
-								<img src="${pageContext.request.contextPath}/upload/${item.itemImages[0].fileName}" alt="${item.title}">
-							</c:when>
-							<c:otherwise>
-								<div class="image-placeholder" id="imagePlaceholder">
-									<i>📦</i>
-									<p>이미지 준비중</p>
-								</div>
-							</c:otherwise>
-						</c:choose>
+		<form action="${pageContext.request.contextPath}/order/buynow/${item.id}" method="get">
+			<div class="product-main">
+				<!-- 이미지 영역 -->
+				<div class="image-section">
+					<div class="image-gallery">
+						<div class="main-image" id="mainImage">
+							<c:choose>
+								<c:when test="${not empty item.itemImages}">
+									<img src="${pageContext.request.contextPath}/upload/${item.itemImages[0].fileName}" alt="${item.title}">
+								</c:when>
+								<c:otherwise>
+									<div class="image-placeholder" id="imagePlaceholder">
+										<i>📦</i>
+										<p>이미지 준비중</p>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</div>
+						
+						<!-- 썸네일 리스트 -->
+						<c:if test="${fn:length(item.itemImages) > 1}">
+							<div class="thumbnail-list">
+								<c:forEach var="image" items="${item.itemImages}">
+									<div class="thumbnail-item">
+										<img src="${pageContext.request.contextPath}/upload/${image.fileName}" alt="상품 이미지">
+									</div>
+								</c:forEach>
+							</div>
+						</c:if>
+					</div>
+				</div>
+				
+				<!-- 상품 정보 영역 -->
+				<div class="info-section">
+					<!-- 상품 헤더 -->
+					<div class="product-header">
+						<h1 class="product-title">${item.title}</h1>
+						<div class="product-meta">
+							<span>📅 ${item.createdAt}"</span>
+							<span>👁 조회 ${item.views}</span>
+						</div>
 					</div>
 					
-					<!-- 썸네일 리스트 -->
-					<c:if test="${fn:length(item.itemImages) > 1}">
-						<div class="thumbnail-list">
-							<c:forEach var="image" items="${item.itemImages}">
-								<div class="thumbnail-item">
-									<img src="${pageContext.request.contextPath}/upload/${image.fileName}" alt="상품 이미지">
-								</div>
-							</c:forEach>
+					<!-- 판매자 정보 -->
+					<div class="seller-info">
+						<div class="seller-info-row">
+							<label>판매자</label>
+							<span>${member.nickname}</span>
 						</div>
-					</c:if>
+						<div class="seller-info-row">
+							<label>계좌번호</label>
+							<span>${item.bankAccountNumber}</span>
+						</div>
+					</div>
+					
+					<!-- 상품 설명 -->
+					<div class="product-description">
+						<h5>상품 설명</h5>
+						<p>${item.description}</p>
+					</div>
+					
+					<!-- 가격 정보 -->
+					<div class="price-section">
+						<div class="price-row">
+							<span class="price-label">판매가</span>
+							<span class="price-value"><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</span>
+						</div>
+						<div class="stock-info">
+							<span>남은 수량: ${item.amount}개</span>
+						</div>
+					</div>
+					
+					<!-- 수량 선택 -->
+					<div class="quantity-section">
+						<label for="quantity">수량 선택</label>
+						<input type="number" id="quantity" name="quantity" class="quantity-input" value="1" min="1" max="${item.amount}">
+					</div>
+					
+					<!-- 총 상품 금액 -->
+					<div class="total-price-section">
+						<span>총 상품 금액</span>
+						<span id="totalPrice"><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</span>
+					</div>
+					
+					<!-- 구매 버튼 -->
+					<div class="action-buttons">
+						<button type="button" id="addToCartBtn" class="btn btn-cart">장바구니</button>
+						<button type="submit" id="buynow" class="btn btn-buy">바로구매</button>
+						<%-- <a href="${pageContext.request.contextPath}/order/buynow/${item.id}?userId=${loginUser.getId()}" class="btn btn-buy">바로구매</a> --%>
+					</div>
 				</div>
 			</div>
-			
-			<!-- 상품 정보 영역 -->
-			<div class="info-section">
-				<!-- 상품 헤더 -->
-				<div class="product-header">
-					<h1 class="product-title">${item.title}</h1>
-					<div class="product-meta">
-						<span>📅 ${item.createdAt}"</span>
-						<span>👁 조회 ${item.views}</span>
-					</div>
-				</div>
-				
-				<!-- 판매자 정보 -->
-				<div class="seller-info">
-					<div class="seller-info-row">
-						<label>판매자</label>
-						<span>${member.nickname}</span>
-					</div>
-					<div class="seller-info-row">
-						<label>계좌번호</label>
-						<span>${item.bankAccountNumber}</span>
-					</div>
-				</div>
-				
-				<!-- 상품 설명 -->
-				<div class="product-description">
-					<h5>상품 설명</h5>
-					<p>${item.description}</p>
-				</div>
-				
-				<!-- 가격 정보 -->
-				<div class="price-section">
-					<div class="price-row">
-						<span class="price-label">판매가</span>
-						<span class="price-value"><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</span>
-					</div>
-					<div class="stock-info">
-						<span>남은 수량: ${item.amount}개</span>
-					</div>
-				</div>
-				
-				<!-- 수량 선택 -->
-				<div class="quantity-section">
-					<label for="quantity">수량 선택</label>
-					<input type="number" id="quantity" class="quantity-input" value="1" min="1" max="${item.amount}">
-				</div>
-				
-				<!-- 총 상품 금액 -->
-				<div class="total-price-section">
-					<span>총 상품 금액</span>
-					<span id="totalPrice"><fmt:formatNumber value="${item.price}" pattern="#,##0" />원</span>
-				</div>
-				
-				<!-- 구매 버튼 -->
-				<div class="action-buttons">
-					<button type="button" id="addToCartBtn" class="btn btn-cart">장바구니</button>
-					<button type="button" class="btn btn-buy">바로구매</button>
-				</div>
-			</div>
-		</div>
+		</form>
 	</div>
 	
 	<!-- 문의 섹션 -->
