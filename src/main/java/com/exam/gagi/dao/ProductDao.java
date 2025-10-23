@@ -16,7 +16,7 @@ public interface ProductDao {
 
 	List<Items> list(MyPagePager pager);
 
-	int countByUserId(int id);
+	int countByUserId(MyPagePager pager);
 
 	int delete(Map<String, Object> param);
 

@@ -25,6 +25,7 @@
 		<typeAlias type="com.exam.gagi.model.AdminUserDto" alias="AdminUserDto"/>
 		<typeAlias type="com.exam.gagi.model.AdminOrderDto" alias="AdminOrderDto"/>
 		
+		<typeAlias type="com.exam.gagi.pager.MyPagePager" alias="MyPagePager"/>
 	</typeAliases>
 	
 	<mappers>

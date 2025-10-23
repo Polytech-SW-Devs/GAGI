@@ -23,18 +23,18 @@ public class ProductDaoImpl implements ProductDao {
 	SqlSession sql;
 
 	@Override
-	public void add(Items item) {
-		sql.insert("product.add", item);
-	}
-
-	@Override
-	public int countByUserId(int id) {
-		return sql.selectOne("product.countByUserId", id);
+	public int countByUserId(MyPagePager pager) {
+		return sql.selectOne("product.countByUserId", pager);
 	}
 
 	@Override
 	public List<Items> list(MyPagePager pager) {
 		return sql.selectList("product.list", pager);
+	}
+	
+	@Override
+	public void add(Items item) {
+		sql.insert("product.add", item);
 	}
 
 	@Override
