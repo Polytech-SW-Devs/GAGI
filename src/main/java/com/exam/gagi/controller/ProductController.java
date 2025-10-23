@@ -73,7 +73,7 @@ public class ProductController {
 		List<Category> categories = service.getCategory();
 		model.addAttribute("categories", categories);
 
-		model.addAttribute("itme", new Items());
+		model.addAttribute("item", new Items());
 		return path + "/add";
 	}
 
@@ -219,9 +219,10 @@ public class ProductController {
 			session.setAttribute(viewedKey, true); // 조회 기록 저장
 		}
 		Items item = service.item(id);
-
+		
 		model.addAttribute("item", item);
 		model.addAttribute("member", loginUser);
+//		System.out.println("loinUserID:"+loginUser.getId());
 		return path + "/detail";
 	}
 	

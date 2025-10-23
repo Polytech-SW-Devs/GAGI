@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="buy">
+	
+    <!-- 아이템 조회 -->
+    <select id="buyone" resultType="Buy">
+		SELECT *
+		FROM ITEMS
+		WHERE  ID = #{id}
+    </select>
+    
+    <!-- 주문 저장 -->
+    <insert id="saveOrder">
+    	INSERT INTO ORDERS(ID, USER_ID, ITEM_ID, PRICE, AMOUNT, TOTAL_PRICE, TRANSACTION_TYPE, PAYMENT_METHOD, RECIPIENT_NAME, RECIPIENT_PHONE, DELIVERY_ZIPCODE, DELIVERY_ADDRESS_MAIN, DELIVERY_ADDRESS_DETAIL, DELIVERY_MEMO, ORDER_STATUS)
+		VALUES (ORDERS_SEQ.NEXTVAL, #{userId}, #{itemId}, #{price},	#{amount}, #{totalPrice}, #{transactionType}, #{paymentMethod},	#{recipientName}, #{recipientPhone}, #{deliveryZipcode}, #{deliveryAddressMain}, #{deliveryAddressDetail}, #{deliveryMemo},	#{orderStatus})
+    </insert>
+</mapper>
+
