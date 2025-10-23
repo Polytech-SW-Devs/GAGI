@@ -309,8 +309,10 @@ main {
 			                        <span>Q&A</span>
 			                    </a>
 			                    <div class="menu-item">
+			                    <a href="${pageContext.request.contextPath}/report/list" class="menu-item">
 			                        <i class="fa-solid fa-triangle-exclamation menu-icon"></i>
 			                        <span>신고</span>
+			                     </a>
 			                    </div>
 			                </div>
 			            </div>

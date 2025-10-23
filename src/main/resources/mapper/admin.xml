@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+	<!-- 상품관리 검색 -->
+	<sql id="adminSearchProduct">
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<choose>
+					<when test="search == 1">
+						AND i.id LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 2">
+						AND i.title LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 3">
+						AND u.nickname LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+
+			<if test="startDate != null and startDate != ''">
+				AND i.created_at &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND i.created_at &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1
+			</if>
+		</where>
+	</sql>
+
+	<!-- 상품검색 + 페이징 적용 SQL -->
+<select id="getProducts"
+parameterType="com.exam.gagi.pager.AdminProductPager"
+        resultType="com.exam.gagi.model.AdminProductDto">
+    SELECT *
+    FROM (
+        SELECT ROWNUM AS rnum, t.*
+        FROM (
+            SELECT
+                i.id AS id,
+                ii.filename AS filename,
+                i.title AS title,
+                i.price AS price,
+                i.amount AS amount,
+                u.nickname AS nickname,
+                i.created_at AS createdAt
+            FROM items i
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN item_images ii ON i.id = ii.item_id AND ii.sort_order = 1
+            <include refid="adminSearchProduct" />
+            ORDER BY i.created_at DESC
+        ) t
+    )
+    WHERE rnum BETWEEN ((#{page, jdbcType=NUMERIC} - 1) * #{perPage, jdbcType=NUMERIC}) + 1
+                      AND (#{page, jdbcType=NUMERIC} * #{perPage, jdbcType=NUMERIC})
+</select>
+	<!-- 상품관리 수 -->
+	<select id="getProductsCount"
+		parameterType="com.exam.gagi.pager.PagerV2" resultType="int">
+		SELECT COUNT(*)
+		FROM items i
+		JOIN users u ON i.user_id = u.id
+		<include refid="adminSearchProduct" />
+	</select>
+	<!-- 회원관리 검색 -->
+	<sql id="adminSearchUser">
+		<where>
+			<if test="id > 0">
+				AND id = #{id}
+			</if>
+			<if test="username != null and username != ''">
+				AND username LIKE '%' || #{username} || '%'
+			</if>
+			<if test="nickname != null and nickname != ''">
+				AND nickname LIKE '%' || #{nickname} || '%'
+			</if>
+			<if test="email != null and email != ''">
+				AND email LIKE '%' || #{email} || '%'
+			</if>
+			<if test="phone != null and phone != ''">
+				AND phone LIKE '%' || #{phone} || '%'
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND created_at &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND created_at &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1
+			</if>
+		</where>
+	</sql>
+	<!-- 회원관리 검색 +  페이징 -->
+	<select id="getUsers"
+		parameterType="com.exam.gagi.pager.AdminUserPager"
+		resultType="com.exam.gagi.model.AdminUserDto">
+		SELECT *
+		FROM (
+		SELECT ROWNUM AS rnum, t.*
+		FROM (
+		SELECT
+		id,
+		username,
+		nickname,
+		email,
+		phone,
+		created_at AS createdAt
+		FROM
+		users
+		<include refid="adminSearchUser" />
+		ORDER BY
+		created_at DESC
+		) t
+		)
+		WHERE rnum BETWEEN ((#{page, jdbcType=NUMERIC} - 1) * #{perPage, jdbcType=NUMERIC}) + 1
+		AND (#{page, jdbcType=NUMERIC} * #{perPage, jdbcType=NUMERIC})
+	</select>
+	<!-- 회원관리 수 -->
+	<select id="getUserCount"
+		parameterType="com.exam.gagi.pager.AdminUserPager" resultType="int">
+		SELECT COUNT(*)
+		FROM users
+		<include refid="adminSearchUser" />
+	</select>
+	<!-- 주문관리 검색 -->
+	<sql id="adminSearchOrder">
+		<where>
+			<if test="id > 0">
+				AND o.id = #{id}
+			</if>
+			<if test="nickname != null and nickname != ''">
+				AND u.nickname LIKE '%' || #{nickname} || '%'
+			</if>
+			<if test="title != null and title != ''">
+				AND i.title LIKE '%' || #{title} || '%'
+			</if>
+			<if test="orderStatus != null and orderStatus != ''">
+				AND o.order_status = #{orderStatus}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND o.created_at &gt;= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND o.created_at &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1
+			</if>
+		</where>
+	</sql>
+	<!-- 주문검색 + 페이징 -->
+	<select id="getOrders"
+		parameterType="com.exam.gagi.pager.AdminOrderPager"
+		resultType="com.exam.gagi.model.AdminOrderDto">
+		SELECT *
+		FROM (
+		SELECT ROWNUM AS rnum, t.*
+		FROM (
+		SELECT
+		o.id AS id,
+		u.nickname AS nickname,
+		i.title AS title,
+		o.amount AS amount,
+		o.total_price AS totalPrice,
+		o.created_at AS createdAt,
+		o.order_status AS orderStatus
+		FROM
+		orders o
+		JOIN
+		users u ON o.user_id = u.id
+		JOIN
+		items i ON o.item_id = i.id
+		<include refid="adminSearchOrder" />
+		ORDER BY
+		o.created_at DESC
+		) t
+		)
+		WHERE rnum BETWEEN ((#{page, jdbcType=NUMERIC} - 1) * #{perPage, jdbcType=NUMERIC}) + 1
+		AND (#{page, jdbcType=NUMERIC} * #{perPage, jdbcType=NUMERIC})
+	</select>
+	<!-- 주문관리 수 -->
+	<select id="getOrderCount"
+		parameterType="com.exam.gagi.pager.AdminOrderPager" resultType="int">
+		SELECT COUNT(*)
+		FROM orders o
+		JOIN users u ON o.user_id = u.id
+		JOIN items i ON o.item_id = i.id
+		<include refid="adminSearchOrder" />
+	</select>
+	
+	<!-- 전체 회원수 -->
+	<select id="getTotalUsers">
+		SELECT COUNT(*) 
+        FROM USERS
+	</select>
+	
+	<!-- 전체 상품수 -->
+	<select id="getTotalProducts">
+		SELECT COUNT(*) 
+        FROM ITEMS
+	</select>
+	
+	<!-- 전체 주문수 -->
+	<select id="getTotalOrders">
+		SELECT COUNT(*) 
+        FROM ORDERS
+	</select>
+	
+	<!-- 전체 거래량 -->
+	<select id="getTotalAllPrice">
+		SELECT NVL(SUM(TOTAL_PRICE), 0) AS TOTAL_ORDER_AMOUNT
+        FROM ORDERS
+        WHERE ORDER_STATUS NOT IN ('취소', '입금준비')
+	</select>
+	
+	<!-- 주간 차트 -->
+	<select id="getWeeklyChart">
+		SELECT 
+            TO_CHAR(CREATED_AT, 'YYYY-MM-DD') AS ORDER_DATE,
+            SUM(CASE WHEN ORDER_STATUS = '취소' THEN TOTAL_PRICE ELSE 0 END) AS CANCEL_AMOUNT,
+            SUM(CASE WHEN ORDER_STATUS != '취소' THEN TOTAL_PRICE ELSE 0 END) AS ORDER_AMOUNT
+        FROM ORDERS
+        WHERE CREATED_AT >= TRUNC(SYSDATE) - 7
+        GROUP BY TO_CHAR(CREATED_AT, 'YYYY-MM-DD')
+        ORDER BY ORDER_DATE
+	</select>
+	
+</mapper>
