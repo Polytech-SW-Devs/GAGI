@@ -60,6 +60,8 @@
 		<li><a href="<c:url value='/mypage/mysale'/>">판매내역</a></li>
 		<li><a href="<c:url value='/mypage/delevery/addressList'/>">배송지 관리</a></li>
 		<li><a href="<c:url value='/product/list'/>">내 게시글 보기</a></li>
-		<li><a href="#">회원탈퇴</a></li>
+		<c:if test="${loginUser.id == 1}">
+			<li><a href="<c:url value='/admin'/>">관리자페이지</a></li>
+		</c:if>
 	</ul>
 </aside>
