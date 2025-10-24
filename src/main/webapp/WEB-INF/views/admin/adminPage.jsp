@@ -451,6 +451,7 @@ th {
 	font-weight: 500;
 	background: #f9f9f9;
 	border-bottom: 2px solid #ddd;
+	
 }
 
 td a {

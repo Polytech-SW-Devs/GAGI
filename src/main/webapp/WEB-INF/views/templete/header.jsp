@@ -178,6 +178,7 @@ header {
 						<span><a href="${pageContext.request.contextPath}/login">로그인</a></span>
 					</c:when>
 					<c:otherwise>
+						<p>${loginUser.nickname}</p>
 						<span><a href="${pageContext.request.contextPath}/logout">로그아웃</a></span>
 					</c:otherwise>
 				</c:choose>

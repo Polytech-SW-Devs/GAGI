@@ -36,13 +36,14 @@ public class MyCartController {
 			return "redirect:/login";
 		}
         List<MyCart> cartList = myCartService.getCartByUserId(userId);
-
+        
         int totalPrice = cartList.stream()
                                  .mapToInt(item -> item.getPrice() * item.getQuantity())
                                  .sum();
 
         model.addAttribute("cartList", cartList);
         model.addAttribute("totalPrice", totalPrice);
+        
 
         return "mycart"; // => mycart.jsp
     }

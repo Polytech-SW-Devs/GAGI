@@ -142,7 +142,7 @@
                 
                 <!-- 상품 이미지: DB에 없으면 placeholder -->
                 <td>
-                    <img src="${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
+                    <img src="${pageContext.request.contextPath}/upload/${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
                          class="product-img" alt="상품이미지">
                 </td>
                 <td>${item.itemName}</td>

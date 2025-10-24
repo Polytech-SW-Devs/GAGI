@@ -142,7 +142,7 @@ async function productList(params = {}) {
                         <a href="${CONTEXT_PATH}/product/detail?prodId=${product.id}">
                             <div class="product-info">
                                 ${product.filename ?
-                                    `<img src="${CONTEXT_PATH}/uploads/${product.filename}" alt="${product.title}" class="product-image">` :
+                                    `<img src="${CONTEXT_PATH}/upload/${product.filename}" alt="${product.title}" class="product-image">` :
                                     `<div class="product-placeholder"></div>`
                                 }
                                 <span>${product.title}</span>
