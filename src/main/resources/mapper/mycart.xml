@@ -37,7 +37,7 @@
     c.updated_at,
     i.title AS ITEM_TITLE,
     i.price AS ITEM_PRICE,
-    im.image_url AS ITEM_IMAGE
+    im.filename AS ITEM_IMAGE
 	  FROM mycart c
 	  JOIN items i ON c.item_id = i.id
 	  LEFT JOIN item_images im ON i.id = im.item_id AND im.sort_order = 1

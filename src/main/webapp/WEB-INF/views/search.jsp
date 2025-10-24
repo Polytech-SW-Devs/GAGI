@@ -280,7 +280,10 @@ main {
 			<div class="products-grid">
 				<c:forEach var="item" items="${items}">
 					<div class="product-card" data-item-id="${item.id}">
-						<div class="product-image"></div>
+						<div class="product-image">
+							<img src="${pageContext.request.contextPath}/upload/${item.filename}"
+									style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+						</div>
 						<div class="product-info">
 							<div class="product-name">${item.title}</div>
 							<div class="product-price">
