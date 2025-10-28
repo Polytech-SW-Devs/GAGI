@@ -174,6 +174,53 @@ td a:hover {
 </head>
 <body>
 
+	<h1>공지사항 목록</h1>
+    
+    <!-- 검색 -->
+	<form method="get" action="${pageContext.request.contextPath}/notice/list">
+    	<input type="text" name="search" value="${search}" placeholder="검색어 입력">
+    	<button type="submit">검색</button>
+	</form>
+	
+	<!-- 리스트 -->
+	<table border="1" cellpadding="5">
+    	<tr>
+        	<th>번호</th>
+        	<th>제목</th>
+        	<th>작성일</th>
+        	<th>유효</th>
+    	</tr>
+
+    	<c:forEach var="notice" items="${list}" varStatus="status">
+        	<tr>
+            	<td>${status.index + 1}</td>
+            	<td>
+                	<a href="${pageContext.request.contextPath}/notice/view/${notice.id}">${notice.title}</a>
+            	</td>
+            	<td>${notice.postedAt}</td>
+            	<td>${notice.active ? "활성" : "만료"}</td>
+        	</tr>
+    	</c:forEach>
+	</table>
+	
+	<!-- 페이징 -->
+	<div>
+    	<c:if test="${page > 1}">
+        	<a href="?page=${page-1}&search=${search}">이전</a>
+    	</c:if>
+
+    페이지 ${page} / ${totalPages}
+
+    	<c:if test="${page < totalPages}">
+        	<a href="?page=${page+1}&search=${search}">다음</a>
+    	</c:if>
+	</div>
+	
+	<!-- 등록 버튼 -->
+	<a href="${pageContext.request.contextPath}/notice/write">공지 작성</a>
+</body>
+</html>
+
 <jsp:include page="../templete/header.jsp"></jsp:include>
 
 <main>
@@ -241,4 +288,3 @@ td a:hover {
 <%@ include file="../templete/footer.jsp" %>
 </body>
 </html>
-

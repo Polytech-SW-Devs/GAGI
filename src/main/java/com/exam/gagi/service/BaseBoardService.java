@@ -2,6 +2,8 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
+import com.exam.gagi.model.Notice;
+
 public interface BaseBoardService<T> {
 	
 	// 공통 리스트 조회(검색 + 페이징)
@@ -14,6 +16,6 @@ public interface BaseBoardService<T> {
 	void create(T post);
 
 	void update(T post);
-
+	
 //	void delete(int id); 
 }

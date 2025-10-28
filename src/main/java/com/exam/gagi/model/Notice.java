@@ -1,6 +1,7 @@
 package com.exam.gagi.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Notice {
 	// 공지 id
@@ -23,6 +24,8 @@ public class Notice {
 	private LocalDateTime updatedAt;
 	// 조회 시 계산용 필드
 	private boolean active; // true = 활성, false = 만료
+	
+	private List<Notice> list;
 	
 	public int getId() {
 		return id;
@@ -84,6 +87,13 @@ public class Notice {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	public List<Notice> getList() {
+		return list;
+	}
+	public void setList(List<Notice> list) {
+		this.list = list;
+	}
+	
 	
 	
 	

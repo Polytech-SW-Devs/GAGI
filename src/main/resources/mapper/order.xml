@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="order">
+  
+  	<resultMap id="OrderResultMap" type="com.exam.gagi.model.Order">
+        <id property="id" column="ID"/>
+        <result property="itemId" column="ITEM_ID"/>
+        <result property="itemTitle" column="itemTitle"/>
+    </resultMap>
+  	
+    <select id="getOrderById" parameterType="int" resultMap="OrderResultMap">
+        SELECT o.ID, o.ITEM_ID, i.TITLE AS itemTitle
+        FROM ORDERS o
+        JOIN ITEMS i ON o.ITEM_ID = i.ID
+        WHERE o.ID = #{orderId}
+    </select>
+  </mapper>
+  

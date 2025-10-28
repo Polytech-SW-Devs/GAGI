@@ -25,7 +25,7 @@ public class InquiryController extends BaseBoardController<Inquiry> {
 	}
 	
 	@Override
-	protected int getIdFromPost(Inquiry post) {
+	protected long getIdFromPost(Inquiry post) {
 		return post.getId();
 	}
 	

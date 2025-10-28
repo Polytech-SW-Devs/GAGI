@@ -407,6 +407,9 @@ const contextPath = "${pageContext.request.contextPath}";
 												<button class="cancel-btn cancel-order-btn" data-order-id="${order.id}">주문취소</button>
 											</c:if>
 										</td>
+
+										<td class="text-center">
+											<a href="${pageContext.request.contextPath}/review/writeForm?orderId=${order.id}">리뷰작성</a>
 										<td>
 											<a href="${pageContext.request.contextPath}/review/writeForm?productId=${order.itemId}" class="review-link">리뷰작성</a>
 										</td>

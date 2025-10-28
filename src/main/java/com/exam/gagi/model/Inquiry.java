@@ -8,7 +8,7 @@ public class Inquiry {
 	// 문의자
 	private int userId;
 	// 응답자(관리자)
-	private int reponderId;
+	private Integer responderId;
 	// 문의 카테고리
 	private String category;
 	// 제목
@@ -36,11 +36,11 @@ public class Inquiry {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getReponderId() {
-		return reponderId;
+	public Integer getResponderId() {
+		return responderId;
 	}
-	public void setReponderId(int reponderId) {
-		this.reponderId = reponderId;
+	public void setResponderId(Integer responderId) {
+		this.responderId = responderId;
 	}
 	public String getCategory() {
 		return category;

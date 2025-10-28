@@ -51,9 +51,14 @@
   	
   	<!-- 공통 CRUD -->
   	<insert id="insert" parameterType="com.exam.gagi.model.Notice">
+	    INSERT INTO NOTICES (id, title, content, visible, posted_at, expires_at, admin_id, created_at)
+	    VALUES (notice_seq.NEXTVAL, #{title}, #{content}, #{visible}, #{postedAt, jdbcType=TIMESTAMP}, #{expiresAt, jdbcType=TIMESTAMP}, #{adminId}, SYSTIMESTAMP)
+	</insert>
+  	
+  	<!-- <insert id="insert" parameterType="com.exam.gagi.model.Notice">
   		INSERT INTO NOTICES (title, content, visible, posted_at, expires_at, admin_id, created_at)
-        VALUES (#{title}, #{content}, #{visible}, #{postedAt}, #{expiresAt}, #{adminId}, NOW())	
-  	</insert>
+        VALUES (#{title}, #{content}, #{visible}, #{postedAt}, #{expiresAt}, #{adminId}, SYSTIMESTAMP)	
+  	</insert> -->
   	
 	<update id="update" parameterType="com.exam.gagi.model.Notice">
 		UPDATE NOTICES

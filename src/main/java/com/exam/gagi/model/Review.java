@@ -20,6 +20,7 @@ public class Review {
 	// 수정일
 	private LocalDateTime updatedAt;
 	private String reviewerName; 
+	private String itemTitle;
 	
 	public int getId() {
 		return id;
@@ -74,6 +75,12 @@ public class Review {
 	}
 	public void setReviewerName(String reviewerName) {
 		this.reviewerName = reviewerName;
+	}
+	public String getItemTitle() {
+		return itemTitle;
+	}
+	public void setItemTitle(String itemTitle) {
+		this.itemTitle = itemTitle;
 	}
 
 	

@@ -1,5 +1,7 @@
 package com.exam.gagi.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,4 +28,9 @@ public class NoticeDaoImpl extends BaseBoardDaoImpl<Notice> implements NoticeDao
 	public Notice selectNotice(int id) {
 		return sqlSession.selectOne(namespace + ".selectNotice", id);
 	}
+
+//	@Override
+//	public List<Notice> list() {
+//		return sqlSession.selectList(namespace + ".selectList");
+//	}
 }

@@ -43,7 +43,6 @@
 	</form>
 
 	<a href="${pageContext.request.contextPath}/notice/list">목록으로</a>
-</body>
-</html>
+
 </body>
 </html>
