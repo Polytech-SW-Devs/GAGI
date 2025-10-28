@@ -20,7 +20,6 @@ public class MyCartServiceImpl implements MyCartService {
     public void addCart(MyCart cart) {
         MyCart existing = myCartDAO.findByUserAndItem(cart.getUserId(), cart.getItemId());
         if (existing != null) {
-            // 이미 존재하면 수량 증가
             int newQuantity = existing.getQuantity() + cart.getQuantity();
             myCartDAO.updateQuantity(cart.getUserId(), cart.getItemId(), newQuantity);
         } else {

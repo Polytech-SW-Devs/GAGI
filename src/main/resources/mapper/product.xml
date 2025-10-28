@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+
+	
 	
 	<select id="list" resultType="Items">
 		SELECT i.*, C.NAME CATEGORY_NAME
 		FROM items i join CATEGORIES c ON i.CATEGORY_ID = c.CATEGORY_ID
-		WHERE user_id = #{userId}
+		WHERE user_id = #{userId} 
 		ORDER BY CREATED_AT DESC
 	</select>
 	
@@ -27,7 +29,7 @@
 	
 	<delete id="delete">
 		DELETE FROM items
-		WHERE id = #{id}
+		WHERE id = #{id} and USER_ID = #{userId}
 	</delete>
 	
 	<update id="update">
@@ -49,11 +51,43 @@
 	</select>
 	
 	<select id="totalList" resultType="Items">
-		SELECT * FROM ITEMS i LEFT JOIN USERS u ON (i.USER_ID  = u.id)
-		WHERE i.SALES_STATUS = 'available'
-		ORDER BY i.CREATED_AT DESC
+		SELECT 
+			U.ID AS UESR_ID,
+			I.ID AS ID,
+			U.NICKNAME,
+			U.EMAIL,
+			U.PHONE,
+			I.SALES_STATUS,
+			I.CREATED_AT,
+			I.CATEGORY_ID,
+			I.TITLE,
+			I.DESCRIPTION,
+			I.DELIVERY,
+			I.IS_DIRECT_DEAL,
+			I.PRICE,
+			I.AMOUNT,
+			I.BANK_ACCOUNT_NUMBER,
+			I.SALES_STATUS,
+			C.NAME CATEGORY_NAME
+		FROM USERS U 
+		RIGHT JOIN ITEMS I ON (I.USER_ID = U.ID) 
+		JOIN CATEGORIES C ON (I.CATEGORY_ID = C.CATEGORY_ID)
+		<include refid="search" />
+		ORDER BY I.CREATED_AT DESC
 	</select>
-	
+
+	<sql id="search">
+	    <where>
+	        SALES_STATUS = 'available'
+	        	<if test="search == 1">
+					 AND (TITLE like '%' || #{keyword} || '%' or DESCRIPTION like '%' || #{keyword} || '%')		
+				</if>
+				<if test="search == 2">
+					 AND (NICKNAME like '%' || #{keyword} || '%')
+				</if>
+	    </where>
+	</sql>
+
 	<update id="changeAmount">
 		UPDATE ITEMS
 		SET AMOUNT = AMOUNT + #{amount}
@@ -62,4 +96,17 @@
 			AND AMOUNT >= -#{amount}
 		</if>
 	</update>
+
+	<select id="selectCategory" resultType="Categories">
+		select *
+		from CATEGORIES
+		order by name
+	</select>
+	
+	<update id="updateViews" parameterType="int">
+		UPDATE ITEMS
+		SET VIEWS = views + 1
+		WHERE ID = #{id}
+	</update>
+
 </mapper>

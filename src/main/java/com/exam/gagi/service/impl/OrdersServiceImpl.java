@@ -62,7 +62,7 @@ public class OrdersServiceImpl implements OrdersService {
 				throw new IllegalArgumentException("주문 ID " + id + "에 해당하는 주문을 찾을 수 없습니다.");
 			}
 
-			int itemId = item.getId();
+			int itemId = item.getItemId();
 			int amount = item.getAmount();
 
 			Map<String, Object> params = new HashMap<String, Object>();

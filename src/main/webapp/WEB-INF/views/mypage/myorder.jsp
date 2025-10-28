@@ -57,11 +57,11 @@
 							class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">구매내역</a>
 						<a href="<c:url value='/mypage/mysale'/>"
 							class="nav-link text-dark py-2 px-3 text-center border rounded">판매내역</a>
-						<a href="<c:url value='/mypage/mypage'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보
-							수정</a> <a href="<c:url value='/mypage/myarticle'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">내
-							게시글 보기</a> <a href="#"
+						<a href="<c:url value='/mypage/myUpdate'/>"
+							class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보 수정</a> 
+						<a href="<c:url value='/product/list'/>"
+							class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a> 
+						<a href="#"
 							class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
 					</nav>
 				</div>

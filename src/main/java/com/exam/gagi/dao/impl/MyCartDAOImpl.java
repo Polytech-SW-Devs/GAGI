@@ -11,7 +11,7 @@ import java.util.List;
 public class MyCartDAOImpl implements MyCartDAO {
 
     private final SqlSession sqlSession;
-    private static final String NAMESPACE = "myCartMapper.";
+    private static final String NAMESPACE = "mycart.";
 
     public MyCartDAOImpl(SqlSession sqlSession) {
         this.sqlSession = sqlSession;

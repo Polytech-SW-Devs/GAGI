@@ -9,7 +9,12 @@ public class MyCart {
     private int quantity;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
+    
+    // JOIN 해서 가져올 값들
+    private String itemName;   // item 테이블에서 가져옴
+    private int price;         // item 테이블에서 가져옴
+    private String imageUrl;   // item 테이블에서 가져옴
+    
     // Getter/Setter
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -28,4 +33,24 @@ public class MyCart {
 
     public Timestamp getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 }
