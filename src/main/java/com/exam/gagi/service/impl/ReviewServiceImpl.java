@@ -23,7 +23,6 @@ public class ReviewServiceImpl extends BaseBoardServiceImpl<Review> implements R
         this.reviewDao = reviewDao;
     }
 
-
 	@Override
 	public void insert(Review review) {
 		reviewDao.insert(review);
@@ -42,6 +41,11 @@ public class ReviewServiceImpl extends BaseBoardServiceImpl<Review> implements R
 	@Override
 	public Map<String, Object> getWriteInfo(int reviewerId, int targetId) {
 		return reviewDao.selectWriteInfo(reviewerId, targetId);
+	}
+
+	@Override
+	public void insertReview(Review review) {
+		reviewDao.insertReview(review);
 	}
 
 

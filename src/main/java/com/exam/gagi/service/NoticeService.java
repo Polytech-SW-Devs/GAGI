@@ -1,5 +1,7 @@
 package com.exam.gagi.service;
 
+import java.util.List;
+
 import com.exam.gagi.model.Notice;
 
 public interface NoticeService extends BaseBoardService<Notice> {
@@ -9,5 +11,7 @@ public interface NoticeService extends BaseBoardService<Notice> {
 
 	// 단일 공지 조회
 	Notice getById(int id);
+
+//	List<Notice> list();
 
 }

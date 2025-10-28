@@ -23,7 +23,7 @@ public class ReviewDaoImpl extends BaseBoardDaoImpl<Review> implements ReviewDao
 
 	@Override
 	public void insert(Review review) {
-		sqlSession.insert(namespace + "insert", review);
+		sqlSession.insert(namespace + ".insert", review);
 	}
 	
 	@Override
@@ -41,6 +41,11 @@ public class ReviewDaoImpl extends BaseBoardDaoImpl<Review> implements ReviewDao
 		Map<String, Object> param = new HashMap<>();
         param.put("reviewerId", reviewerId);
         param.put("targetId", targetId);
-		return sqlSession.selectOne(namespace + "selectWriteInfo", param);
+		return sqlSession.selectOne(namespace + ".selectWriteInfo", param);
+	}
+
+	@Override
+	public void insertReview(Review review) {
+		sqlSession.insert(namespace + ".insertReview", review);
 	}
 }

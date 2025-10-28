@@ -136,7 +136,7 @@
 											</c:if>
 										</td>
 										<td class="text-center">
-											<a href="${pageContext.request.contextPath}/review/writeForm?productId=${order.itemId}">리뷰작성</a>
+											<a href="${pageContext.request.contextPath}/review/writeForm?orderId=${order.id}">리뷰작성</a>
 										</td>
 									</tr>
 								</c:forEach>

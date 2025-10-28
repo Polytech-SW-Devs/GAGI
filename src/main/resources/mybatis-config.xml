@@ -18,6 +18,8 @@
 		<typeAlias type="com.exam.gagi.model.Inquiry" alias="Inquiry"/>		
 		<typeAlias type="com.exam.gagi.model.Notice" alias="Notice"/>	
 		<typeAlias type="com.exam.gagi.model.Orders" alias="Orders"/>	
+		<typeAlias type="com.exam.gagi.model.Report" alias="Report"/>	
+		<typeAlias type="com.exam.gagi.model.Report" alias="Order"/>	
 
 		<typeAlias type="com.exam.gagi.model.ItemImage" alias="ItemImage"/>
 		<typeAlias type="com.exam.gagi.model.OrderSaleViewDto" alias="OrderSaleViewDto"/>
@@ -36,6 +38,8 @@
 		<mapper resource="mapper/delevery.xml"/>
 		<mapper resource="mapper/myUpdate.xml"/>
 		<mapper resource="mapper/item.xml"/>
+		<mapper resource="mapper/report.xml"/>
+		<mapper resource="mapper/order.xml"/>
 
 
 	</mappers>

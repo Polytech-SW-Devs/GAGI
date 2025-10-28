@@ -1,10 +1,6 @@
 package com.exam.gagi.controller;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exam.gagi.model.Member;
+import com.exam.gagi.model.Order;
 import com.exam.gagi.model.Review;
 import com.exam.gagi.service.MemberService;
+import com.exam.gagi.service.OrderService;
 import com.exam.gagi.service.ReviewService;
-import com.exam.gagi.service.itemService;
 
 @Controller
 @RequestMapping("/review")
@@ -35,54 +31,59 @@ public class ReviewController extends BaseBoardController<Review> {
     private MemberService memberService;
 
     @Autowired
-    private itemService itemService;
+    private OrderService orderService;
     
 	@Autowired
 	public ReviewController(ReviewService reviewService,
 							MemberService memberService,
-							itemService itemService) {
+							OrderService orderService) {
 		super(reviewService, "review");
 		this.reviewService = reviewService;
 		this.memberService = memberService;
-		this.itemService = itemService;
+		this.orderService = orderService;
 	}
 
 	@Override
-	protected int getIdFromPost(Review post) {
+	protected long getIdFromPost(Review post) {
 		return post.getId();
 	}
 	
 	// 리뷰 작성 폼
 	@GetMapping("/writeForm")
-    public String writeForm(@RequestParam("productId") int productId,
+    public String writeForm(@RequestParam("orderId") int orderId,
     		 				HttpSession session, Model model) {
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		if (loginUser == null) {
-	        // 비로그인 시 리다이렉트 처리 (로그인 페이지로)
-	        return "redirect:/login";
-	    }
-		int memberId = loginUser.getId();
-
-		// 상품명 조회
-	    String title = itemService.getTitleById(productId);
-	    System.out.println("상품명 확인: " + title);
-
-	    // 작성자 닉네임 조회
-	    String nickname = loginUser.getNickname();
-//	    String nickname = memberService.getNicknameById(memberId);
-	    System.out.println("닉네임 확인: " + nickname);
-
-	    model.addAttribute("title", title);       // EL ${title}과 매칭
-	    model.addAttribute("nickname", nickname); // EL ${nickname}과 매칭
-	    model.addAttribute("targetId", productId); // 리뷰 대상(상품) 
-	    model.addAttribute("reviewerId", memberId); // 리뷰 작성자
-//	    model.addAttribute("now", LocalDateTime.now()); // 작성일
-
-	    Date now = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-	    model.addAttribute("now", now);
+		// 주문정보 조회
+		Order order = orderService.getOrderById(orderId);
+		model.addAttribute("orderItemId", order.getId());  // order.ID
+		if (order.getItemId() == null) {
+		    // 오류 처리
+		    throw new IllegalStateException("주문에 연결된 상품이 존재하지 않습니다.");
+		}
+		model.addAttribute("targetId", order.getItemId());  // 상품 ID
+		model.addAttribute("title", order.getItemTitle());  // 상품명
+		
+		// 로그인 유저 정보
+		Member member = (Member) session.getAttribute("loginUser");
+		model.addAttribute("reviewerId", member.getId()); // 리뷰 작성자
+		model.addAttribute("nickname", member.getNickname());
+		
+		model.addAttribute("now", new Date());
 	    
 	    return "review/write";
     }
+	
+	// 리뷰 등록 처리
+	@PostMapping("/write")
+	public String write(Review review, HttpSession session) {
+		// 로그인 유저 ID 생성
+		Member member = (Member) session.getAttribute("loginUser");
+		review.setReviewerId(member.getId());
+		
+		// 리뷰 등록
+		reviewService.insertReview(review);
+		
+		return "redirect:/mypage/myorders";
+	}
 
     // 평균 평점 (AJAX)
     @GetMapping("/average/{targetId}")

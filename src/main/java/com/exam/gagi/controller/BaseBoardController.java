@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.exam.gagi.model.Report;
 import com.exam.gagi.service.BaseBoardService;
 
 public abstract class BaseBoardController<T> {
@@ -67,7 +69,7 @@ public abstract class BaseBoardController<T> {
 			return "redirect:/login";  // 로그인 안 했으면 로그인 페이지로 이동 
 		}
 		service.create(post);
-		return "redirect:/" + viewPath;
+		return "redirect:/" + viewPath + "/list";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -88,5 +90,6 @@ public abstract class BaseBoardController<T> {
 	 */
 
 	// 개별 게시판에서 구현
-	protected abstract int getIdFromPost(T post);
+	protected abstract long getIdFromPost(T post);
+
 }

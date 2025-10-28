@@ -16,4 +16,6 @@ public interface ReviewService extends BaseBoardService<Review> {
 	
 	Map<String, Object> getWriteInfo(int memberId, int productId);
 
+	void insertReview(Review review);
+
 }

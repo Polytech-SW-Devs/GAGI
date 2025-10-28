@@ -1,6 +1,7 @@
 package com.exam.gagi.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,17 @@ public class NoticeContoller extends BaseBoardController<Notice> {
 	}
 	
 	@Override
-	protected int getIdFromPost(Notice post) {
+	protected long getIdFromPost(Notice post) {
 		return post.getId();
 	}
 	
 	// 공지사항 상세 보기 + 조회수 증가 + 유효기간 체크
 	@GetMapping("/view/{id}")
 	@ResponseBody
-	public Notice viewNotice(@PathVariable int id) {
+	public Notice viewNotice(@PathVariable int id, Notice notice) {
+//		List<Notice> post = noticeService.list(); 
 		noticeService.incrementViewCount(id);  // 조회수 증가
-		Notice notice = noticeService.getById(id);
+		notice = noticeService.getById(id);
 		
 		// 유효기간 확인(만료 여부)
 		boolean active = (notice.getExpiresAt() == null || notice.getExpiresAt().isAfter(LocalDateTime.now()));

@@ -41,5 +41,3 @@
 	<a href="${pageContext.request.contextPath}/review/list">목록으로</a>
 </body>
 </html>
-</body>
-</html>

@@ -1,5 +1,7 @@
 package com.exam.gagi.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,11 @@ public class NoticeServiceImpl extends BaseBoardServiceImpl<Notice> implements N
 	public Notice getById(int id) {
 		return noticeDao.selectNotice(id);
 	}
+
+//	@Override
+//	public List<Notice> list() {
+//		return noticeDao.list();
+//	}
 	
 	
 	

@@ -25,14 +25,14 @@
         	<th>유효</th>
     	</tr>
 
-    	<c:forEach var="post" items="${list}">
+    	<c:forEach var="notice" items="${list}" varStatus="status">
         	<tr>
-            	<td>${post.id}</td>
+            	<td>${status.index + 1}</td>
             	<td>
-                	<a href="${pageContext.request.contextPath}/notice/view/${post.id}">${post.title}</a>
+                	<a href="${pageContext.request.contextPath}/notice/view/${notice.id}">${notice.title}</a>
             	</td>
-            	<td>${post.posted_at}</td>
-            	<td>${post.active ? "활성" : "만료"}</td>
+            	<td>${notice.postedAt}</td>
+            	<td>${notice.active ? "활성" : "만료"}</td>
         	</tr>
     	</c:forEach>
 	</table>
@@ -52,7 +52,5 @@
 	
 	<!-- 등록 버튼 -->
 	<a href="${pageContext.request.contextPath}/notice/write">공지 작성</a>
-</body>
-</html>
 </body>
 </html>

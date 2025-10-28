@@ -12,6 +12,15 @@
     
     <form method="post" action="${pageContext.request.contextPath}/inquiry/write">
     
+    	<!-- 로그인 세션에서 userId 가져오기 -->
+    	<input type="hidden" name="userId" value="${loginUser.id}">
+    	
+    	<!-- 상태 기본값 open -->
+        <input type="hidden" name="status" value="open">
+        
+        <!-- hidden으로 responderId null 처리 -->
+    	<input type="hidden" name="responderId" value="">
+        
     	<p>
         	<label>카테고리</label><br>
         	<select name="category">
@@ -24,19 +33,17 @@
     	
     	<p>
         	<label>제목</label><br>
-        	<input type="text" name="subject" required>
+        	<input type="text" name="subject" required maxlength="200">
     	</p>
 
     	<p>
         	<label>내용</label><br>
-        	<textarea name="content" rows="10" cols="60" required></textarea>
+        	<textarea name="message" rows="10" cols="60" required maxlength="2000"></textarea>
     	</p>
     	
     	<button type="submit">저장</button>
 	</form>
 
 	<a href="${pageContext.request.contextPath}/inquiry/list">목록으로</a>
-</body>
-</html>
 </body>
 </html>

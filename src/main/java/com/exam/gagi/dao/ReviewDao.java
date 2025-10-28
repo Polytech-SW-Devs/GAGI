@@ -18,6 +18,8 @@ public interface ReviewDao extends BaseBoardDao<Review> {
 
     // 리뷰작성 폼용: 상품명 + 닉네임 조회
 	Map<String, Object> selectWriteInfo(int reviewerId, int targetId);
+
+	void insertReview(Review review);
 	
 
 }

@@ -26,13 +26,17 @@
         	<th>작성일</th>
     	</tr>
 
-    	<c:forEach var="post" items="${list}">
+    	<c:forEach var="review" items="${list}" varStatus="status">
         	<tr>
-            	<td>${post.id}</td>
-            	<td>${post.title}</td>
-            	<td>${post.nickname}</td>
-            	<td>${post.rating_number}</td>
-            	<td>${post.created_at}</td>
+            	<td>${status.index + 1}</td>
+            	<td>
+    				<a href="${pageContext.request.contextPath}/review/${review.id}">
+        				${review.itemTitle}
+    				</a>
+				</td>
+            	<td>${review.reviewerName}</td>
+            	<td>${review.ratingNumber}</td>
+            	<td>${review.createdAt}</td>
         	</tr>
     	</c:forEach>
 	</table>
@@ -52,7 +56,5 @@
 	
 	<!-- 등록 버튼 -->
 	<a href="${pageContext.request.contextPath}/review/write">후기 작성</a>
-</body>
-</html>
 </body>
 </html>
