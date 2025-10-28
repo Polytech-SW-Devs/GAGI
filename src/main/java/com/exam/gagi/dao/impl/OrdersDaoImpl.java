@@ -67,5 +67,11 @@ public class OrdersDaoImpl implements OrdersDao {
 	public Orders item(int id) {
 		return sql.selectOne("orders.item", id);
 	}
+	
+	// SONG: 새로 추가 - 주문 저장
+    @Override
+    public void insertOrder(Orders order) {
+        sql.insert("orders.insertOrder", order);
+    }
 
 }

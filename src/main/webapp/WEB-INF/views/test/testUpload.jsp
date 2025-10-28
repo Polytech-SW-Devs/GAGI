@@ -99,7 +99,8 @@
                 <!-- 좌측 이미지 영역 -->
                 <div class="col-md-5">
                     <!-- 대표 이미지 표시 영역 -->
-                    <div id="main-preview-area" class="border rounded p-2 bg-light d-flex justify-content-center align-items-center" style="min-height: 300px; margin-bottom: 1rem;">
+                    <div id="main-preview-area" class="border rounded p-2 bg-light d-flex justify-content-center align-items-center" 
+                    	 style="min-height: 300px; margin-bottom: 1rem;">
                         <span id="main-preview-placeholder" class="text-muted">대표 사진을 선택하세요.</span>
                         <img id="main-preview-image" src="#" style="display: none; max-width: 100%; max-height: 280px; object-fit: contain;">
                     </div>

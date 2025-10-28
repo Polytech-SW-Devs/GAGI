@@ -1,8 +1,13 @@
 package com.exam.gagi.controller;
 
+import com.exam.gagi.dao.MyCartDAO;
+import com.exam.gagi.model.Member;
 import com.exam.gagi.model.MyCart;
 import com.exam.gagi.service.MyCartService;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/mycart")
@@ -22,15 +29,21 @@ public class MyCartController {
     }
     
     @GetMapping("/view/{userId}")
-    public String viewCart(@PathVariable int userId, Model model) {
+    public String viewCart(@PathVariable int userId, Model model,HttpSession session) {
+    	Member loginUser = (Member) session.getAttribute("loginUser");
+		if (loginUser == null) {
+			System.out.println("로그인 정보가 없습니다. 로그인하세요");
+			return "redirect:/login";
+		}
         List<MyCart> cartList = myCartService.getCartByUserId(userId);
-
+        
         int totalPrice = cartList.stream()
                                  .mapToInt(item -> item.getPrice() * item.getQuantity())
                                  .sum();
 
         model.addAttribute("cartList", cartList);
         model.addAttribute("totalPrice", totalPrice);
+        
 
         return "mycart"; // => mycart.jsp
     }
@@ -43,7 +56,7 @@ public class MyCartController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Map<String, Object> updateQuantity(@RequestBody MyCart cart) {
+    public ResponseEntity<Map<String, Object>> updateQuantity(@RequestBody MyCart cart) {
         System.out.println("== updateQuantity 요청 ==");
         System.out.println("userId: " + cart.getUserId());
         System.out.println("itemId: " + cart.getItemId());
@@ -51,34 +64,31 @@ public class MyCartController {
 
         Map<String, Object> response = new HashMap<>();
         try {
-            myCartService.updateCartQuantity(cart.getUserId(), cart.getItemId(), cart.getQuantity());
+            int finalQty = myCartService.updateCartQuantityWithStockCheck(
+                    cart.getUserId(), cart.getItemId(), cart.getQuantity()
+            );
+
             response.put("status", "success");
+            response.put("finalQuantity", finalQty);
+            if (finalQty < cart.getQuantity()) {
+                response.put("message", "재고가 부족하여 최대 수량(" + finalQty + ")으로 조정되었습니다.");
+            }
+
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+
         } catch (Exception e) {
             e.printStackTrace();
             response.put("status", "fail");
+            response.put("message", "수량 업데이트 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
         }
-        return response;
     }
 
-    @GetMapping("/delete")
-    public String deleteCart(@RequestParam int userId,
-                             @RequestParam int itemId) {
-        System.out.println("🛒 deleteCart 호출됨 - userId=" + userId + ", itemId=" + itemId);
-
-        myCartService.removeCartItem(userId, itemId);
-
-        System.out.println("✅ 장바구니 삭제 완료, redirect 실행");
-
-        return "redirect:/mycart/view/" + userId;
-    }
-
-    @DeleteMapping("/clear/{userId}")
-    public String clearCart(@PathVariable int userId) {
-        myCartService.clearCart(userId);
-        return "장바구니가 비워졌습니다.";
-    }
-    
-    // 장바구니 추가 (AJAX 용)
     @PostMapping("/add")
     @ResponseBody
     public Map<String, Object> addCartAjax(@RequestParam Integer userId,
@@ -87,19 +97,23 @@ public class MyCartController {
         Map<String, Object> response = new HashMap<>();
         try {
             MyCart existing = myCartService.getCartItem(userId, itemId);
+            int finalQty;
             if (existing != null) {
-                int newQuantity = existing.getQuantity() + quantity;
-                myCartService.updateCartQuantity(userId, itemId, newQuantity);
+                int requestedQty = existing.getQuantity() + quantity;
+                finalQty = myCartService.updateCartQuantityWithStockCheck(userId, itemId, requestedQty);
             } else {
-                MyCart cart = new MyCart();
-                cart.setUserId(userId);
-                cart.setItemId(itemId);
-                cart.setQuantity(quantity);
-                myCartService.addCart(cart);
+                finalQty = myCartService.addCartWithStockCheck(userId, itemId, quantity);
             }
 
             response.put("status", "success");
-            response.put("message", "장바구니에 담겼습니다.");
+            response.put("finalQuantity", finalQty);
+
+            if (finalQty < quantity) {
+                response.put("message", "재고가 부족하여 일부만 장바구니에 담겼습니다. (" + finalQty + ")");
+            } else {
+                response.put("message", "장바구니에 담겼습니다.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.put("status", "fail");
@@ -107,5 +121,30 @@ public class MyCartController {
         }
         return response;
     }
+    
+    @GetMapping("/delete")
+    public String deleteCartItem(@RequestParam int userId, @RequestParam int itemId) {
+        try {
+            // itemId가 유효한지 먼저 확인
+            Integer stock = null;
+            try {
+                stock = myCartService.getCartItem(userId, itemId) != null
+                        ? myCartService.getCartItem(userId, itemId).getQuantity()
+                        : null;
+            } catch (Exception e) {
+                stock = null;
+            }
+
+            // 장바구니에서 삭제 시도 (itemId 없어도 조용히 넘어가게)
+            myCartService.removeCartItem(userId, itemId);
+            System.out.println("🗑️ 장바구니 항목 삭제됨 (itemId=" + itemId + ")");
+
+        } catch (Exception e) {
+            System.out.println("⚠️ 이미 삭제된 아이템이거나 존재하지 않습니다: " + itemId);
+        }
+
+        return "redirect:/mycart/view/" + userId;
+    }
+    
 }
 

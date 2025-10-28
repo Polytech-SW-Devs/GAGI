@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,7 @@ public class TestController {
 		item.setItemImages(itemImages);
 		System.out.println("### CONTROLLER: 서비스 호출 직전 이미지 리스트 사이즈: " + item.getItemImages().size());
 		service.addWithImage(item);
-		return "home";
+		return "redirect:/home";
 	}
 
 	// 상품 등록 진입
@@ -180,3 +181,5 @@ public class TestController {
 		}
 	}
 }
+
+

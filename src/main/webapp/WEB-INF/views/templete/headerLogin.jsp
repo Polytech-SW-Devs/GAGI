@@ -39,6 +39,19 @@
 					<button class="btn btn-primary btn-sm">검색</button>	
 				</div>
 			</form>
+			<button type="button" onclick="location.href='${pageContext.request.contextPath}/'">전체</button>
+			<form action="${pageContext.request.contextPath}/">
+       			<button type="submit" name="categoryId" value="0">농산물</button>
+    		</form>
+			<form action="${pageContext.request.contextPath}/">
+       			<button type="submit" name="categoryId" value="1">수산물</button>
+    		</form>
+			<form action="${pageContext.request.contextPath}/">
+       			<button type="submit" name="categoryId" value="2">잡곡류</button>
+    		</form>
+			<form action="${pageContext.request.contextPath}/">
+       			<button type="submit" name="categoryId" value="3">축산물</button>
+    		</form>
 		</div>
 	</div>
 </div>

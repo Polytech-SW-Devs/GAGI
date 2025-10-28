@@ -14,6 +14,7 @@ public class MyCart {
     private String itemName;   // item 테이블에서 가져옴
     private int price;         // item 테이블에서 가져옴
     private String imageUrl;   // item 테이블에서 가져옴
+    private String filename;   // item 테이블에서 가져옴
     
     // Getter/Setter
     public int getId() { return id; }
@@ -52,5 +53,12 @@ public class MyCart {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	
 
 }

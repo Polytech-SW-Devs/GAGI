@@ -13,7 +13,7 @@ public class RecentOrderDto {
 	private int itemId; // 상품 ID
 
 	private String title; // 상품명
-	private String imageUrl; // 상품 썸네일
+	private String filename; // 상품 썸네일
 
 	public int getId() {
 		return id;
@@ -31,12 +31,12 @@ public class RecentOrderDto {
 		this.itemId = itemId;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public LocalDateTime getCreatedAt() {

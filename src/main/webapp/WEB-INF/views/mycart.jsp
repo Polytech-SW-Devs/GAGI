@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<!-- 로그인 세션에서 user 객체 가져오기 -->
+<c:set var="user" value="${sessionScope.loginUser}" />
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -112,11 +117,13 @@
     <script src="${pageContext.request.contextPath}/js/mycart.js"></script>
 </head>
 <body>
+<jsp:include page="templete/header.jsp" />
 <div class="container">
     <h1>🛒 장바구니</h1>
     <table>
         <thead>
         <tr>
+        	<th><input type="checkbox" id="select-all" checked /></th> <!-- 전체 선택 체크박스 -->
             <th>상품이미지</th>
             <th>상품명</th>
             <th>가격</th>
@@ -128,9 +135,14 @@
         <tbody>
         <c:forEach var="item" items="${cartList}">
             <tr data-userid="${item.userId}" data-itemid="${item.itemId}" data-price="${item.price}">
+            	 <!-- 체크박스 -->
+                <td>
+                    <input type="checkbox" class="cart-checkbox" checked />
+                </td>
+                
                 <!-- 상품 이미지: DB에 없으면 placeholder -->
                 <td>
-                    <img src="${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
+                    <img src="${pageContext.request.contextPath}/upload/${item.imageUrl != null ? item.imageUrl : 'https://via.placeholder.com/60'}"
                          class="product-img" alt="상품이미지">
                 </td>
                 <td>${item.itemName}</td>
@@ -138,11 +150,11 @@
                 <td>
 			      <div class="qty-wrapper">
 				    <button type="button" class="qty-btn decrease">−</button>
-				    <input type="number" class="qty-input" value="${item.quantity}" min="1" />
+				    <input type="number" class="qty-input" value="${item.quantity}" min="0" />
 				    <button type="button" class="qty-btn increase">+</button>
 				  </div>
 			    </td>
-                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원?</td>
+                <td><fmt:formatNumber value="${item.price * item.quantity}" pattern="#,###"/>원</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/mycart/delete?userId=${item.userId}&itemId=${item.itemId}" class="btn btn-danger">삭제</a>
                 </td>
@@ -157,7 +169,7 @@
                 <fmt:formatNumber value="${totalPrice}" pattern="#,###"/>원
             </span>
         </p>
-        <a href="#" class="btn btn-primary">결제하기</a>
+        <a href="${pageContext.request.contextPath}/order/checkout?userId=${user.id}" class="btn btn-primary">결제하기</a>
     </div>
 </div>
 </body>

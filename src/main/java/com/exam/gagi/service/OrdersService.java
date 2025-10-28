@@ -2,6 +2,7 @@ package com.exam.gagi.service;
 
 import java.util.List;
 
+import com.exam.gagi.model.MyCart;
 import com.exam.gagi.model.MypageViewDto;
 import com.exam.gagi.model.OrderSaleViewDto;
 import com.exam.gagi.model.Orders;
@@ -30,5 +31,12 @@ public interface OrdersService {
 
 	// 주문번호로 Orders 조회
 	Orders item(int id);
+	
+	// song ✅ 새로 추가: 장바구니 기반 주문 완료 처리
+	 
+	 void completeOrder(int userId, String receiverName, String receiverPhone, String zipCode, String addressMain,
+			String addressDetail, List<MyCart> cartList);
 
+	 void saveOrder(Orders order);
+    
 }

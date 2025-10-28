@@ -33,6 +33,8 @@ public class Member {
 	// 비밀번호 확인용
 	private String confirmPassword;
 
+	private String newPassword;
+
 	public int getId() {
 		return id;
 	}
@@ -146,4 +148,11 @@ public class Member {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 }

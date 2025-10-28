@@ -30,5 +30,8 @@ public interface OrdersDao {
 
 	// 주문번호로 Orders 조회
 	Orders item(int id);
-
+	
+	 // SONG 새로 추가: 주문 저장
+    void insertOrder(Orders order);
+    
 }

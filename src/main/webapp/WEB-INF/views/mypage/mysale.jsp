@@ -5,168 +5,353 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>마이페이지 - 판매내역</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가지마켓 - 판매내역</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    div {
-        box-sizing: border-box;
-    }
-    .sidebar {
-        float: left;
-        width: 20%;
-        min-height: 100vh;
-        border-right: 1px solid #ccc;
-        padding: 20px;
-    }
-    .main-content {
-        float: left;
-        width: 75%;
-        margin-left: 20px;
-        padding: 20px;
-    }
-    h3 {
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-    nav p {
-        margin: 5px 0;
-    }
-    nav a {
-        text-decoration: none;
-        color: #333;
-        display: block;
-        padding: 5px 0;
-    }
-    nav a:hover {
-        color: #007bff;
-    }
-    nav a.active {
-        font-weight: bold;
-        color: #007bff;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-        vertical-align: middle; /* 추가: 셀 내용 수직 가운데 정렬 */
-    }
-    th {
-        background-color: #f2f2f2;
-    }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	background: white;
+	min-height: 100vh;
+}
+
+/* ===== MAIN ===== */
+main {
+	max-width: 1920px;
+	margin: 0 auto;
+	padding: 50px 360px 80px;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	gap: 30px;
+}
+
+
+
+.main-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.purchase-history {
+	background: white;
+	border: 2px solid #ddd;
+	border-radius: 15px;
+	padding: 30px;
+	transition: all 0.3s ease;
+}
+
+.purchase-history:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #ddd;
+}
+
+.history-header h3 {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+/* 필터 버튼 스타일 */
+.filter-buttons {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 30px;
+	flex-wrap: wrap;
+}
+
+.filter-btn {
+	padding: 10px 20px;
+	border: 2px solid #ddd;
+	background: white;
+	color: #333;
+	text-decoration: none;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+	background: #f5f5f5;
+	border-color: #501845;
+	color: #501845;
+	transform: translateY(-2px);
+}
+
+.filter-btn.active {
+	background: #501845;
+	border-color: #501845;
+	color: white;
+}
+
+.table-container {
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 15px;
+	text-align: center;
+	font-size: 16px;
+	border-bottom: 1px solid #eee;
+}
+
+th {
+	font-weight: 500;
+	background: #f9f9f9;
+	border-bottom: 2px solid #ddd;
+}
+
+/* 주문번호 버튼 스타일 */
+.order-number-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 18px;
+	background: linear-gradient(135deg, #501845 0%, #6a1f5a 100%);
+	color: white;
+	text-decoration: none;
+	border-radius: 10px;
+	font-weight: 600;
+	font-size: 15px;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 8px rgba(80, 24, 69, 0.3);
+	letter-spacing: 0.5px;
+	min-width: 80px;
+}
+
+.order-number-link:hover {
+	background: linear-gradient(135deg, #6a1f5a 0%, #501845 100%);
+	transform: translateY(-2px) scale(1.05);
+	box-shadow: 0 4px 12px rgba(80, 24, 69, 0.4);
+	color: white;
+	text-decoration: none;
+}
+
+.order-number-link:active {
+	transform: translateY(0) scale(1);
+	box-shadow: 0 2px 6px rgba(80, 24, 69, 0.3);
+}
+
+.order-number-link::before {
+	content: '#';
+	margin-right: 2px;
+	opacity: 0.8;
+}
+
+/* 상태 선택 셀렉트 박스 */
+.status-select {
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 14px;
+	background: white;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.status-select:hover:not(:disabled) {
+	border-color: #501845;
+}
+
+.status-select:disabled {
+	background: #f5f5f5;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.empty-state {
+	text-align: center;
+	padding: 60px 20px;
+	color: #8E8E8E;
+	font-size: 16px;
+}
+
+.empty-state i {
+	font-size: 48px;
+	display: block;
+	margin-bottom: 15px;
+}
+
+/* 페이지네이션 */
+.pagination-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.pagination {
+	display: flex;
+	gap: 5px;
+	list-style: none;
+	align-items: center;
+}
+
+.pagination li {
+	display: inline-block;
+}
+
+.pagination a {
+	display: block;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	background: white;
+	color: #333;
+	text-decoration: none;
+	border-radius: 8px;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	min-width: 40px;
+	text-align: center;
+}
+
+.pagination a:hover {
+	background: #f5f5f5;
+	border-color: #501845;
+	color: #501845;
+}
+
+.pagination li.active a {
+	background: #501845;
+	border-color: #501845;
+	color: white;
+	font-weight: 500;
+}
+
+@media (max-width: 1600px) {
+	main {
+		padding: 50px 100px 80px;
+	}
+}
+
+@media (max-width: 1400px) {
+	main {
+		padding: 50px 50px 80px;
+	}
+	
+	.container {
+		flex-direction: column;
+	}
+	
+	.sidebar {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+}
+
+@media (max-width: 768px) {
+	main {
+		padding: 30px 20px 50px;
+	}
+	
+	.filter-buttons {
+		justify-content: center;
+	}
+	
+	table {
+		font-size: 14px;
+	}
+	
+	th, td {
+		padding: 10px 5px;
+	}
+	
+	.order-number-link {
+		padding: 8px 14px;
+		font-size: 13px;
+		min-width: 70px;
+	}
+}
 </style>
-<jsp:include page="../templete/logo.jsp"></jsp:include>
+
 <script>
 const contextPath = "${pageContext.request.contextPath}";
 </script>
 <script src="${pageContext.request.contextPath}/js/mypage/mysale.js"></script>
 </head>
-<body class="bg-light">
-    <!-- 헤더 영역 -->
-    <header class="bg-white border-bottom py-3 mb-4">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
-                <!-- 로고 -->
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-egg-fried text-warning me-2" style="font-size: 2rem;"></i>
-                    <h1 class="h3 mb-0 text-dark fw-bold">가지 마켓</h1>
-                </div>
-                <!-- 우측 버튼들 -->
-                <div class="d-flex gap-2">
-                    <button class="btn btn-success btn-sm px-3">로그아웃</button>
-                    <button class="btn btn-outline-secondary btn-sm px-3">장바구니</button>
-                </div>
-            </div>
-        </div>
-    </header>
+<body>
+    <%@ include file="../templete/header.jsp" %>
 
-    <!-- 메인 컨텐츠 -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- 왼쪽 공백 영역 -->
-            <div class="col-2"></div>
-            
-            <!-- 사이드바 -->
-            <div class="col-2 pe-0">
-                <div class="bg-white rounded border p-3">
-                    <h5 class="text-center mb-4 fw-bold">마이페이지</h5>
-                    <nav class="nav flex-column gap-2">
-                        <a href="<c:url value='/mypage/myorder'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">구매내역</a>
-                        <a href="<c:url value='/mypage/mysale'/>" class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">판매내역</a>
-                        <a href="<c:url value='/mypage/myUpdate'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보 수정</a>
-                        <a href="<c:url value='/product/list'/>" class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a>
-                        <a href="#" class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
-                    </nav>
-                </div>
-            </div>
+    <main>
+        <div class="container">
+           <!-- 사이드바 -->
+			<jsp:include page="/WEB-INF/views/templete/mypageSidebar.jsp" />
 
-            <!-- 메인 컨테이너 -->
-            <div class="col-6 px-3">
-                <div class="bg-white rounded border p-4">
-                    <h4 class="mb-4 text-start fw-bold">판매 내역</h4>
+            <div class="main-content">
+                <section class="purchase-history">
+                    <div class="history-header">
+                        <h3>판매 내역</h3>
+                    </div>
 
                     <!-- 주문 상태 필터 버튼 -->
-                    <div class="d-flex justify-content-start gap-2 mb-3">
-						<a href="<c:url value='/mypage/mysale'/>" class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
-						<a href="<c:url value='/mypage/mysale?orderStatus=입금준비'/>" class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
-						<a href="<c:url value='/mypage/mysale?orderStatus=입금완료'/>" class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
-						<a href="<c:url value='/mypage/mysale?orderStatus=배송중'/>" class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
-						<a href="<c:url value='/mypage/mysale?orderStatus=배송완료'/>" class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
-						<a href="<c:url value='/mypage/mysale?orderStatus=취소'/>" class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
-					</div>
+                    <div class="filter-buttons">
+                        <a href="<c:url value='/mypage/mysale'/>" class="filter-btn ${empty param.orderStatus ? 'active' : ''}">전체</a>
+                        <a href="<c:url value='/mypage/mysale?orderStatus=입금준비'/>" class="filter-btn ${param.orderStatus == '입금준비' ? 'active' : ''}">입금준비</a>
+                        <a href="<c:url value='/mypage/mysale?orderStatus=입금완료'/>" class="filter-btn ${param.orderStatus == '입금완료' ? 'active' : ''}">입금완료</a>
+                        <a href="<c:url value='/mypage/mysale?orderStatus=배송중'/>" class="filter-btn ${param.orderStatus == '배송중' ? 'active' : ''}">배송중</a>
+                        <a href="<c:url value='/mypage/mysale?orderStatus=배송완료'/>" class="filter-btn ${param.orderStatus == '배송완료' ? 'active' : ''}">배송완료</a>
+                        <a href="<c:url value='/mypage/mysale?orderStatus=취소'/>" class="filter-btn ${param.orderStatus == '취소' ? 'active' : ''}">취소</a>
+                    </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-0">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th class="py-3" style="width: 10%;">주문번호</th>
-                                    <th class="py-3" style="width: 15%;">주문일자</th>
-                                    <th class="py-3">상품명</th>
-                                    <th class="py-3" style="width: 8%;">수량</th>
-
-                                    <th class="py-3" style="width: 15%;">총 가격</th>
-                                    <th class="py-3" style="width: 12%;">주문상태</th>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">주문번호</th>
+                                    <th style="width: 15%;">주문일자</th>
+                                    <th>상품명</th>
+                                    <th style="width: 8%;">수량</th>
+                                    <th style="width: 15%;">총 가격</th>
+                                    <th style="width: 12%;">주문상태</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:if test="${empty list}">
                                     <tr>
-                                        <td colspan="6" class="text-center py-5 text-muted">
-                                            <div>
-                                                <i class="bi bi-inbox text-muted mb-2" style="font-size: 2rem;"></i>
-                                                <div>판매 내역이 없습니다</div>
-                                            </div>
+                                        <td colspan="6" class="empty-state">
+                                            <i>📦</i>
+                                            <div>판매 내역이 없습니다</div>
                                         </td>
                                     </tr>
                                 </c:if>
 
                                 <c:forEach var="order" items="${list}">
-                                    <tr class="text-center">
+                                    <tr>
                                         <td class="align-middle">
-                                            <a href="<c:url value='/mypage/mysaleDetail/${order.id}'/>" class="text-decoration-none text-primary fw-bold">${order.id}</a>
+                                            <a href="javascript:void(0);" onclick="window.open('<c:url value='/mypage/mysaleDetail/${order.id}'/>', '_blank', 'width=750,height=800');" class="order-number-link">${order.id}</a>
                                         </td>
-                                        <td class="align-middle">
-                                            <!-- LocalDateTime 대신 변환된 Date getter 사용 -->
+                                        <td>
                                             <fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd HH:mm" />
                                         </td>
-                                        <td class="text-start ps-3">${order.title}</td>
-                                        <td>${order.amount}개</td>                                   
-
-                                        <td class="text-end fw-bold"><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
-                                        <td class="align-middle">
+                                        <td>${order.title}</td>
+                                        <td>${order.amount}개</td>
+                                        <td><fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원</td>
+                                        <td>
                                             <select class="status-select" data-order-id="${order.id}" data-current-status="${order.orderStatus}"
                                             ${order.orderStatus == '취소' ? 'disabled' : ''}>
                                                 <option value="입금준비" ${order.orderStatus == '입금준비' ? 'selected' : ''}>입금준비</option>
@@ -183,37 +368,34 @@ const contextPath = "${pageContext.request.contextPath}";
                     </div>
 
                     <!-- 페이지네이션 -->
-                    <div class="d-flex justify-content-center mt-4">
-                        <nav aria-label="페이지 네비게이션">
-                            <ul class="pagination pagination-sm">
-                                <li class="page-item">
-                                    <a href="?page=1${pager.query}" class="page-link">처음</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
-                                </li>
+                    <div class="pagination-container">
+                        <ul class="pagination">
+                            <li>
+                                <a href="?page=1${pager.query}">처음</a>
+                            </li>
+                            <li>
+                                <a href="?page=${pager.prev}${pager.query}">이전</a>
+                            </li>
 
-                                <c:forEach var="page" items="${pager.list}">
-                                    <li class="page-item ${pager.page == page ? 'active' : ''}">
-                                        <a href="?page=${page}${pager.query}" class="page-link">${page}</a>
-                                    </li>
-                                </c:forEach>
+                            <c:forEach var="page" items="${pager.list}">
+                                <li class="${pager.page == page ? 'active' : ''}">
+                                    <a href="?page=${page}${pager.query}">${page}</a>
+                                </li>
+                            </c:forEach>
 
-                                <li class="page-item">
-                                    <a href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
-                                </li>
-                            </ul>
-                        </nav>
+                            <li>
+                                <a href="?page=${pager.next}${pager.query}">다음</a>
+                            </li>
+                            <li>
+                                <a href="?page=${pager.last}${pager.query}">마지막</a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
+                </section>
             </div>
-
-            <!-- 오른쪽 공백 영역 -->
-            <div class="col-2"></div>
         </div>
-    </div>
+    </main>
+
+    <%@ include file="../templete/footer.jsp" %>
 </body>
 </html>

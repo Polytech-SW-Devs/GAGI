@@ -1,91 +1,362 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>마이페이지 - 구매내역</title>
-<jsp:include page="../templete/logo.jsp"></jsp:include>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가지마켓 - 구매내역</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	background: white;
+	min-height: 100vh;
+}
+
+/* ===== MAIN ===== */
+main {
+	max-width: 1920px;
+	margin: 0 auto;
+	padding: 50px 360px 80px;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	gap: 30px;
+}
+
+
+
+.main-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.purchase-history {
+	background: white;
+	border: 2px solid #ddd;
+	border-radius: 15px;
+	padding: 30px;
+	transition: all 0.3s ease;
+}
+
+.purchase-history:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #ddd;
+}
+
+.history-header h3 {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+/* 필터 버튼 스타일 */
+.filter-buttons {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 30px;
+	flex-wrap: wrap;
+}
+
+.filter-btn {
+	padding: 10px 20px;
+	border: 2px solid #ddd;
+	background: white;
+	color: #333;
+	text-decoration: none;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+	background: #f5f5f5;
+	border-color: #501845;
+	color: #501845;
+	transform: translateY(-2px);
+}
+
+.filter-btn.active {
+	background: #501845;
+	border-color: #501845;
+	color: white;
+}
+
+.table-container {
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 15px;
+	text-align: center;
+	font-size: 16px;
+	border-bottom: 1px solid #eee;
+}
+
+th {
+	font-weight: 500;
+	background: #f9f9f9;
+	border-bottom: 2px solid #ddd;
+}
+
+/* 상품 정보 셀 */
+.product-info {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	text-align: left;
+}
+
+.product-image {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 8px;
+	flex-shrink: 0;
+}
+
+.product-image-placeholder {
+	width: 80px;
+	height: 80px;
+	background-color: #f5f5f5;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	flex-shrink: 0;
+}
+
+.product-details {
+	flex: 1;
+}
+
+.product-title {
+	text-decoration: none;
+	color: #333;
+	font-weight: 500;
+	display: block;
+	margin-bottom: 5px;
+}
+
+.product-title:hover {
+	color: #501845;
+}
+
+.product-quantity {
+	color: #666;
+	font-size: 14px;
+}
+
+/* 주문 상태 배지 */
+.status-badge {
+	display: inline-block;
+	padding: 6px 12px;
+	background: #501845;
+	color: white;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 8px;
+}
+
+/* 취소 버튼 */
+.cancel-btn {
+	padding: 6px 12px;
+	border: 1px solid #ddd;
+	background: white;
+	color: #333;
+	border-radius: 6px;
+	font-size: 13px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+	background: #f8d7da;
+	border-color: #f5c6cb;
+	color: #721c24;
+}
+
+/* 리뷰 작성 링크 */
+.review-link {
+	color: #501845;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 14px;
+}
+
+.review-link:hover {
+	text-decoration: underline;
+}
+
+.empty-state {
+	text-align: center;
+	padding: 60px 20px;
+	color: #8E8E8E;
+	font-size: 16px;
+}
+
+.empty-state i {
+	font-size: 48px;
+	display: block;
+	margin-bottom: 15px;
+}
+
+/* 페이지네이션 */
+.pagination-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.pagination {
+	display: flex;
+	gap: 5px;
+	list-style: none;
+	align-items: center;
+}
+
+.pagination li {
+	display: inline-block;
+}
+
+.pagination a {
+	display: block;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	background: white;
+	color: #333;
+	text-decoration: none;
+	border-radius: 8px;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	min-width: 40px;
+	text-align: center;
+}
+
+.pagination a:hover {
+	background: #f5f5f5;
+	border-color: #501845;
+	color: #501845;
+}
+
+.pagination li.active a {
+	background: #501845;
+	border-color: #501845;
+	color: white;
+	font-weight: 500;
+}
+
+@media (max-width: 1600px) {
+	main {
+		padding: 50px 100px 80px;
+	}
+}
+
+@media (max-width: 1400px) {
+	main {
+		padding: 50px 50px 80px;
+	}
+	
+	.container {
+		flex-direction: column;
+	}
+	
+	.sidebar {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+}
+
+@media (max-width: 768px) {
+	main {
+		padding: 30px 20px 50px;
+	}
+	
+	.filter-buttons {
+		justify-content: center;
+	}
+	
+	.product-info {
+		flex-direction: column;
+		text-align: center;
+	}
+	
+	table {
+		font-size: 14px;
+	}
+	
+	th, td {
+		padding: 10px 5px;
+	}
+	
+	.product-image,
+	.product-image-placeholder {
+		width: 60px;
+		height: 60px;
+	}
+}
+</style>
+
 <script>
-	const contextPath = "${pageContext.request.contextPath}";
+const contextPath = "${pageContext.request.contextPath}";
 </script>
 <script src="${pageContext.request.contextPath}/js/mypage/myorder.js"></script>
 </head>
-<body class="bg-light">
-	<!-- 헤더 영역 -->
-	<header class="bg-white border-bottom py-3 mb-4">
-		<div class="container-fluid">
-			<div class="d-flex justify-content-between align-items-center">
-				<!-- 로고 -->
-				<div class="d-flex align-items-center">
-					<i class="bi bi-egg-fried text-warning me-2"
-						style="font-size: 2rem;"></i>
-					<h1 class="h3 mb-0 text-dark fw-bold">가지 마켓</h1>
-				</div>
-				<!-- 우측 버튼들 -->
-				<div class="d-flex gap-2">
-					<button class="btn btn-success btn-sm px-3">로그아웃</button>
-					<button class="btn btn-outline-secondary btn-sm px-3">장바구니</button>
-				</div>
-			</div>
-		</div>
-	</header>
+<body>
+	<%@ include file="../templete/header.jsp" %>
 
-	<!-- 메인 컨텐츠 -->
-	<div class="container-fluid">
-		<div class="row">
-			<!-- 왼쪽 공백 영역 -->
-			<div class="col-2"></div>
-
+	<main>
+		<div class="container">
 			<!-- 사이드바 -->
-			<div class="col-2 pe-0">
-				<div class="bg-white rounded border p-3">
-					<h5 class="text-center mb-4 fw-bold">마이페이지</h5>
-					<nav class="nav flex-column gap-2">
-						<a href="<c:url value='/mypage/myorder'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded bg-light fw-bold">구매내역</a>
-						<a href="<c:url value='/mypage/mysale'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">판매내역</a>
-						<a href="<c:url value='/mypage/myUpdate'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">개인정보 수정</a> 
-						<a href="<c:url value='/product/list'/>"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">내 게시글 보기</a> 
-						<a href="#"
-							class="nav-link text-dark py-2 px-3 text-center border rounded">회원탈퇴</a>
-					</nav>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/views/templete/mypageSidebar.jsp" />
 
-			<!-- 메인 컨테이너 -->
-			<div class="col-6 px-3">
-				<div class="bg-white rounded border p-4">
-					<h4 class="mb-4 text-start fw-bold">구매 내역</h4>
-
-					<!-- 주문 상태 필터 버튼 -->
-					<div class="d-flex justify-content-start gap-2 mb-3">
-						<a href="<c:url value='/mypage/myorder'/>" class="btn btn-sm ${empty param.orderStatus ? 'btn-primary' : 'btn-outline-primary'}">전체</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=입금준비'/>" class="btn btn-sm ${param.orderStatus == '입금준비' ? 'btn-primary' : 'btn-outline-primary'}">입금준비</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=입금완료'/>" class="btn btn-sm ${param.orderStatus == '입금완료' ? 'btn-primary' : 'btn-outline-primary'}">입금완료</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=배송중'/>" class="btn btn-sm ${param.orderStatus == '배송중' ? 'btn-primary' : 'btn-outline-primary'}">배송중</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=배송완료'/>" class="btn btn-sm ${param.orderStatus == '배송완료' ? 'btn-primary' : 'btn-outline-primary'}">배송완료</a>
-						<a href="<c:url value='/mypage/myorder?orderStatus=취소'/>" class="btn btn-sm ${param.orderStatus == '취소' ? 'btn-primary' : 'btn-outline-primary'}">취소</a>
+			<div class="main-content">
+				<section class="purchase-history">
+					<div class="history-header">
+						<h3>구매 내역</h3>
 					</div>
 
-					<div class="table-responsive">
-						<table class="table table-bordered align-middle">
-							<thead class="table-light">
-								<tr class="text-center">
+					<!-- 주문 상태 필터 버튼 -->
+					<div class="filter-buttons">
+						<a href="<c:url value='/mypage/myorder'/>" class="filter-btn ${empty param.orderStatus ? 'active' : ''}">전체</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금준비'/>" class="filter-btn ${param.orderStatus == '입금준비' ? 'active' : ''}">입금준비</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=입금완료'/>" class="filter-btn ${param.orderStatus == '입금완료' ? 'active' : ''}">입금완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송중'/>" class="filter-btn ${param.orderStatus == '배송중' ? 'active' : ''}">배송중</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=배송완료'/>" class="filter-btn ${param.orderStatus == '배송완료' ? 'active' : ''}">배송완료</a>
+						<a href="<c:url value='/mypage/myorder?orderStatus=취소'/>" class="filter-btn ${param.orderStatus == '취소' ? 'active' : ''}">취소</a>
+					</div>
+
+					<div class="table-container">
+						<table>
+							<thead>
+								<tr>
 									<th style="width: 15%;">주문일자</th>
 									<th style="width: 45%;">상품정보</th>
 									<th style="width: 15%;">주문금액</th>
@@ -96,47 +367,51 @@
 							<tbody>
 								<c:if test="${empty list}">
 									<tr>
-										<td colspan="5" class="text-center py-5 text-muted">
-											<div>
-												<i class="bi bi-inbox text-muted mb-2"
-													style="font-size: 2rem;"></i>
-												<div>구매 내역이 없습니다</div>
-											</div>
+										<td colspan="5" class="empty-state">
+											<i>📦</i>
+											<div>구매 내역이 없습니다</div>
 										</td>
 									</tr>
 								</c:if>
 
 								<c:forEach var="order" items="${list}">
 									<tr>
-										<td class="text-center small"><fmt:formatDate
-												value="${order.createdAtDate}" pattern="yyyy-MM-dd" /></td>
 										<td>
-											<div class="d-flex align-items-center">
-												<img src="<c:url value='${order.imageUrl}'/>"
-													alt="${order.title}" class="rounded"
-													style="width: 60px; height: 60px; object-fit: cover;">
-												<div class="ms-3">
-													<a href="<c:url value='/items/${order.itemId}'/>"
-														class="text-decoration-none text-dark fw-bold">${order.title}</a>
-													<div class="text-muted small">${order.amount}개</div>
+											<fmt:formatDate value="${order.createdAtDate}" pattern="yyyy-MM-dd" />
+										</td>
+										<td>
+											<div class="product-info">
+												<c:choose>
+													<c:when test="${not empty order.filename}">
+														<img src="${pageContext.request.contextPath}/upload/${order.filename}"
+															alt="${order.title}" class="product-image">
+													</c:when>
+													<c:otherwise>
+														<div class="product-image-placeholder"></div>
+													</c:otherwise>
+												</c:choose>
+												<div class="product-details">
+													<a href="<c:url value='/product/detail/${order.itemId}'/>" class="product-title">${order.title}</a>
+													<div class="product-quantity">${order.amount}개</div>
 												</div>
 											</div>
 										</td>
-										<td class="text-center fw-bold"><fmt:formatNumber
-												value="${order.totalPrice}" pattern="#,##0" />원</td>
-										<td class="text-center">
+										<td>
+											<fmt:formatNumber value="${order.totalPrice}" pattern="#,##0" />원
+										</td>
+										<td>
 											<div>
-												<span class="badge bg-primary">${order.orderStatus}</span>
-											</div> 
+												<span class="status-badge">${order.orderStatus}</span>
+											</div>
 											<c:if test="${order.orderStatus == '입금준비' || order.orderStatus == '입금완료'}">
-												<button
-													class="btn btn-outline-secondary btn-sm py-0 px-1 cancel-order-btn"
-													data-order-id="${order.id}">주문취소</button>
-
+												<button class="cancel-btn cancel-order-btn" data-order-id="${order.id}">주문취소</button>
 											</c:if>
 										</td>
+
 										<td class="text-center">
 											<a href="${pageContext.request.contextPath}/review/writeForm?orderId=${order.id}">리뷰작성</a>
+										<td>
+											<a href="${pageContext.request.contextPath}/review/writeForm?productId=${order.itemId}" class="review-link">리뷰작성</a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -145,36 +420,34 @@
 					</div>
 
 					<!-- 페이지네이션 -->
-					<div class="d-flex justify-content-center mt-4">
-						<nav aria-label="페이지 네비게이션">
-							<ul class="pagination pagination-sm">
-								<li class="page-item"><a href="?page=1${pager.query}"
-									class="page-link">처음</a></li>
-								<li class="page-item"><a
-									href="?page=${pager.prev}${pager.query}" class="page-link">이전</a>
-								</li>
+					<div class="pagination-container">
+						<ul class="pagination">
+							<li>
+								<a href="?page=1${pager.query}">처음</a>
+							</li>
+							<li>
+								<a href="?page=${pager.prev}${pager.query}">이전</a>
+							</li>
 
-								<c:forEach var="page" items="${pager.list}">
-									<li class="page-item ${pager.page == page ? 'active' : ''}">
-										<a href="?page=${page}${pager.query}" class="page-link">${page}</a>
-									</li>
-								</c:forEach>
+							<c:forEach var="page" items="${pager.list}">
+								<li class="${pager.page == page ? 'active' : ''}">
+									<a href="?page=${page}${pager.query}">${page}</a>
+								</li>
+							</c:forEach>
 
-								<li class="page-item"><a
-									href="?page=${pager.next}${pager.query}" class="page-link">다음</a>
-								</li>
-								<li class="page-item"><a
-									href="?page=${pager.last}${pager.query}" class="page-link">마지막</a>
-								</li>
-							</ul>
-						</nav>
+							<li>
+								<a href="?page=${pager.next}${pager.query}">다음</a>
+							</li>
+							<li>
+								<a href="?page=${pager.last}${pager.query}">마지막</a>
+							</li>
+						</ul>
 					</div>
-				</div>
+				</section>
 			</div>
-
-			<!-- 오른쪽 공백 영역 -->
-			<div class="col-2"></div>
 		</div>
-	</div>
+	</main>
+
+	<%@ include file="../templete/footer.jsp" %>
 </body>
 </html>

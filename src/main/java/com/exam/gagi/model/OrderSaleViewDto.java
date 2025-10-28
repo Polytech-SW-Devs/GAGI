@@ -1,5 +1,6 @@
 package com.exam.gagi.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -17,7 +18,17 @@ public class OrderSaleViewDto {
 	private Integer totalPrice;
 	// 주문처리 상태(Orders)
 	private String orderStatus;
-
+	// 주문자 (users)
+	private int userId;
+	// 이미지 (items)
+	private String itmeImage;
+	// 상품 단가 (items)
+	private int price;
+	// 상품 아이디 (items)
+	private int itemId;
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -64,6 +75,38 @@ public class OrderSaleViewDto {
 
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getItmeImage() {
+		return itmeImage;
+	}
+
+	public void setItmeImage(String itmeImage) {
+		this.itmeImage = itmeImage;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
 	}
 
 	// JSP용 getter
