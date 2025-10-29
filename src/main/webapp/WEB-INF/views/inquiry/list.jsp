@@ -202,7 +202,7 @@ td a:hover {
 </style>
 </head>
 <body>
-
+<%-- 
 	<h1>문의 목록</h1>
     
     <!-- 검색 -->
@@ -249,9 +249,10 @@ td a:hover {
 	
 	<!-- 등록 버튼 -->
 	<a href="${pageContext.request.contextPath}/inquiry/write">문의 작성</a>
+	
 </body>
 </html>
-
+--%>
 <jsp:include page="../templete/header.jsp"></jsp:include>
 
 <main>
@@ -277,17 +278,17 @@ td a:hover {
 					<th>작성일</th>
 				</tr>
 
-				<c:forEach var="post" items="${list}">
-					<tr>
-						<td>${post.id}</td>
-						<td>${post.category}</td>
-						<td>
-							<a href="${pageContext.request.contextPath}/inquiry/${post.id}">${post.subject}</a>
-						</td>
-						<td>${post.status}</td>
-						<td>${post.created_at}</td>
-					</tr>
-				</c:forEach>
+				<c:forEach var="inquiry" items="${list}" varStatus="status">
+        			<tr>
+            			<td>${status.index + 1}</td>
+            			<td>${inquiry.category}</td>
+            			<td>
+                			<a href="${pageContext.request.contextPath}/inquiry/${inquiry.id}">${inquiry.subject}</a>
+            			</td>
+            			<td>${inquiry.status}</td>
+            			<td>${inquiry.createdAt}</td>
+        			</tr>
+    			</c:forEach>
 			</table>
 		</div>
 

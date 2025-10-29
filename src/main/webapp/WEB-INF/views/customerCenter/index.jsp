@@ -38,17 +38,16 @@
     </style>
 </head>
 <body>
+ 
 	<h2>고객센터</h2>
-
-	<p>아래 메뉴를 클릭하면 각 게시판으로 이동합니다.</p>
-
+	<br>
 	<div class="tab-menu">
         <button class="tab-btn active" data-target="notice">공지사항</button>
         <button class="tab-btn" data-target="review">후기</button>
         <button class="tab-btn" data-target="inquiry">문의</button>
         <button class="tab-btn" data-target="report">신고</button>
     </div>
-    
+   
     <!-- 탭 컨텐츠 -->
     <div id="notice" class="tab-content active">
         <div class="loading">불러오는 중...</div>

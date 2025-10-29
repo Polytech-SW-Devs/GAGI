@@ -173,7 +173,7 @@ td a:hover {
 </style>
 </head>
 <body>
-
+<%-- 
 	<h1>공지사항 목록</h1>
     
     <!-- 검색 -->
@@ -220,7 +220,7 @@ td a:hover {
 	<a href="${pageContext.request.contextPath}/notice/write">공지 작성</a>
 </body>
 </html>
-
+--%>
 <jsp:include page="../templete/header.jsp"></jsp:include>
 
 <main>
@@ -232,28 +232,22 @@ td a:hover {
 		<div class="table-container">
 			<table>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>게시일</th>
-					<th>상태</th>
-				</tr>
+        			<th>번호</th>
+        			<th>제목</th>
+        			<th>작성일</th>
+        			<th>유효</th>
+    			</tr>
 
-				<c:forEach var="post" items="${noticeList}">
-					<tr>
-						<td>${post.id}</td>
-						<td>
-							<a href="${pageContext.request.contextPath}/notice/view/${post.id}">
-								${post.title}
-							</a>
-						</td>
-						<td><fmt:formatDate value="${post.postedAt}" pattern="yyyy-MM-dd HH:mm" /></td>
-						<td>
-							<span class="${post.active ? 'status-active' : 'status-expired'}">
-								${post.active ? '활성' : '만료'}
-							</span>
-						</td>
-					</tr>
-				</c:forEach>
+    			<c:forEach var="notice" items="${list}" varStatus="status">
+        			<tr>
+            			<td>${status.index + 1}</td>
+            			<td>
+                			<a href="${pageContext.request.contextPath}/notice/view/${notice.id}">${notice.title}</a>
+            			</td>
+            			<td>${notice.postedAt}</td>
+            			<td>${notice.active ? "활성" : "만료"}</td>
+        			</tr>
+    	</c:forEach>
 			</table>
 		</div>
 
@@ -274,6 +268,10 @@ td a:hover {
 					<li><a href="?page=${page+1}">다음</a></li>
 				</c:if>
 			</ul>
+		</div>
+		
+		<div class="write-btn-container">
+			<a href="${pageContext.request.contextPath}/notice/write" class="write-btn">공지 작성</a>
 		</div>
 
 		<!-- 관리자용 등록 버튼 -->

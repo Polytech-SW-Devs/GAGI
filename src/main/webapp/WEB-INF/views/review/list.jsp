@@ -196,6 +196,7 @@ td a:hover {
 </style>
 </head>
 <body>
+<%-- 
 	<h1>후기 목록</h1>
     
     <!-- 검색 -->
@@ -246,7 +247,7 @@ td a:hover {
 	<a href="${pageContext.request.contextPath}/review/write">후기 작성</a>
 </body>
 </html>
-
+--%>
 <jsp:include page="../templete/header.jsp"></jsp:include>
 
 <main>
@@ -265,24 +266,26 @@ td a:hover {
 		<div class="table-container">
 			<table>
 				<tr>
-					<th>번호</th>
-					<th>리뷰 내용</th>
-					<th>작성자</th>
-					<th>평점</th>
-					<th>작성일</th>
-					<th>상태</th>
-				</tr>
+        			<th>번호</th>
+        			<th>상품명</th>
+        			<th>작성자</th>
+        			<th>평점</th>
+        			<th>작성일</th>
+    			</tr>
 
-				<c:forEach var="post" items="${list}">
-					<tr>
-						<td>${post.id}</td>
-						<td><a href="${pageContext.request.contextPath}/review/view/${post.id}">${post.commentText}</a></td>
-						<td>${post.reviewerName}</td>
-						<td>${post.ratingNumber}</td>
-						<td>${post.createdAt}</td>
-						<td>활성</td> <!-- 필요 시 조건에 따라 변경 가능 -->
-					</tr>
-				</c:forEach>
+    			<c:forEach var="review" items="${list}" varStatus="status">
+        			<tr>
+            			<td>${status.index + 1}</td>
+            			<td>
+    						<a href="${pageContext.request.contextPath}/review/${review.id}">
+        						${review.itemTitle}
+    						</a>
+						</td>
+            			<td>${review.reviewerName}</td>
+            			<td>${review.ratingNumber}</td>
+            			<td>${review.createdAt}</td>
+        			</tr>
+    			</c:forEach>
 			</table>
 		</div>
 
